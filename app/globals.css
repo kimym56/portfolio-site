@@ -134,3 +134,19 @@ button {
     padding-block: 1rem 1.5rem;
   }
 }
+
+.about-card {
+  padding: clamp(1.2rem, 3vw, 2.2rem);
+}
+
+.about-paragraphs {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.9rem;
+  max-width: 72ch;
+}
+
+.about-paragraphs p {
+  color: var(--text);
+  font-size: clamp(1rem, 1.4vw, 1.1rem);
+}

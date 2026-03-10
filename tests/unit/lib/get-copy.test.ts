@@ -9,4 +9,11 @@ describe("getCopy", () => {
   it("returns korean copy for ko locale", () => {
     expect(getCopy("ko").nav.home).toBe("홈");
   });
+
+  it("includes about content in english and korean", () => {
+    expect(getCopy("en").about.title).toBe("About Me");
+    expect(getCopy("ko").about.title).toBe("소개");
+    expect(getCopy("en").about.paragraphs.length).toBeGreaterThan(0);
+    expect(getCopy("ko").about.paragraphs.length).toBeGreaterThan(0);
+  });
 });
