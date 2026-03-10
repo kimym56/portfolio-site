@@ -16,4 +16,11 @@ describe("getCopy", () => {
     expect(getCopy("en").about.paragraphs.length).toBeGreaterThan(0);
     expect(getCopy("ko").about.paragraphs.length).toBeGreaterThan(0);
   });
+
+  it("includes contact labels in both locales", () => {
+    expect(getCopy("en").contact.title).toBe("Contact");
+    expect(getCopy("en").contact.github).toBe("GitHub");
+    expect(getCopy("ko").contact.title).toBe("연락처");
+    expect(getCopy("ko").contact.github).toBe("깃허브");
+  });
 });

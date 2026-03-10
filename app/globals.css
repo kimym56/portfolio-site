@@ -154,3 +154,34 @@ button {
 .projects-card {
   padding: clamp(1.2rem, 3vw, 2.2rem);
 }
+
+.contact-card {
+  padding: clamp(1.2rem, 3vw, 2.2rem);
+}
+
+.contact-list {
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
+  margin-top: 1.7rem;
+  padding: 0;
+}
+
+.contact-item {
+  margin: 0;
+}
+
+.contact-link {
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  transition: background-color 120ms ease;
+}
+
+.contact-link:hover {
+  background: var(--surface-soft);
+}
