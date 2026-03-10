@@ -11,14 +11,17 @@ function applyTheme(theme: Theme) {
 }
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window === "undefined") {
+      return "light";
+    }
+    const storedTheme = window.localStorage.getItem("site_theme");
+    return storedTheme === "dark" ? "dark" : "light";
+  });
 
   useEffect(() => {
-    const storedTheme = window.localStorage.getItem("site_theme");
-    const nextTheme: Theme = storedTheme === "dark" ? "dark" : "light";
-    setTheme(nextTheme);
-    applyTheme(nextTheme);
-  }, []);
+    applyTheme(theme);
+  }, [theme]);
 
   const handleToggle = () => {
     const nextTheme: Theme = theme === "light" ? "dark" : "light";

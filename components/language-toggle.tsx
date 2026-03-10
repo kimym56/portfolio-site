@@ -3,6 +3,7 @@
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import type { Locale } from "@/lib/i18n/locales";
+import { setLocaleCookie } from "@/lib/i18n/set-locale-cookie";
 import styles from "./language-toggle.module.css";
 
 interface LanguageToggleProps {
@@ -20,7 +21,7 @@ export function LanguageToggle({ locale }: LanguageToggleProps) {
       return;
     }
 
-    document.cookie = `site_lang=${nextLocale}; path=/; max-age=31536000; samesite=lax`;
+    setLocaleCookie(nextLocale);
 
     startTransition(() => {
       router.refresh();
