@@ -1,0 +1,60 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg) 84%, transparent);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding-block: 0.95rem;
+}
+
+.logo {
+  font-family: var(--font-serif), "Noto Serif KR", serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.navLink {
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  padding: 0.45rem 0.75rem;
+}
+
+.navLink:hover {
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: 1fr auto;
+    gap: 0.8rem;
+  }
+
+  .nav {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}

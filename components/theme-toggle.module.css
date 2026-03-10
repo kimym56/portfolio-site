@@ -1,0 +1,18 @@
+.button {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  min-width: 4.5rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background-color 120ms ease, transform 120ms ease;
+}
+
+.button:hover {
+  background: var(--surface-soft);
+  transform: translateY(-1px);
+}
