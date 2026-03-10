@@ -1,0 +1,61 @@
+.hero {
+  align-items: stretch;
+  display: grid;
+  gap: clamp(1rem, 2vw, 2rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  min-height: clamp(380px, 68vh, 620px);
+  padding: clamp(1rem, 2.5vw, 2rem);
+}
+
+.copy {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  justify-content: center;
+  padding: clamp(0.8rem, 2vw, 1.4rem);
+}
+
+.label {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  padding: 0.32rem 0.7rem;
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--font-serif), "Noto Serif KR", serif;
+  font-size: clamp(1.9rem, 5vw, 4rem);
+  line-height: 1.12;
+  letter-spacing: -0.028em;
+  text-wrap: balance;
+}
+
+.media {
+  border-radius: 14px;
+  min-height: 260px;
+  overflow: hidden;
+  position: relative;
+}
+
+.image {
+  object-fit: cover;
+}
+
+@media (max-width: 767px) {
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: initial;
+  }
+
+  .title {
+    font-size: clamp(1.75rem, 9vw, 2.8rem);
+  }
+
+  .media {
+    min-height: 300px;
+  }
+}

@@ -108,3 +108,29 @@ button {
   background: linear-gradient(180deg, var(--surface), var(--surface-soft));
   box-shadow: var(--shadow);
 }
+
+.home-page {
+  align-items: center;
+  display: flex;
+}
+
+.home-page .card {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  body:has(.home-page) {
+    overflow-y: hidden;
+  }
+
+  .home-page {
+    min-height: calc(100svh - 10rem);
+    padding-block: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .home-page {
+    padding-block: 1rem 1.5rem;
+  }
+}
