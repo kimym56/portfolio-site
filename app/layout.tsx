@@ -18,12 +18,26 @@ const cormorant = Cormorant_Garamond({
   weight: ["500", "600", "700"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Yongmin Kim | Portfolio",
     template: "%s | Yongmin Kim",
   },
   description: "Portfolio of Yongmin Kim featuring selected work and side projects.",
+  openGraph: {
+    title: "Yongmin Kim | Portfolio",
+    description: "Portfolio of Yongmin Kim featuring selected work and side projects.",
+    url: siteUrl,
+    siteName: "Yongmin Kim Portfolio",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 const themeInitScript = `
