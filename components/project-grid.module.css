@@ -1,0 +1,52 @@
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.2rem;
+  min-height: 230px;
+  padding: 1.2rem;
+}
+
+.title {
+  font-family: var(--font-serif), "Noto Serif KR", serif;
+  font-size: 1.45rem;
+  line-height: 1.18;
+}
+
+.description {
+  color: var(--text);
+  margin-top: 0.75rem;
+}
+
+.stack {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.link {
+  align-self: flex-start;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.42rem 0.8rem;
+  transition: background-color 120ms ease;
+}
+
+.link:hover {
+  background: var(--surface-soft);
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
