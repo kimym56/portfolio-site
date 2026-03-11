@@ -1,4 +1,5 @@
 .hero {
+  width: 100%;
   align-items: stretch;
   display: grid;
   gap: clamp(1rem, 2vw, 2rem);
@@ -11,27 +12,32 @@
   align-items: flex-start;
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 1rem;
   justify-content: center;
   padding: clamp(0.8rem, 2vw, 1.4rem);
 }
 
-.label {
-  border: 1px solid var(--border);
-  border-radius: 999px;
+.greeting {
   color: var(--text-muted);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  padding: 0.32rem 0.7rem;
-  text-transform: uppercase;
+  font-size: clamp(1rem, 1.9vw, 1.25rem);
+  letter-spacing: 0.01em;
+  margin: 0;
 }
 
 .title {
-  font-family: var(--font-serif), "Noto Serif KR", serif;
+  font-family: var(--font-bold), "Noto Serif KR", serif;
   font-size: clamp(1.9rem, 5vw, 4rem);
   line-height: 1.12;
   letter-spacing: -0.028em;
+  margin: 0;
   text-wrap: balance;
+}
+
+.name {
+  color: var(--text-muted);
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  letter-spacing: 0.01em;
+  margin: 0;
 }
 
 .media {

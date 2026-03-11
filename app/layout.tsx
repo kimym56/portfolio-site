@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SITE_COPY } from "@/lib/site-copy";
+import type { Metadata } from "next";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
 
 const manrope = Manrope({
-  variable: "--font-sans",
+  variable: "--font-regular",
   subsets: ["latin"],
 });
 
 const cormorant = Cormorant_Garamond({
-  variable: "--font-serif",
+  variable: "--font-bold",
   subsets: ["latin"],
   weight: ["500", "600", "700"],
 });
@@ -21,15 +21,17 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Yongmin Kim | Portfolio",
-    template: "%s | Yongmin Kim",
+    default: "YongMin Kim | Portfolio",
+    template: "%s | YongMin Kim",
   },
-  description: "Portfolio of Yongmin Kim featuring selected work and side projects.",
+  description:
+    "Portfolio of YongMin Kim featuring selected work and side projects.",
   openGraph: {
-    title: "Yongmin Kim | Portfolio",
-    description: "Portfolio of Yongmin Kim featuring selected work and side projects.",
+    title: "YongMin Kim | Portfolio",
+    description:
+      "Portfolio of YongMin Kim featuring selected work and side projects.",
     url: siteUrl,
-    siteName: "Yongmin Kim Portfolio",
+    siteName: "YongMin Kim Portfolio",
     type: "website",
   },
   robots: {

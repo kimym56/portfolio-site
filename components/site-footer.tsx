@@ -8,7 +8,7 @@ export function SiteFooter({ rightsLabel }: SiteFooterProps) {
   return (
     <footer className={styles.footer}>
       <div className={`${styles.inner} container`}>
-        <p>{`© ${new Date().getFullYear()} Yongmin Kim. ${rightsLabel}`}</p>
+        <p>{`© ${new Date().getFullYear()} YongMin Kim. ${rightsLabel}`}</p>
       </div>
     </footer>
   );

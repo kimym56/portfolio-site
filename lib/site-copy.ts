@@ -8,7 +8,12 @@ export const SITE_COPY: SiteCopy = {
     contact: "Contact",
   },
   home: {
-    intro: "I build thoughtful digital products that are clear, fast, and genuinely useful.",
+    roles: [
+      "I am a Design Engineer",
+      "I am a UX Engineer",
+      "I am a Frontend Engineer",
+    ],
+    name: "YongMin Kim",
     imageAlt: "Portrait image",
   },
   about: {

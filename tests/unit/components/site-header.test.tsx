@@ -1,10 +1,20 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { SiteHeader } from "@/components/site-header";
 
 vi.mock("next/link", () => ({
-  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
+  default: ({
+    children,
+    href,
+    ...props
+  }: {
+    children: React.ReactNode;
+    href: string;
+    [key: string]: unknown;
+  }) => (
+    <a href={href} {...props}>
+      {children}
+    </a>
   ),
 }));
 
@@ -27,5 +37,26 @@ describe("SiteHeader", () => {
 
     expect(screen.queryByLabelText("Language selector")).not.toBeInTheDocument();
     expect(screen.getByText("theme-toggle")).toBeInTheDocument();
+  });
+
+  it("renders YMKim logo copy and uses full-width header layout", () => {
+    const { container } = render(
+      <SiteHeader
+        navCopy={{
+          home: "Home",
+          about: "About Me",
+          projects: "Projects",
+          contact: "Contact",
+        }}
+      />,
+    );
+
+    expect(within(container).getByRole("link", { name: "YMKim" })).toBeInTheDocument();
+
+    const header = within(container).getByRole("banner");
+    const inner = header.firstElementChild;
+
+    expect(inner).not.toBeNull();
+    expect(inner?.className).not.toContain("container");
   });
 });

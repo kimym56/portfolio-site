@@ -1,0 +1,26 @@
+.role {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.28em);
+  animation: role-enter 420ms ease forwards;
+}
+
+@keyframes role-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.28em);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .role {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

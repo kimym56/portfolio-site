@@ -10,9 +10,9 @@ interface SiteHeaderProps {
 export function SiteHeader({ navCopy }: SiteHeaderProps) {
   return (
     <header className={styles.header}>
-      <div className={`${styles.inner} container`}>
+      <div className={styles.inner}>
         <Link href="/" className={styles.logo}>
-          YMK
+          YMKim
         </Link>
 
         <nav className={styles.nav} aria-label="Primary">

@@ -1,19 +1,19 @@
 .button {
-  border: 1px solid var(--border);
-  border-radius: 999px;
+  border: none;
+  border-radius: 0;
   width: 2.35rem;
   height: 2.35rem;
   padding: 0;
   display: inline-grid;
   place-items: center;
-  background: var(--surface);
+  background: transparent;
   color: var(--text);
   cursor: pointer;
-  transition: background-color 120ms ease, transform 120ms ease;
+  transition: color 120ms ease, transform 120ms ease;
 }
 
 .button:hover {
-  background: var(--surface-soft);
+  color: var(--text-muted);
   transform: translateY(-1px);
 }
 

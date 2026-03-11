@@ -14,7 +14,7 @@
 }
 
 .title {
-  font-family: var(--font-serif), "Noto Serif KR", serif;
+  font-family: var(--font-bold), "Noto Serif KR", serif;
   font-size: 1.45rem;
   line-height: 1.18;
 }

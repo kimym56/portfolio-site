@@ -8,7 +8,8 @@ export interface NavCopy {
 }
 
 export interface HomeCopy {
-  intro: string;
+  roles: string[];
+  name: string;
   imageAlt: string;
 }
 

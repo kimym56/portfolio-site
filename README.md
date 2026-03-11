@@ -1,4 +1,4 @@
-# Yongmin Kim Portfolio
+# YongMin Kim Portfolio
 
 Next.js portfolio website with separate pages and English-only content.
 
@@ -45,14 +45,19 @@ npm run build
 ## Deploy to Vercel
 
 1. Install Vercel CLI:
+
 ```bash
 npm i -g vercel
 ```
+
 2. Login:
+
 ```bash
 vercel login
 ```
+
 3. Deploy preview or production:
+
 ```bash
 vercel
 vercel --prod
