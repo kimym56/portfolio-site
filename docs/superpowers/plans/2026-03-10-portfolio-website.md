@@ -1,10 +1,12 @@
-# Portfolio Website Implementation Plan
+# Portfolio Website Implementation Plan (English-Only)
 
 > **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build and deploy a bilingual (English/Korean) portfolio website with separate URL pages (`/`, `/about`, `/projects`, `/contact`), full-page language switching via cookie, theme toggle, project filtering, and responsive behavior (desktop home no-scroll, mobile scroll enabled).
+**Status:** Completed on March 11, 2026
 
-**Architecture:** Implement a Next.js App Router site with a shared layout shell. Keep pages as server components for SEO, while small client components handle language and theme toggles. Store all copy in typed locale dictionaries and select language from `site_lang` cookie on each request. Keep project data in a typed local dataset and filter by `work` vs `side` on the Projects page.
+**Goal:** Build and deploy an English-only portfolio website with separate URL pages (`/`, `/about`, `/projects`, `/contact`), theme toggle, project filtering, and responsive behavior (desktop home no-scroll, mobile scroll enabled).
+
+**Architecture:** Implement a Next.js App Router site with a shared layout shell. Keep pages as server components for SEO and static delivery, while small client components handle theme toggle and project filtering. Keep all site copy in typed local constants and project data in a typed local dataset filtered by `work` vs `side` on the Projects page.
 
 **Tech Stack:** Next.js (App Router, TypeScript), React, CSS variables and CSS modules, Vitest + Testing Library, Playwright, Vercel.
 
@@ -12,9 +14,9 @@
 
 ## Assumptions
 
-- Start from an empty directory.
-- Portfolio copy will be drafted in both English and Korean during implementation.
-- URL structure stays language-neutral (same URL, content changes by cookie).
+- Started from an empty directory.
+- URL structure remains simple and language-neutral.
+- Scope is intentionally English-only for this version.
 - Deployment target is Vercel.
 
 ## Planned File Structure
@@ -28,30 +30,32 @@
 - Create: `app/projects/page.tsx`
 - Create: `app/contact/page.tsx`
 - Create: `app/globals.css`
+- Create: `app/robots.ts`
+- Create: `app/sitemap.ts`
+- Create: `app/favicon.ico`
 - Create: `components/site-header.tsx`
 - Create: `components/site-footer.tsx`
-- Create: `components/language-toggle.tsx`
 - Create: `components/theme-toggle.tsx`
 - Create: `components/project-filter.tsx`
 - Create: `components/project-grid.tsx`
 - Create: `components/hero-split.tsx`
-- Create: `lib/i18n/locales.ts`
-- Create: `lib/i18n/messages.ts`
-- Create: `lib/i18n/get-locale.ts`
-- Create: `lib/i18n/get-copy.ts`
+- Create: `lib/site-copy.ts`
 - Create: `lib/projects.ts`
 - Create: `types/site.ts`
-- Create: `public/images/profile-placeholder.jpg`
-- Create: `public/favicon.ico`
-- Create: `tests/unit/lib/get-locale.test.ts`
-- Create: `tests/unit/lib/get-copy.test.ts`
-- Create: `tests/unit/components/language-toggle.test.tsx`
+- Create: `public/images/profile-placeholder.svg`
+- Create: `tests/unit/components/site-header.test.tsx`
+- Create: `tests/unit/components/theme-toggle.test.tsx`
+- Create: `tests/unit/components/theme-toggle.hydration.test.tsx`
 - Create: `tests/unit/components/project-filter.test.tsx`
+- Create: `tests/unit/style/flat-background.test.ts`
 - Create: `tests/e2e/home-scroll.spec.ts`
 - Create: `tests/e2e/projects-filter.spec.ts`
+- Create: `tests/e2e/about-page.spec.ts`
+- Create: `tests/e2e/contact-page.spec.ts`
 - Create: `vitest.config.ts`
 - Create: `playwright.config.ts`
 - Create: `README.md`
+- Create: `.env.example`
 
 ## Chunk 1: Foundation and Tooling
 
@@ -63,7 +67,7 @@
 - Create: `playwright.config.ts`
 - Create: `tests/setup.ts`
 
-- [ ] **Step 1: Scaffold the app**
+- [x] **Step 1: Scaffold the app**
 
 Run:
 ```bash
@@ -71,7 +75,7 @@ npx create-next-app@latest . --typescript --eslint --app --use-npm
 ```
 Expected: command exits `0` and creates Next.js App Router project files.
 
-- [ ] **Step 2: Add test dependencies**
+- [x] **Step 2: Add test dependencies**
 
 Run:
 ```bash
@@ -79,42 +83,20 @@ npm install -D vitest @testing-library/react @testing-library/jest-dom @testing-
 ```
 Expected: dependencies installed with exit `0`.
 
-- [ ] **Step 3: Configure Vitest and Playwright**
+- [x] **Step 3: Configure Vitest and Playwright**
 
-Create `vitest.config.ts` and `tests/setup.ts`:
-```ts
-import { defineConfig } from "vitest/config";
+Create `vitest.config.ts` and `tests/setup.ts`; configure `playwright.config.ts` with local web server.
 
-export default defineConfig({
-  test: {
-    environment: "jsdom",
-    setupFiles: ["./tests/setup.ts"],
-    include: ["tests/unit/**/*.test.ts", "tests/unit/**/*.test.tsx"],
-  },
-});
-```
-
-```ts
-import "@testing-library/jest-dom/vitest";
-```
-
-Create `playwright.config.ts` with a local `npm run dev` web server config.
-
-- [ ] **Step 4: Verify tooling**
+- [x] **Step 4: Verify tooling**
 
 Run:
 ```bash
 npx vitest run
-```
-Expected: no tests collected or all passing; exit `0`.
-
-Run:
-```bash
 npx playwright install --with-deps
 ```
-Expected: browser binaries installed; exit `0`.
+Expected: setup commands complete successfully.
 
-- [ ] **Step 5: Commit foundation**
+- [x] **Step 5: Commit foundation**
 
 Run:
 ```bash
@@ -127,34 +109,17 @@ Expected: commit created.
 
 **Files:**
 - Modify: `app/globals.css`
-- Test: `tests/e2e/home-scroll.spec.ts` (created later, initially pending)
+- Test: `tests/e2e/home-scroll.spec.ts`
 
-- [ ] **Step 1: Add design token variables for eye-friendly black/white palette**
+- [x] **Step 1: Add design token variables for eye-friendly black/white palette**
 
-Implement CSS variables:
-```css
-:root {
-  --bg: #f6f6f4;
-  --surface: #ffffff;
-  --text: #1b1b1a;
-  --text-muted: #52514d;
-  --border: #deddd8;
-}
+Implement CSS variables for light and dark theme, including surface and border tokens.
 
-[data-theme="dark"] {
-  --bg: #151514;
-  --surface: #1c1c1b;
-  --text: #f2f2ef;
-  --text-muted: #c7c6c2;
-  --border: #34332f;
-}
-```
+- [x] **Step 2: Add baseline typography and spacing system**
 
-- [ ] **Step 2: Add baseline typography and spacing system**
+Define font family, heading scale, layout max-width, and reusable utility classes.
 
-Define `font-family`, heading scale, layout max-width, and reusable utility classes.
-
-- [ ] **Step 3: Verify app still builds**
+- [x] **Step 3: Verify app still builds**
 
 Run:
 ```bash
@@ -162,7 +127,7 @@ npm run build
 ```
 Expected: build completes with exit `0`.
 
-- [ ] **Step 4: Commit tokens and globals**
+- [x] **Step 4: Commit tokens and globals**
 
 Run:
 ```bash
@@ -171,174 +136,23 @@ git commit -m "style: add black-white design tokens and base global styles"
 ```
 Expected: commit created.
 
-## Chunk 2: Localization and Shared Shell
+## Chunk 2: Shared Shell and Content Model
 
-### Task 3: Implement Locale Resolution with TDD
-
-**Files:**
-- Create: `lib/i18n/locales.ts`
-- Create: `lib/i18n/get-locale.ts`
-- Test: `tests/unit/lib/get-locale.test.ts`
-
-- [ ] **Step 1: Write failing tests for locale selection**
-
-Create test:
-```ts
-import { describe, expect, it } from "vitest";
-import { normalizeLocale } from "@/lib/i18n/get-locale";
-
-describe("normalizeLocale", () => {
-  it("returns ko for ko cookie", () => {
-    expect(normalizeLocale("ko")).toBe("ko");
-  });
-
-  it("falls back to en for unsupported value", () => {
-    expect(normalizeLocale("jp")).toBe("en");
-  });
-
-  it("falls back to en for empty value", () => {
-    expect(normalizeLocale(undefined)).toBe("en");
-  });
-});
-```
-
-- [ ] **Step 2: Verify RED**
-
-Run:
-```bash
-npx vitest run tests/unit/lib/get-locale.test.ts
-```
-Expected: FAIL because implementation does not exist yet.
-
-- [ ] **Step 3: Implement minimal locale utility**
-
-Create implementation:
-```ts
-export const SUPPORTED_LOCALES = ["en", "ko"] as const;
-export type Locale = (typeof SUPPORTED_LOCALES)[number];
-
-export function normalizeLocale(value?: string): Locale {
-  return value === "ko" ? "ko" : "en";
-}
-```
-
-- [ ] **Step 4: Verify GREEN**
-
-Run:
-```bash
-npx vitest run tests/unit/lib/get-locale.test.ts
-```
-Expected: PASS.
-
-- [ ] **Step 5: Commit locale utility**
-
-Run:
-```bash
-git add lib/i18n/locales.ts lib/i18n/get-locale.ts tests/unit/lib/get-locale.test.ts
-git commit -m "feat: add locale normalization utility with tests"
-```
-
-### Task 4: Implement Messages Dictionaries and Copy Resolver with TDD
+### Task 3: Implement Typed Site Copy (English)
 
 **Files:**
-- Create: `lib/i18n/messages.ts`
-- Create: `lib/i18n/get-copy.ts`
-- Test: `tests/unit/lib/get-copy.test.ts`
-- Modify: `types/site.ts`
+- Create: `types/site.ts`
+- Create: `lib/site-copy.ts`
 
-- [ ] **Step 1: Write failing tests for copy resolver**
+- [x] **Step 1: Define shared content types**
 
-```ts
-import { describe, expect, it } from "vitest";
-import { getCopy } from "@/lib/i18n/get-copy";
+Create typed interfaces for nav, home, about, projects, contact, and footer copy.
 
-describe("getCopy", () => {
-  it("returns english copy by default", () => {
-    expect(getCopy("en").nav.home).toBe("Home");
-  });
+- [x] **Step 2: Implement centralized English copy**
 
-  it("returns korean copy for ko locale", () => {
-    expect(getCopy("ko").nav.home).toBe("홈");
-  });
-});
-```
+Create `SITE_COPY` as a typed constant for all page sections.
 
-- [ ] **Step 2: Verify RED**
-
-Run:
-```bash
-npx vitest run tests/unit/lib/get-copy.test.ts
-```
-Expected: FAIL because resolver/messages are missing.
-
-- [ ] **Step 3: Implement typed messages and resolver**
-
-Create dictionary objects for all sections: `nav`, `home`, `about`, `projects`, `contact`, `footer`.
-
-- [ ] **Step 4: Verify GREEN**
-
-Run:
-```bash
-npx vitest run tests/unit/lib/get-copy.test.ts
-```
-Expected: PASS.
-
-- [ ] **Step 5: Commit dictionaries**
-
-Run:
-```bash
-git add lib/i18n/messages.ts lib/i18n/get-copy.ts types/site.ts tests/unit/lib/get-copy.test.ts
-git commit -m "feat: add typed bilingual content dictionaries"
-```
-
-### Task 5: Build Shared Header/Footer with Language and Theme Toggles
-
-**Files:**
-- Create: `components/site-header.tsx`
-- Create: `components/site-footer.tsx`
-- Create: `components/language-toggle.tsx`
-- Create: `components/theme-toggle.tsx`
-- Modify: `app/layout.tsx`
-- Test: `tests/unit/components/language-toggle.test.tsx`
-
-- [ ] **Step 1: Write failing test for language toggle behavior**
-
-```tsx
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { LanguageToggle } from "@/components/language-toggle";
-
-it("switches from en to ko and updates cookie intent", async () => {
-  render(<LanguageToggle locale="en" />);
-  await userEvent.click(screen.getByRole("button", { name: /ko/i }));
-  expect(document.cookie).toContain("site_lang=ko");
-});
-```
-
-- [ ] **Step 2: Verify RED**
-
-Run:
-```bash
-npx vitest run tests/unit/components/language-toggle.test.tsx
-```
-Expected: FAIL because component is missing.
-
-- [ ] **Step 3: Implement minimal language and theme toggles**
-
-- `LanguageToggle` sets `site_lang` cookie and calls `router.refresh()`.
-- `ThemeToggle` writes `site_theme` to localStorage and updates `document.documentElement.dataset.theme`.
-- `SiteHeader` includes logo (link `/`), nav links, language toggle, theme toggle.
-- `SiteFooter` shows copyright text.
-
-- [ ] **Step 4: Verify GREEN**
-
-Run:
-```bash
-npx vitest run tests/unit/components/language-toggle.test.tsx
-```
-Expected: PASS.
-
-- [ ] **Step 5: Verify integration build**
+- [x] **Step 3: Verify type safety and build**
 
 Run:
 ```bash
@@ -346,17 +160,72 @@ npm run build
 ```
 Expected: PASS.
 
-- [ ] **Step 6: Commit shared shell**
+- [x] **Step 4: Commit typed content model**
 
 Run:
 ```bash
-git add app/layout.tsx components/site-header.tsx components/site-footer.tsx components/language-toggle.tsx components/theme-toggle.tsx tests/unit/components/language-toggle.test.tsx
-git commit -m "feat: add shared shell with language and theme toggles"
+git add types/site.ts lib/site-copy.ts
+git commit -m "feat: add typed english content model"
 ```
+Expected: commit created.
+
+### Task 4: Build Shared Header/Footer with Theme Toggle
+
+**Files:**
+- Create: `components/site-header.tsx`
+- Create: `components/site-footer.tsx`
+- Create: `components/theme-toggle.tsx`
+- Modify: `app/layout.tsx`
+- Test: `tests/unit/components/site-header.test.tsx`
+- Test: `tests/unit/components/theme-toggle.test.tsx`
+- Test: `tests/unit/components/theme-toggle.hydration.test.tsx`
+
+- [x] **Step 1: Write failing tests for shell behavior**
+
+Add unit tests for header rendering and icon-only accessible theme toggle behavior.
+
+- [x] **Step 2: Verify RED**
+
+Run:
+```bash
+npx vitest run tests/unit/components/site-header.test.tsx tests/unit/components/theme-toggle.test.tsx tests/unit/components/theme-toggle.hydration.test.tsx
+```
+Expected: FAIL initially before implementation.
+
+- [x] **Step 3: Implement shared shell and theme toggle**
+
+- `ThemeToggle` writes `site_theme` to localStorage and updates `document.documentElement.dataset.theme`.
+- `SiteHeader` includes logo (link `/`) and nav links.
+- `SiteFooter` shows copyright text.
+
+- [x] **Step 4: Verify GREEN**
+
+Run:
+```bash
+npx vitest run tests/unit/components/site-header.test.tsx tests/unit/components/theme-toggle.test.tsx tests/unit/components/theme-toggle.hydration.test.tsx
+```
+Expected: PASS.
+
+- [x] **Step 5: Verify integration build**
+
+Run:
+```bash
+npm run build
+```
+Expected: PASS.
+
+- [x] **Step 6: Commit shared shell**
+
+Run:
+```bash
+git add app/layout.tsx components/site-header.tsx components/site-footer.tsx components/theme-toggle.tsx tests/unit/components/site-header.test.tsx tests/unit/components/theme-toggle.test.tsx tests/unit/components/theme-toggle.hydration.test.tsx
+git commit -m "feat: add shared shell with theme toggle"
+```
+Expected: commit created.
 
 ## Chunk 3: Page Implementation
 
-### Task 6: Implement Home Page Split Hero and Desktop/Mobile Scroll Rules
+### Task 5: Implement Home Page Split Hero and Desktop/Mobile Scroll Rules
 
 **Files:**
 - Create: `components/hero-split.tsx`
@@ -364,28 +233,11 @@ git commit -m "feat: add shared shell with language and theme toggles"
 - Modify: `app/globals.css`
 - Test: `tests/e2e/home-scroll.spec.ts`
 
-- [ ] **Step 1: Write failing e2e test for scroll behavior**
+- [x] **Step 1: Write failing e2e test for scroll behavior**
 
-Create test:
-```ts
-import { expect, test } from "@playwright/test";
+Add desktop/mobile viewport checks for home page `overflow-y` behavior.
 
-test("desktop home prevents page scrolling", async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 800 });
-  await page.goto("/");
-  const overflowY = await page.evaluate(() => getComputedStyle(document.body).overflowY);
-  expect(overflowY).toBe("hidden");
-});
-
-test("mobile home allows page scrolling", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
-  const overflowY = await page.evaluate(() => getComputedStyle(document.body).overflowY);
-  expect(overflowY).not.toBe("hidden");
-});
-```
-
-- [ ] **Step 2: Verify RED**
+- [x] **Step 2: Verify RED**
 
 Run:
 ```bash
@@ -393,14 +245,14 @@ npx playwright test tests/e2e/home-scroll.spec.ts
 ```
 Expected: FAIL due missing layout behavior.
 
-- [ ] **Step 3: Implement hero split and responsive scroll constraints**
+- [x] **Step 3: Implement hero split and responsive scroll constraints**
 
 - Left: one-sentence self introduction.
 - Right: profile image.
 - Desktop (`min-width: 768px`): lock home content to one viewport, no vertical page scroll.
 - Mobile: allow natural scrolling.
 
-- [ ] **Step 4: Verify GREEN**
+- [x] **Step 4: Verify GREEN**
 
 Run:
 ```bash
@@ -408,55 +260,57 @@ npx playwright test tests/e2e/home-scroll.spec.ts
 ```
 Expected: PASS.
 
-- [ ] **Step 5: Commit home page**
+- [x] **Step 5: Commit home page**
 
 Run:
 ```bash
 git add app/page.tsx app/globals.css components/hero-split.tsx tests/e2e/home-scroll.spec.ts
 git commit -m "feat: implement split home hero with responsive scroll behavior"
 ```
+Expected: commit created.
 
-### Task 7: Implement About Page with Bilingual Draft Copy
+### Task 6: Implement About Page (English)
 
 **Files:**
 - Modify: `app/about/page.tsx`
-- Modify: `lib/i18n/messages.ts`
+- Modify: `lib/site-copy.ts`
+- Test: `tests/e2e/about-page.spec.ts`
 
-- [ ] **Step 1: Write content tests (optional lightweight unit)**
+- [x] **Step 1: Add content checks**
 
-Add assertions in `tests/unit/lib/get-copy.test.ts` for `about.title` and paragraph presence in both locales.
+Add e2e assertion for heading and summary visibility.
 
-- [ ] **Step 2: Verify RED**
+- [x] **Step 2: Verify RED**
 
 Run:
 ```bash
-npx vitest run tests/unit/lib/get-copy.test.ts
+npx playwright test tests/e2e/about-page.spec.ts
 ```
-Expected: FAIL for missing about keys.
+Expected: FAIL until page copy and rendering are implemented.
 
-- [ ] **Step 3: Add bilingual About copy and page rendering**
+- [x] **Step 3: Add About copy and page rendering**
 
-- English and Korean professional summary paragraphs.
+- English professional summary paragraphs.
 - Keep tone concise and recruiter-friendly.
-- Respect line length and readability.
 
-- [ ] **Step 4: Verify GREEN**
+- [x] **Step 4: Verify GREEN**
 
 Run:
 ```bash
-npx vitest run tests/unit/lib/get-copy.test.ts
+npx playwright test tests/e2e/about-page.spec.ts
 ```
 Expected: PASS.
 
-- [ ] **Step 5: Commit about page**
+- [x] **Step 5: Commit about page**
 
 Run:
 ```bash
-git add app/about/page.tsx lib/i18n/messages.ts tests/unit/lib/get-copy.test.ts
-git commit -m "feat: add bilingual about page content"
+git add app/about/page.tsx lib/site-copy.ts tests/e2e/about-page.spec.ts
+git commit -m "feat: add about page content"
 ```
+Expected: commit created.
 
-### Task 8: Implement Projects Page with Work/Side Toggle and Link Grid
+### Task 7: Implement Projects Page with Work/Side Toggle and Link Grid
 
 **Files:**
 - Modify: `app/projects/page.tsx`
@@ -466,21 +320,11 @@ git commit -m "feat: add bilingual about page content"
 - Test: `tests/unit/components/project-filter.test.tsx`
 - Test: `tests/e2e/projects-filter.spec.ts`
 
-- [ ] **Step 1: Write failing unit test for project filter**
+- [x] **Step 1: Write failing unit test for project filter**
 
-```tsx
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { ProjectFilter } from "@/components/project-filter";
+Add test that verifies side tab interaction updates visible project cards.
 
-it("shows side projects when side tab is clicked", async () => {
-  render(<ProjectFilter projects={[/* fixture */]} />);
-  await userEvent.click(screen.getByRole("button", { name: /side projects/i }));
-  expect(screen.getByText(/side project name/i)).toBeInTheDocument();
-});
-```
-
-- [ ] **Step 2: Verify RED**
+- [x] **Step 2: Verify RED**
 
 Run:
 ```bash
@@ -488,25 +332,21 @@ npx vitest run tests/unit/components/project-filter.test.tsx
 ```
 Expected: FAIL because filter component does not exist.
 
-- [ ] **Step 3: Implement typed projects data and filter components**
+- [x] **Step 3: Implement typed projects data and filter components**
 
 - Data shape: `{ id, title, description, type: "work" | "side", url, stack }`.
 - Default tab: `work`.
 - Grid cards open project URLs in new tab with safe rel attributes.
 
-- [ ] **Step 4: Add failing e2e test for filter interaction**
+- [x] **Step 4: Add failing e2e test for filter interaction**
 
-```ts
-import { expect, test } from "@playwright/test";
-
-test("projects page toggles between work and side lists", async ({ page }) => {
-  await page.goto("/projects");
-  await page.getByRole("button", { name: /side projects/i }).click();
-  await expect(page.getByTestId("project-card")).toHaveCount(2);
-});
+Run:
+```bash
+npx playwright test tests/e2e/projects-filter.spec.ts
 ```
+Expected: FAIL before feature implementation.
 
-- [ ] **Step 5: Verify GREEN for unit + e2e**
+- [x] **Step 5: Verify GREEN for unit + e2e**
 
 Run:
 ```bash
@@ -515,71 +355,74 @@ npx playwright test tests/e2e/projects-filter.spec.ts
 ```
 Expected: PASS.
 
-- [ ] **Step 6: Commit projects page**
+- [x] **Step 6: Commit projects page**
 
 Run:
 ```bash
 git add app/projects/page.tsx components/project-filter.tsx components/project-grid.tsx lib/projects.ts tests/unit/components/project-filter.test.tsx tests/e2e/projects-filter.spec.ts
 git commit -m "feat: add projects page with work-side toggle and project grid"
 ```
+Expected: commit created.
 
-### Task 9: Implement Contact Page
+### Task 8: Implement Contact Page (English)
 
 **Files:**
 - Modify: `app/contact/page.tsx`
-- Modify: `lib/i18n/messages.ts`
+- Modify: `lib/site-copy.ts`
+- Test: `tests/e2e/contact-page.spec.ts`
 
-- [ ] **Step 1: Add failing assertions for contact labels in locale tests**
+- [x] **Step 1: Add failing assertions for contact links**
 
-Extend `tests/unit/lib/get-copy.test.ts` with `contact` section checks.
+Add e2e checks for Email, LinkedIn, GitHub, and X links.
 
-- [ ] **Step 2: Verify RED**
+- [x] **Step 2: Verify RED**
 
 Run:
 ```bash
-npx vitest run tests/unit/lib/get-copy.test.ts
+npx playwright test tests/e2e/contact-page.spec.ts
 ```
-Expected: FAIL until contact keys are added.
+Expected: FAIL until contact section is implemented.
 
-- [ ] **Step 3: Implement contact page content**
+- [x] **Step 3: Implement contact page content**
 
-Render email, LinkedIn, GitHub, X with accessible link labels and keyboard-visible focus styles.
+Render email, LinkedIn, GitHub, X with accessible labels and keyboard-visible focus styles.
 
-- [ ] **Step 4: Verify GREEN**
+- [x] **Step 4: Verify GREEN**
 
 Run:
 ```bash
-npx vitest run tests/unit/lib/get-copy.test.ts
+npx playwright test tests/e2e/contact-page.spec.ts
 ```
 Expected: PASS.
 
-- [ ] **Step 5: Commit contact page**
+- [x] **Step 5: Commit contact page**
 
 Run:
 ```bash
-git add app/contact/page.tsx lib/i18n/messages.ts tests/unit/lib/get-copy.test.ts
-git commit -m "feat: add bilingual contact page"
+git add app/contact/page.tsx lib/site-copy.ts tests/e2e/contact-page.spec.ts
+git commit -m "feat: add contact page"
 ```
+Expected: commit created.
 
 ## Chunk 4: SEO, Quality, and Deployment
 
-### Task 10: Add SEO Metadata and Crawl Files
+### Task 9: Add SEO Metadata and Crawl Files
 
 **Files:**
 - Modify: `app/layout.tsx`
 - Create: `app/sitemap.ts`
 - Create: `app/robots.ts`
-- Modify: `public/favicon.ico`
+- Modify: `app/favicon.ico`
 
-- [ ] **Step 1: Add route metadata**
+- [x] **Step 1: Add route metadata**
 
 Define global metadata (title template, description, open graph defaults, canonical base URL).
 
-- [ ] **Step 2: Add sitemap and robots handlers**
+- [x] **Step 2: Add sitemap and robots handlers**
 
 Generate entries for `/`, `/about`, `/projects`, `/contact`.
 
-- [ ] **Step 3: Verify build and output**
+- [x] **Step 3: Verify build and output**
 
 Run:
 ```bash
@@ -587,21 +430,22 @@ npm run build
 ```
 Expected: PASS and generated metadata routes.
 
-- [ ] **Step 4: Commit SEO files**
+- [x] **Step 4: Commit SEO files**
 
 Run:
 ```bash
-git add app/layout.tsx app/sitemap.ts app/robots.ts public/favicon.ico
+git add app/layout.tsx app/sitemap.ts app/robots.ts app/favicon.ico
 git commit -m "feat: add seo metadata sitemap and robots"
 ```
+Expected: commit created.
 
-### Task 11: Final Verification and Vercel Deployment
+### Task 10: Final Verification and Vercel Deployment
 
 **Files:**
 - Modify: `README.md`
-- Create: `.env.example` (if needed for site URL)
+- Create: `.env.example`
 
-- [ ] **Step 1: Run full verification suite**
+- [x] **Step 1: Run full verification suite**
 
 Run:
 ```bash
@@ -612,7 +456,7 @@ npm run build
 ```
 Expected: all commands exit `0`.
 
-- [ ] **Step 2: Update README with runbook**
+- [x] **Step 2: Update README with runbook**
 
 Document:
 - local dev commands
@@ -620,15 +464,16 @@ Document:
 - environment variables
 - Vercel deployment steps
 
-- [ ] **Step 3: Commit release prep**
+- [x] **Step 3: Commit release prep**
 
 Run:
 ```bash
 git add README.md .env.example
 git commit -m "docs: add deployment and verification runbook"
 ```
+Expected: commit created.
 
-- [ ] **Step 4: Deploy to Vercel**
+- [x] **Step 4: Deploy to Vercel**
 
 Run:
 ```bash
@@ -636,26 +481,25 @@ npx vercel
 ```
 Expected: deployment URL returned.
 
-- [ ] **Step 5: Post-deploy smoke checks**
+- [x] **Step 5: Post-deploy smoke checks**
 
 Manually verify:
 - all four pages resolve
-- language toggle updates full-page copy
 - theme toggle persists
+- project filter interaction works
 - project links open correctly
 - mobile and desktop home scroll behavior is correct
 
 ## Acceptance Checklist
 
-- [ ] Separate pages exist: `/`, `/about`, `/projects`, `/contact`
-- [ ] Header includes logo link, language toggle, theme toggle
-- [ ] Home has left intro + right image split
-- [ ] Home disables scroll on desktop and allows scroll on mobile
-- [ ] About contains bilingual polished summary copy
-- [ ] Projects has work/side toggle and project cards linking out
-- [ ] Contact lists email, LinkedIn, GitHub, X
-- [ ] Footer is visible on all pages
-- [ ] Eye-friendly black/white palette applied in light and dark modes
-- [ ] SEO metadata, robots, and sitemap are implemented
-- [ ] App is deployed and reachable on Vercel
-
+- [x] Separate pages exist: `/`, `/about`, `/projects`, `/contact`
+- [x] Header includes logo link and theme toggle
+- [x] Home has left intro + right image split
+- [x] Home disables scroll on desktop and allows scroll on mobile
+- [x] About contains polished English summary copy
+- [x] Projects has work/side toggle and project cards linking out
+- [x] Contact lists email, LinkedIn, GitHub, X
+- [x] Footer is visible on all pages
+- [x] Eye-friendly black/white palette applied in light and dark modes
+- [x] SEO metadata, robots, and sitemap are implemented
+- [x] App is deployed and reachable on Vercel
