@@ -1,13 +1,7 @@
-import { cookies } from "next/headers";
 import { HeroSplit } from "@/components/hero-split";
-import { getCopy } from "@/lib/i18n/get-copy";
-import { normalizeLocale } from "@/lib/i18n/get-locale";
+import { SITE_COPY } from "@/lib/site-copy";
 
-export default async function HomePage() {
-  const cookieStore = await cookies();
-  const locale = normalizeLocale(cookieStore.get("site_lang")?.value);
-  const copy = getCopy(locale);
-
+export default function HomePage() {
   return (
     <main className="home-page page container">
       <style>{`
@@ -22,7 +16,7 @@ export default async function HomePage() {
           }
         }
       `}</style>
-      <HeroSplit copy={copy.home} />
+      <HeroSplit copy={SITE_COPY.home} />
     </main>
   );
 }

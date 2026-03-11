@@ -1,26 +1,20 @@
-import { cookies } from "next/headers";
 import { ProjectFilter } from "@/components/project-filter";
-import { getCopy } from "@/lib/i18n/get-copy";
-import { normalizeLocale } from "@/lib/i18n/get-locale";
 import { PROJECTS } from "@/lib/projects";
+import { SITE_COPY } from "@/lib/site-copy";
 
-export default async function ProjectsPage() {
-  const cookieStore = await cookies();
-  const locale = normalizeLocale(cookieStore.get("site_lang")?.value);
-  const copy = getCopy(locale);
-
+export default function ProjectsPage() {
   return (
     <main className="page container">
       <section className="card projects-card">
-        <h1 className="page-title">{copy.projects.title}</h1>
-        <p className="page-subtitle">{copy.projects.subtitle}</p>
+        <h1 className="page-title">{SITE_COPY.projects.title}</h1>
+        <p className="page-subtitle">{SITE_COPY.projects.subtitle}</p>
 
         <ProjectFilter
           projects={PROJECTS}
           labels={{
-            work: copy.projects.workToggle,
-            side: copy.projects.sideToggle,
-            visit: copy.projects.visitLabel,
+            work: SITE_COPY.projects.workToggle,
+            side: SITE_COPY.projects.sideToggle,
+            visit: SITE_COPY.projects.visitLabel,
           }}
         />
       </section>

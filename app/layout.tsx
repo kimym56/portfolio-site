@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
-import { cookies } from "next/headers";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { getCopy } from "@/lib/i18n/get-copy";
-import { normalizeLocale } from "@/lib/i18n/get-locale";
+import { SITE_COPY } from "@/lib/site-copy";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -56,18 +54,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const locale = normalizeLocale(cookieStore.get("site_lang")?.value);
-  const copy = getCopy(locale);
-
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className={`${manrope.variable} ${cormorant.variable}`}>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <div className="site-shell">
-          <SiteHeader locale={locale} navCopy={copy.nav} />
+          <SiteHeader navCopy={SITE_COPY.nav} />
           {children}
-          <SiteFooter rightsLabel={copy.footer.rights} />
+          <SiteFooter rightsLabel={SITE_COPY.footer.rights} />
         </div>
       </body>
     </html>

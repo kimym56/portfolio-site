@@ -1,30 +1,24 @@
-import { cookies } from "next/headers";
-import { getCopy } from "@/lib/i18n/get-copy";
-import { normalizeLocale } from "@/lib/i18n/get-locale";
+import { SITE_COPY } from "@/lib/site-copy";
 
-export default async function ContactPage() {
-  const cookieStore = await cookies();
-  const locale = normalizeLocale(cookieStore.get("site_lang")?.value);
-  const copy = getCopy(locale);
-
+export default function ContactPage() {
   const contacts = [
     {
-      label: copy.contact.email,
+      label: SITE_COPY.contact.email,
       href: "mailto:yongmin.kim@example.com",
       value: "yongmin.kim@example.com",
     },
     {
-      label: copy.contact.linkedin,
+      label: SITE_COPY.contact.linkedin,
       href: "https://www.linkedin.com/in/yongminkim",
       value: "linkedin.com/in/yongminkim",
     },
     {
-      label: copy.contact.github,
+      label: SITE_COPY.contact.github,
       href: "https://github.com/yongminkim",
       value: "github.com/yongminkim",
     },
     {
-      label: copy.contact.x,
+      label: SITE_COPY.contact.x,
       href: "https://x.com/yongminkim",
       value: "x.com/yongminkim",
     },
@@ -33,8 +27,8 @@ export default async function ContactPage() {
   return (
     <main className="page container">
       <section className="card contact-card">
-        <h1 className="page-title">{copy.contact.title}</h1>
-        <p className="page-subtitle">{copy.contact.subtitle}</p>
+        <h1 className="page-title">{SITE_COPY.contact.title}</h1>
+        <p className="page-subtitle">{SITE_COPY.contact.subtitle}</p>
 
         <ul className="contact-list">
           {contacts.map((contact) => (

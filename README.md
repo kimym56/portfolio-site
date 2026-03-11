@@ -1,6 +1,6 @@
 # Yongmin Kim Portfolio
 
-Next.js portfolio website with separate pages and bilingual content (English/Korean) selected by cookie-based language toggle.
+Next.js portfolio website with separate pages and English-only content.
 
 ## Stack
 
