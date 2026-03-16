@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hero Treatment Comparison</title>
+    <style>
+      :root {
+        --bg: #f6f6f4;
+        --surface: #ffffff;
+        --surface-soft: #efefec;
+        --text: #1b1b1a;
+        --text-muted: #52514d;
+        --border: #d9d8d2;
+        --shadow: 0 14px 40px rgba(15, 15, 14, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Noto Sans KR", sans-serif;
+        line-height: 1.5;
+      }
+
+      main {
+        width: min(1480px, 94vw);
+        margin: 0 auto;
+        padding: 40px 0 64px;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(2rem, 4vw, 3.4rem);
+        line-height: 1.05;
+        letter-spacing: -0.04em;
+      }
+
+      .subtitle {
+        max-width: 70ch;
+        color: var(--text-muted);
+        margin: 0 0 28px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .card {
+        border: 1px solid rgba(217, 216, 210, 0.72);
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.74);
+        box-shadow: 0 28px 60px rgba(15, 15, 14, 0.06);
+        padding: 22px;
+        backdrop-filter: blur(10px);
+      }
+
+      .label {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(27, 27, 26, 0.06);
+        color: var(--text-muted);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .card h2 {
+        margin: 14px 0 6px;
+        font-size: 1.25rem;
+        letter-spacing: -0.03em;
+      }
+
+      .card p {
+        margin: 0 0 18px;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+      }
+
+      .hero-preview {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 0.96fr);
+        gap: 18px;
+        min-height: 440px;
+        padding: 22px;
+        border-radius: 24px;
+        background:
+          radial-gradient(circle at top left, rgba(255, 255, 255, 0.88), transparent 46%),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(239, 239, 236, 0.45));
+      }
+
+      .hero-copy {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 16px;
+      }
+
+      .hero-copy .greeting {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 1rem;
+      }
+
+      .hero-copy .title {
+        margin: 0;
+        font-size: clamp(1.7rem, 3vw, 2.6rem);
+        line-height: 1.08;
+        letter-spacing: -0.04em;
+      }
+
+      .hero-copy .name {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 1rem;
+      }
+
+      .media {
+        align-self: center;
+        justify-self: end;
+        width: 74%;
+        min-height: 420px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .media img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 38%;
+        transform: scale(1.15);
+      }
+
+      .version-a .media {
+        border-radius: 32px;
+      }
+
+      .version-a .media::before {
+        content: "";
+        position: absolute;
+        inset: -16px;
+        border-radius: 42px;
+        background:
+          radial-gradient(circle at 100% 100%, rgba(246, 246, 244, 0.98) 0 18%, rgba(246, 246, 244, 0.55) 32%, transparent 58%),
+          linear-gradient(180deg, rgba(246, 246, 244, 0.16), transparent 20%, transparent 80%, rgba(246, 246, 244, 0.14));
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .version-a .media::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 32px;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+        z-index: 1;
+      }
+
+      .version-b .media {
+        border-radius: 24px;
+        outline: 1px solid rgba(217, 216, 210, 0.42);
+        box-shadow: 0 24px 44px rgba(15, 15, 14, 0.1);
+      }
+
+      .version-b .media::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 24px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68);
+        z-index: 1;
+      }
+
+      .version-b .media::after {
+        content: "";
+        position: absolute;
+        right: -6px;
+        bottom: -8px;
+        width: 92px;
+        aspect-ratio: 1;
+        border-radius: 999px;
+        background: radial-gradient(circle at center, rgba(246, 246, 244, 0.96) 0 24%, rgba(246, 246, 244, 0.7) 42%, rgba(246, 246, 244, 0.08) 74%, transparent 100%);
+        backdrop-filter: blur(18px) saturate(0.78);
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .version-c .media {
+        border-radius: 40px 24px 52px 22px;
+      }
+
+      .version-c .media::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background:
+          radial-gradient(circle at 104% 100%, rgba(246, 246, 244, 1) 0 15%, rgba(246, 246, 244, 0.65) 28%, transparent 46%),
+          radial-gradient(circle at -6% 0%, rgba(246, 246, 244, 0.72) 0 12%, transparent 34%),
+          linear-gradient(180deg, transparent 0%, transparent 68%, rgba(246, 246, 244, 0.24) 100%);
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .version-c .media::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        box-shadow: 0 22px 42px rgba(15, 15, 14, 0.08);
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      ul {
+        margin: 16px 0 0;
+        padding-left: 18px;
+        color: var(--text-muted);
+        font-size: 0.94rem;
+      }
+
+      li + li {
+        margin-top: 6px;
+      }
+
+      @media (max-width: 1100px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-preview {
+          min-height: 380px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Hero Image Treatment Comparison</h1>
+      <p class="subtitle">
+        Three directions for the home hero. All use the same portrait size so you can judge the
+        edge treatment and logo concealment, not the scale.
+      </p>
+
+      <section class="grid">
+        <article class="card version-a">
+          <span class="label">Version A</span>
+          <h2>Blend Into Page</h2>
+          <p>Soft outer dissolve. The frame almost disappears into the background.</p>
+          <div class="hero-preview">
+            <div class="hero-copy">
+              <p class="greeting">Hi :)</p>
+              <h3 class="title">I am a Design Engineer</h3>
+              <p class="name">YongMin Kim</p>
+            </div>
+            <div class="media">
+              <img src="/public/images/profile1.png" alt="Hero portrait preview" />
+            </div>
+          </div>
+          <ul>
+            <li>Least "card-like" edge</li>
+            <li>Best if you want the image to feel embedded in the page</li>
+            <li>Logo concealment becomes part of the edge fade</li>
+          </ul>
+        </article>
+
+        <article class="card version-b">
+          <span class="label">Version B</span>
+          <h2>Soft Floating Print</h2>
+          <p>Subtle frame, gentle depth, and a cleaner low-contrast corner patch.</p>
+          <div class="hero-preview">
+            <div class="hero-copy">
+              <p class="greeting">Hi :)</p>
+              <h3 class="title">I am a Design Engineer</h3>
+              <p class="name">YongMin Kim</p>
+            </div>
+            <div class="media">
+              <img src="/public/images/profile1.png" alt="Hero portrait preview" />
+            </div>
+          </div>
+          <ul>
+            <li>Most balanced and safest for this portfolio layout</li>
+            <li>Still feels intentional, but less harsh than the current rectangle</li>
+            <li>Logo concealment is cleaner than a large radial wash</li>
+          </ul>
+        </article>
+
+        <article class="card version-c">
+          <span class="label">Version C</span>
+          <h2>Organic Cutout</h2>
+          <p>Asymmetric feathering so the image feels less boxed-in and more art-directed.</p>
+          <div class="hero-preview">
+            <div class="hero-copy">
+              <p class="greeting">Hi :)</p>
+              <h3 class="title">I am a Design Engineer</h3>
+              <p class="name">YongMin Kim</p>
+            </div>
+            <div class="media">
+              <img src="/public/images/profile1.png" alt="Hero portrait preview" />
+            </div>
+          </div>
+          <ul>
+            <li>Most distinctive look</li>
+            <li>Good if you want a more editorial/creative hero</li>
+            <li>Higher risk of looking styled rather than neutral</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

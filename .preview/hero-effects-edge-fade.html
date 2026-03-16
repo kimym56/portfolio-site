@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hero Edge Fade Preview</title>
+    <style>
+      :root {
+        --bg: #f6f6f4;
+        --surface: #ffffff;
+        --text: #1b1b1a;
+        --text-muted: #52514d;
+        --border: rgba(217, 216, 210, 0.72);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Noto Sans KR", sans-serif;
+      }
+
+      main {
+        width: min(1360px, 94vw);
+        margin: 0 auto;
+        padding: 40px 0 56px;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        line-height: 1.05;
+        letter-spacing: -0.04em;
+      }
+
+      .subtitle {
+        margin: 0 0 28px;
+        max-width: 72ch;
+        color: var(--text-muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .card {
+        padding: 22px;
+        border: 1px solid var(--border);
+        border-radius: 26px;
+        background: rgba(255, 255, 255, 0.72);
+        box-shadow: 0 20px 44px rgba(15, 15, 14, 0.06);
+        backdrop-filter: blur(10px);
+      }
+
+      .tag {
+        display: inline-flex;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(27, 27, 26, 0.06);
+        color: var(--text-muted);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .card h2 {
+        margin: 14px 0 8px;
+        font-size: 1.22rem;
+        letter-spacing: -0.03em;
+      }
+
+      .card p {
+        margin: 0 0 18px;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.55;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 0.96fr);
+        gap: 18px;
+        min-height: 440px;
+        padding: 22px;
+        border-radius: 24px;
+        background:
+          radial-gradient(circle at top left, rgba(255, 255, 255, 0.88), transparent 46%),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.58), rgba(239, 239, 236, 0.4));
+      }
+
+      .copy {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 16px;
+      }
+
+      .copy p {
+        margin: 0;
+      }
+
+      .greeting,
+      .name {
+        color: var(--text-muted);
+      }
+
+      .title {
+        margin: 0;
+        font-size: clamp(1.7rem, 3vw, 2.5rem);
+        line-height: 1.08;
+        letter-spacing: -0.04em;
+      }
+
+      .media {
+        align-self: center;
+        justify-self: end;
+        width: 74%;
+        min-height: 420px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .media img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 38%;
+        transform: scale(1.15);
+      }
+
+      .soft .media {
+        border-radius: 28px;
+      }
+
+      .soft .media::before {
+        content: "";
+        position: absolute;
+        inset: -8px;
+        border-radius: 34px;
+        background:
+          radial-gradient(circle at 100% 100%, rgba(246, 246, 244, 0.98) 0 14%, rgba(246, 246, 244, 0.45) 28%, transparent 52%),
+          linear-gradient(180deg, rgba(246, 246, 244, 0.14), transparent 14%, transparent 82%, rgba(246, 246, 244, 0.14)),
+          linear-gradient(90deg, rgba(246, 246, 244, 0.1), transparent 12%, transparent 88%, rgba(246, 246, 244, 0.1));
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .balanced .media {
+        border-radius: 28px;
+      }
+
+      .balanced .media::before {
+        content: "";
+        position: absolute;
+        inset: -14px;
+        border-radius: 38px;
+        background:
+          radial-gradient(circle at 100% 100%, rgba(246, 246, 244, 1) 0 16%, rgba(246, 246, 244, 0.6) 30%, rgba(246, 246, 244, 0.18) 42%, transparent 56%),
+          linear-gradient(180deg, rgba(246, 246, 244, 0.24), transparent 16%, transparent 76%, rgba(246, 246, 244, 0.22)),
+          linear-gradient(90deg, rgba(246, 246, 244, 0.18), transparent 16%, transparent 84%, rgba(246, 246, 244, 0.18));
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .editorial .media {
+        border-radius: 34px 22px 42px 24px;
+      }
+
+      .editorial .media::before {
+        content: "";
+        position: absolute;
+        inset: -18px;
+        border-radius: 42px 30px 52px 30px;
+        background:
+          radial-gradient(circle at 102% 100%, rgba(246, 246, 244, 1) 0 16%, rgba(246, 246, 244, 0.68) 30%, rgba(246, 246, 244, 0.18) 42%, transparent 56%),
+          radial-gradient(circle at -2% 0%, rgba(246, 246, 244, 0.52) 0 10%, transparent 28%),
+          linear-gradient(180deg, rgba(246, 246, 244, 0.22), transparent 18%, transparent 74%, rgba(246, 246, 244, 0.18)),
+          linear-gradient(90deg, rgba(246, 246, 244, 0.14), transparent 16%, transparent 82%, rgba(246, 246, 244, 0.08));
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      ul {
+        margin: 16px 0 0;
+        padding-left: 18px;
+        color: var(--text-muted);
+      }
+
+      li + li {
+        margin-top: 6px;
+      }
+
+      @media (max-width: 1100px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Full Edge-Fade / Mask Preview</h1>
+      <p class="subtitle">
+        These versions remove the obvious bottom-right patch and instead hide the corner naturally
+        with full edge fading. The only difference is how strong and stylized the fade feels.
+      </p>
+
+      <section class="grid">
+        <article class="card soft">
+          <span class="tag">Version A</span>
+          <h2>Soft Edge Fade</h2>
+          <p>Very gentle fade around the whole frame. Lowest visual risk.</p>
+          <div class="hero">
+            <div class="copy">
+              <p class="greeting">Hi :)</p>
+              <h3 class="title">I am a Design Engineer</h3>
+              <p class="name">YongMin Kim</p>
+            </div>
+            <div class="media">
+              <img src="/public/images/profile1.png" alt="Hero portrait preview" />
+            </div>
+          </div>
+          <ul>
+            <li>Closest to your current layout</li>
+            <li>Best if you want the effect to almost disappear</li>
+          </ul>
+        </article>
+
+        <article class="card balanced">
+          <span class="tag">Version B</span>
+          <h2>Balanced Mask</h2>
+          <p>Full-frame fade with extra weight at the bottom-right where the logo sits.</p>
+          <div class="hero">
+            <div class="copy">
+              <p class="greeting">Hi :)</p>
+              <h3 class="title">I am a Design Engineer</h3>
+              <p class="name">YongMin Kim</p>
+            </div>
+            <div class="media">
+              <img src="/public/images/profile1.png" alt="Hero portrait preview" />
+            </div>
+          </div>
+          <ul>
+            <li>Most practical option</li>
+            <li>Hides the corner naturally without looking patched</li>
+          </ul>
+        </article>
+
+        <article class="card editorial">
+          <span class="tag">Version C</span>
+          <h2>Editorial Mask</h2>
+          <p>Same idea, but more art-directed and asymmetrical.</p>
+          <div class="hero">
+            <div class="copy">
+              <p class="greeting">Hi :)</p>
+              <h3 class="title">I am a Design Engineer</h3>
+              <p class="name">YongMin Kim</p>
+            </div>
+            <div class="media">
+              <img src="/public/images/profile1.png" alt="Hero portrait preview" />
+            </div>
+          </div>
+          <ul>
+            <li>Most distinctive look</li>
+            <li>Higher chance of feeling intentionally stylized</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

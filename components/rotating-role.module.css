@@ -2,7 +2,7 @@
   display: inline-block;
   opacity: 0;
   transform: translateY(0.28em);
-  animation: role-enter 420ms ease forwards;
+  animation: role-enter 450ms ease-in-out forwards;
 }
 
 @keyframes role-enter {

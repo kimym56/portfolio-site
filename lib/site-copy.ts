@@ -13,6 +13,11 @@ export const SITE_COPY: SiteCopy = {
       "I am a UX Engineer",
       "I am a Frontend Engineer",
     ],
+    profileImages: [
+      "/images/profile1.png",
+      "/images/profile2.png",
+      "/images/profile3.png",
+    ],
     name: "YongMin Kim",
     imageAlt: "Portrait image",
   },
