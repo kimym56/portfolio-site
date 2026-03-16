@@ -1,6 +1,6 @@
 import { act, cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { RotatingRole } from "@/components/rotating-role";
+import { DEFAULT_INTERVAL_MS, RotatingRole } from "@/components/rotating-role";
 
 describe("RotatingRole", () => {
   beforeEach(() => {
@@ -56,7 +56,7 @@ describe("RotatingRole", () => {
     expect(screen.getByText("I am a Design Engineer")).toBeInTheDocument();
 
     act(() => {
-      vi.advanceTimersByTime(3499);
+      vi.advanceTimersByTime(DEFAULT_INTERVAL_MS - 1);
     });
     expect(screen.getByText("I am a Design Engineer")).toBeInTheDocument();
 
@@ -66,7 +66,7 @@ describe("RotatingRole", () => {
     expect(screen.getByText("I am a UX Engineer")).toBeInTheDocument();
 
     act(() => {
-      vi.advanceTimersByTime(3499);
+      vi.advanceTimersByTime(DEFAULT_INTERVAL_MS - 1);
     });
     expect(screen.getByText("I am a UX Engineer")).toBeInTheDocument();
 
@@ -76,7 +76,7 @@ describe("RotatingRole", () => {
     expect(screen.getByText("I am a Frontend Engineer")).toBeInTheDocument();
 
     act(() => {
-      vi.advanceTimersByTime(3499);
+      vi.advanceTimersByTime(DEFAULT_INTERVAL_MS - 1);
     });
     expect(screen.getByText("I am a Frontend Engineer")).toBeInTheDocument();
 
@@ -84,26 +84,6 @@ describe("RotatingRole", () => {
       vi.advanceTimersByTime(1);
     });
     expect(screen.getByText("I am a Design Engineer")).toBeInTheDocument();
-  });
-
-  it("re-mounts the role element per change for enter animation", () => {
-    render(
-      <RotatingRole
-        roles={["I am a Design Engineer", "I am a UX Engineer"]}
-        intervalMs={1000}
-      />,
-    );
-
-    const firstRoleNode = screen.getByTestId("rotating-role");
-
-    act(() => {
-      vi.advanceTimersByTime(1000);
-    });
-
-    const secondRoleNode = screen.getByTestId("rotating-role");
-
-    expect(secondRoleNode).not.toBe(firstRoleNode);
-    expect(secondRoleNode).toHaveTextContent("I am a UX Engineer");
   });
 
   it("renders the externally controlled active role", () => {
@@ -136,6 +116,26 @@ describe("RotatingRole", () => {
     const secondRoleNode = screen.getByTestId("rotating-role");
 
     expect(secondRoleNode).toHaveTextContent("I am a UX Engineer");
-    expect(secondRoleNode).not.toBe(firstRoleNode);
+    expect(secondRoleNode).toBe(firstRoleNode);
+  });
+
+  it("renders both the outgoing and incoming roles during a controlled transition", () => {
+    const roles = ["I am a Design Engineer", "I am a UX Engineer"];
+    render(
+      <RotatingRole
+        roles={roles}
+        activeIndex={1}
+        previousIndex={0}
+        isTransitioning
+      />,
+    );
+
+    const roleStack = screen.getByTestId("rotating-role-stack");
+
+    expect(roleStack).toHaveTextContent("I am a Design Engineer");
+    expect(roleStack).toHaveTextContent("I am a UX Engineer");
+    expect(screen.getByTestId("rotating-role")).toHaveTextContent(
+      "I am a UX Engineer",
+    );
   });
 });

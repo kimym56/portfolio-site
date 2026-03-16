@@ -1,26 +1,58 @@
-.role {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(0.28em);
-  animation: role-enter 450ms ease-in-out forwards;
+.roleStack {
+  display: inline-grid;
 }
 
-@keyframes role-enter {
+.role {
+  display: block;
+  grid-area: 1 / 1;
+}
+
+.roleStatic {
+  opacity: 1;
+}
+
+.roleEnter {
+  opacity: 0;
+  animation: role-fade-in 320ms ease-out forwards;
+}
+
+.roleExit {
+  opacity: 1;
+  animation: role-fade-out 320ms ease-out forwards;
+}
+
+@keyframes role-fade-in {
   from {
     opacity: 0;
-    transform: translateY(0.28em);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+  }
+}
+
+@keyframes role-fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .role {
+  .roleEnter,
+  .roleExit {
     animation: none;
+  }
+
+  .roleEnter,
+  .roleStatic {
     opacity: 1;
-    transform: none;
+  }
+
+  .roleExit {
+    opacity: 0;
   }
 }

@@ -1,6 +1,10 @@
 import { act, cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { HeroSplit } from "@/components/hero-split";
+import {
+  DEFAULT_INTERVAL_MS,
+  DEFAULT_TRANSITION_MS,
+} from "@/components/rotating-role";
 
 vi.mock("next/image", () => ({
   default: ({
@@ -17,6 +21,21 @@ vi.mock("next/image", () => ({
 }));
 
 describe("HeroSplit", () => {
+  const copy = {
+    roles: [
+      "I am a Design Engineer",
+      "I am a UX Engineer",
+      "I am a Frontend Engineer",
+    ],
+    profileImages: [
+      "/images/profile1.png",
+      "/images/profile2.png",
+      "/images/profile3.png",
+    ],
+    name: "YongMin Kim",
+    imageAlt: "Portrait image",
+  };
+
   beforeEach(() => {
     vi.useFakeTimers();
   });
@@ -27,16 +46,7 @@ describe("HeroSplit", () => {
   });
 
   it("renders a fixed greeting line and keeps the rotating role text below it", () => {
-    render(
-      <HeroSplit
-        copy={{
-          roles: ["I am a Design Engineer", "I am a UX Engineer"],
-          profileImages: ["/images/profile1.png", "/images/profile2.png"],
-          name: "YongMin Kim",
-          imageAlt: "Portrait image",
-        }}
-      />,
-    );
+    render(<HeroSplit copy={copy} />);
 
     const greeting = screen.getByText("Hi :)");
     const heading = screen.getByRole("heading", { level: 1, name: "I am a Design Engineer" });
@@ -50,26 +60,9 @@ describe("HeroSplit", () => {
   });
 
   it("keeps the portrait source in sync with each role change", () => {
-    render(
-      <HeroSplit
-        copy={{
-          roles: [
-            "I am a Design Engineer",
-            "I am a UX Engineer",
-            "I am a Frontend Engineer",
-          ],
-          profileImages: [
-            "/images/profile1.png",
-            "/images/profile2.png",
-            "/images/profile3.png",
-          ],
-          name: "YongMin Kim",
-          imageAlt: "Portrait image",
-        }}
-      />,
-    );
+    render(<HeroSplit copy={copy} />);
 
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+    expect(screen.getByTestId("rotating-role")).toHaveTextContent(
       "I am a Design Engineer",
     );
     expect(screen.getByAltText("Portrait image")).toHaveAttribute(
@@ -78,29 +71,47 @@ describe("HeroSplit", () => {
     );
 
     act(() => {
-      vi.advanceTimersByTime(3500);
+      vi.advanceTimersByTime(DEFAULT_INTERVAL_MS);
     });
 
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "I am a UX Engineer",
-    );
+    expect(screen.getByTestId("rotating-role")).toHaveTextContent("I am a UX Engineer");
     expect(screen.getByAltText("Portrait image")).toHaveAttribute(
       "src",
       "/images/profile2.png",
     );
   });
 
+  it("briefly renders the outgoing and incoming hero states together during a tick", () => {
+    const { container } = render(<HeroSplit copy={copy} />);
+
+    act(() => {
+      vi.advanceTimersByTime(DEFAULT_INTERVAL_MS);
+    });
+
+    const roleStack = screen.getByTestId("rotating-role-stack");
+
+    expect(roleStack).toHaveTextContent("I am a Design Engineer");
+    expect(roleStack).toHaveTextContent("I am a UX Engineer");
+    expect(container.querySelectorAll("img")).toHaveLength(2);
+  });
+
+  it("cleans up the outgoing layers after the shared crossfade window", () => {
+    const { container } = render(<HeroSplit copy={copy} />);
+
+    act(() => {
+      vi.advanceTimersByTime(DEFAULT_INTERVAL_MS);
+    });
+
+    act(() => {
+      vi.advanceTimersByTime(DEFAULT_TRANSITION_MS);
+    });
+
+    expect(screen.queryByText("I am a Design Engineer")).not.toBeInTheDocument();
+    expect(container.querySelectorAll("img")).toHaveLength(1);
+  });
+
   it("does not render a concealment layer over the portrait corner", () => {
-    const { container } = render(
-      <HeroSplit
-        copy={{
-          roles: ["I am a Design Engineer", "I am a UX Engineer"],
-          profileImages: ["/images/profile1.png", "/images/profile2.png"],
-          name: "YongMin Kim",
-          imageAlt: "Portrait image",
-        }}
-      />,
-    );
+    const { container } = render(<HeroSplit copy={copy} />);
 
     const concealmentLayer = container.querySelector("[data-testid='hero-image-concealment']");
 

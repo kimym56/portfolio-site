@@ -1,8 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { startTransition, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { DEFAULT_INTERVAL_MS, RotatingRole } from "@/components/rotating-role";
+import {
+  DEFAULT_INTERVAL_MS,
+  DEFAULT_TRANSITION_MS,
+  RotatingRole,
+} from "@/components/rotating-role";
 import type { HomeCopy } from "@/types/site";
 import styles from "./hero-split.module.css";
 
@@ -11,13 +15,21 @@ interface HeroSplitProps {
 }
 
 export function HeroSplit({ copy }: HeroSplitProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [rotationState, setRotationState] = useState({
+    activeIndex: 0,
+    previousIndex: null as number | null,
+  });
+  const cleanupTimeoutRef = useRef<number | null>(null);
+  const activeIndex = rotationState.activeIndex;
+  const previousIndex = rotationState.previousIndex;
   const activeImageSrc =
     copy.profileImages.length > 0
       ? copy.profileImages[activeIndex % copy.profileImages.length]
       : null;
-  const previousImageRef = useRef(activeImageSrc);
-  const [fadingImageSrc, setFadingImageSrc] = useState<string | null>(null);
+  const previousImageSrc =
+    previousIndex !== null && copy.profileImages.length > 0
+      ? copy.profileImages[previousIndex % copy.profileImages.length]
+      : null;
 
   useEffect(() => {
     if (copy.roles.length < 2) {
@@ -28,7 +40,25 @@ export function HeroSplit({ copy }: HeroSplitProps) {
     let expectedTickTime = performance.now() + DEFAULT_INTERVAL_MS;
 
     const tick = () => {
-      setActiveIndex((previousIndex) => (previousIndex + 1) % copy.roles.length);
+      startTransition(() => {
+        setRotationState((previousState) => ({
+          activeIndex: (previousState.activeIndex + 1) % copy.roles.length,
+          previousIndex: previousState.activeIndex,
+        }));
+      });
+
+      if (cleanupTimeoutRef.current !== null) {
+        window.clearTimeout(cleanupTimeoutRef.current);
+      }
+
+      cleanupTimeoutRef.current = window.setTimeout(() => {
+        setRotationState((previousState) => ({
+          ...previousState,
+          previousIndex: null,
+        }));
+        cleanupTimeoutRef.current = null;
+      }, DEFAULT_TRANSITION_MS);
+
       expectedTickTime += DEFAULT_INTERVAL_MS;
       const delayUntilNextTick = Math.max(
         0,
@@ -43,55 +73,48 @@ export function HeroSplit({ copy }: HeroSplitProps) {
       if (timeoutId !== null) {
         window.clearTimeout(timeoutId);
       }
+      if (cleanupTimeoutRef.current !== null) {
+        window.clearTimeout(cleanupTimeoutRef.current);
+        cleanupTimeoutRef.current = null;
+      }
     };
   }, [copy.roles.length]);
-
-  useEffect(() => {
-    if (!activeImageSrc || previousImageRef.current === activeImageSrc) {
-      return;
-    }
-
-    setFadingImageSrc(previousImageRef.current);
-    previousImageRef.current = activeImageSrc;
-
-    const timeoutId = window.setTimeout(() => {
-      setFadingImageSrc(null);
-    }, 450);
-
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
-  }, [activeImageSrc]);
 
   return (
     <section className={styles.hero}>
       <div className={styles.copy}>
         <p className={styles.greeting}>Hi :)</p>
         <h1 className={styles.title}>
-          <RotatingRole roles={copy.roles} activeIndex={activeIndex} />
+          <RotatingRole
+            roles={copy.roles}
+            activeIndex={activeIndex}
+            previousIndex={previousIndex}
+            isTransitioning={previousIndex !== null}
+          />
         </h1>
         <p className={styles.name}>{copy.name}</p>
       </div>
 
       <div className={styles.media}>
-        {fadingImageSrc ? (
+        {previousImageSrc ? (
           <Image
-            src={fadingImageSrc}
+            src={previousImageSrc}
             alt=""
             aria-hidden="true"
             fill
-            className={styles.image}
+            className={`${styles.image} ${styles.imageExit}`}
             priority
             sizes="(max-width: 767px) 90vw, 38vw"
           />
         ) : null}
         {activeImageSrc ? (
           <Image
-            key={activeImageSrc}
             src={activeImageSrc}
             alt={copy.imageAlt}
             fill
-            className={`${styles.image} ${styles.imageFadeIn}`}
+            className={`${styles.image} ${
+              previousIndex !== null ? styles.imageEnter : styles.imageStatic
+            }`}
             priority
             sizes="(max-width: 767px) 90vw, 38vw"
           />

@@ -7,14 +7,19 @@ interface RotatingRoleProps {
   roles: string[];
   activeIndex?: number;
   intervalMs?: number;
+  previousIndex?: number | null;
+  isTransitioning?: boolean;
 }
 
-export const DEFAULT_INTERVAL_MS = 3500;
+export const DEFAULT_INTERVAL_MS = 4500;
+export const DEFAULT_TRANSITION_MS = 320;
 
 export function RotatingRole({
   roles,
   activeIndex,
   intervalMs = DEFAULT_INTERVAL_MS,
+  previousIndex,
+  isTransitioning = false,
 }: RotatingRoleProps) {
   const [internalActiveIndex, setInternalActiveIndex] = useState(0);
   const resolvedActiveIndex = activeIndex ?? internalActiveIndex;
@@ -28,7 +33,9 @@ export function RotatingRole({
     let expectedTickTime = performance.now() + intervalMs;
 
     const tick = () => {
-      setInternalActiveIndex((previousIndex) => (previousIndex + 1) % roles.length);
+      setInternalActiveIndex(
+        (previousIndex) => (previousIndex + 1) % roles.length,
+      );
       expectedTickTime += intervalMs;
       const delayUntilNextTick = Math.max(
         0,
@@ -50,11 +57,32 @@ export function RotatingRole({
     return null;
   }
 
-  const roleIndex = ((resolvedActiveIndex % roles.length) + roles.length) % roles.length;
+  const roleIndex =
+    ((resolvedActiveIndex % roles.length) + roles.length) % roles.length;
+  const resolvedPreviousIndex =
+    previousIndex === null || previousIndex === undefined
+      ? null
+      : ((previousIndex % roles.length) + roles.length) % roles.length;
+  const showPreviousRole =
+    isTransitioning &&
+    resolvedPreviousIndex !== null &&
+    resolvedPreviousIndex !== roleIndex;
 
   return (
-    <span key={roleIndex} className={styles.role} data-testid="rotating-role">
-      {roles[roleIndex]}
+    <span className={styles.roleStack} data-testid="rotating-role-stack">
+      {showPreviousRole ? (
+        <span className={`${styles.role} ${styles.roleExit}`} aria-hidden="true">
+          {roles[resolvedPreviousIndex]}
+        </span>
+      ) : null}
+      <span
+        className={`${styles.role} ${
+          isTransitioning ? styles.roleEnter : styles.roleStatic
+        }`}
+        data-testid="rotating-role"
+      >
+        {roles[roleIndex]}
+      </span>
     </span>
   );
 }
