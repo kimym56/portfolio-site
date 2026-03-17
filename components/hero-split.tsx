@@ -3,6 +3,12 @@
 import { startTransition, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
+  domAnimation,
+  LazyMotion,
+  m,
+  useReducedMotion,
+} from "framer-motion";
+import {
   DEFAULT_INTERVAL_MS,
   DEFAULT_TRANSITION_MS,
   RotatingRole,
@@ -20,6 +26,7 @@ export function HeroSplit({ copy }: HeroSplitProps) {
     previousIndex: null as number | null,
   });
   const cleanupTimeoutRef = useRef<number | null>(null);
+  const prefersReducedMotion = useReducedMotion();
   const activeIndex = rotationState.activeIndex;
   const previousIndex = rotationState.previousIndex;
   const activeImageSrc =
@@ -30,6 +37,13 @@ export function HeroSplit({ copy }: HeroSplitProps) {
     previousIndex !== null && copy.profileImages.length > 0
       ? copy.profileImages[previousIndex % copy.profileImages.length]
       : null;
+  const transitionDurationMs = prefersReducedMotion ? 0 : DEFAULT_TRANSITION_MS;
+  const imageTransition = transitionDurationMs === 0
+    ? { duration: 0.01 }
+    : {
+        duration: transitionDurationMs / 1000,
+        ease: [0.22, 1, 0.36, 1] as const,
+      };
 
   useEffect(() => {
     if (copy.roles.length < 2) {
@@ -57,7 +71,7 @@ export function HeroSplit({ copy }: HeroSplitProps) {
           previousIndex: null,
         }));
         cleanupTimeoutRef.current = null;
-      }, DEFAULT_TRANSITION_MS);
+      }, transitionDurationMs);
 
       expectedTickTime += DEFAULT_INTERVAL_MS;
       const delayUntilNextTick = Math.max(
@@ -78,47 +92,58 @@ export function HeroSplit({ copy }: HeroSplitProps) {
         cleanupTimeoutRef.current = null;
       }
     };
-  }, [copy.roles.length]);
+  }, [copy.roles.length, transitionDurationMs]);
 
   return (
     <section className={styles.hero}>
       <div className={styles.copy}>
         <p className={styles.greeting}>Hi :)</p>
         <h1 className={styles.title}>
-          <RotatingRole
-            roles={copy.roles}
-            activeIndex={activeIndex}
-            previousIndex={previousIndex}
-            isTransitioning={previousIndex !== null}
-          />
+          <RotatingRole roles={copy.roles} activeIndex={activeIndex} />
         </h1>
         <p className={styles.name}>{copy.name}</p>
       </div>
 
       <div className={styles.media}>
-        {previousImageSrc ? (
-          <Image
-            src={previousImageSrc}
-            alt=""
-            aria-hidden="true"
-            fill
-            className={`${styles.image} ${styles.imageExit}`}
-            priority
-            sizes="(max-width: 767px) 90vw, 38vw"
-          />
-        ) : null}
-        {activeImageSrc ? (
-          <Image
-            src={activeImageSrc}
-            alt={copy.imageAlt}
-            fill
-            className={`${styles.image} ${
-              previousIndex !== null ? styles.imageEnter : styles.imageStatic
-            }`}
-            priority
-            sizes="(max-width: 767px) 90vw, 38vw"
-          />
-        ) : null}
+        <LazyMotion features={domAnimation}>
+          {previousImageSrc ? (
+            <m.div
+              className={styles.imageLayer}
+              initial={transitionDurationMs === 0 ? { opacity: 0 } : { opacity: 1 }}
+              animate={{ opacity: 0 }}
+              transition={imageTransition}
+            >
+              <Image
+                src={previousImageSrc}
+                alt=""
+                aria-hidden="true"
+                fill
+                className={styles.image}
+                priority
+                sizes="(max-width: 767px) 90vw, 38vw"
+              />
+            </m.div>
+          ) : null}
+          {activeImageSrc ? (
+            <m.div
+              key={activeImageSrc}
+              className={styles.imageLayer}
+              data-testid="hero-image-layer"
+              initial={transitionDurationMs === 0 ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={imageTransition}
+            >
+              <Image
+                src={activeImageSrc}
+                alt={copy.imageAlt}
+                fill
+                className={styles.image}
+                priority
+                sizes="(max-width: 767px) 90vw, 38vw"
+              />
+            </m.div>
+          ) : null}
+        </LazyMotion>
       </div>
     </section>
   );

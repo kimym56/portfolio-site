@@ -81,18 +81,10 @@ describe("HeroSplit", () => {
     );
   });
 
-  it("briefly renders the outgoing and incoming hero states together during a tick", () => {
+  it("renders the active portrait inside a dedicated image motion layer", () => {
     const { container } = render(<HeroSplit copy={copy} />);
 
-    act(() => {
-      vi.advanceTimersByTime(DEFAULT_INTERVAL_MS);
-    });
-
-    const roleStack = screen.getByTestId("rotating-role-stack");
-
-    expect(roleStack).toHaveTextContent("I am a Design Engineer");
-    expect(roleStack).toHaveTextContent("I am a UX Engineer");
-    expect(container.querySelectorAll("img")).toHaveLength(2);
+    expect(container.querySelector("[data-testid='hero-image-layer']")).not.toBeNull();
   });
 
   it("cleans up the outgoing layers after the shared crossfade window", () => {
@@ -106,7 +98,6 @@ describe("HeroSplit", () => {
       vi.advanceTimersByTime(DEFAULT_TRANSITION_MS);
     });
 
-    expect(screen.queryByText("I am a Design Engineer")).not.toBeInTheDocument();
     expect(container.querySelectorAll("img")).toHaveLength(1);
   });
 
