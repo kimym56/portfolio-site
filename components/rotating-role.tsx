@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { domAnimation, LazyMotion, m, useReducedMotion } from "framer-motion";
 import styles from "./rotating-role.module.css";
 
 interface RotatingRoleProps {
@@ -18,10 +19,9 @@ export function RotatingRole({
   roles,
   activeIndex,
   intervalMs = DEFAULT_INTERVAL_MS,
-  previousIndex,
-  isTransitioning = false,
 }: RotatingRoleProps) {
   const [internalActiveIndex, setInternalActiveIndex] = useState(0);
+  const prefersReducedMotion = useReducedMotion();
   const resolvedActiveIndex = activeIndex ?? internalActiveIndex;
 
   useEffect(() => {
@@ -59,30 +59,27 @@ export function RotatingRole({
 
   const roleIndex =
     ((resolvedActiveIndex % roles.length) + roles.length) % roles.length;
-  const resolvedPreviousIndex =
-    previousIndex === null || previousIndex === undefined
-      ? null
-      : ((previousIndex % roles.length) + roles.length) % roles.length;
-  const showPreviousRole =
-    isTransitioning &&
-    resolvedPreviousIndex !== null &&
-    resolvedPreviousIndex !== roleIndex;
+  const transition = prefersReducedMotion
+    ? { duration: 0.01 }
+    : {
+        duration: DEFAULT_TRANSITION_MS / 1000,
+        ease: [0.22, 1, 0.36, 1] as const,
+      };
 
   return (
     <span className={styles.roleStack} data-testid="rotating-role-stack">
-      {showPreviousRole ? (
-        <span className={`${styles.role} ${styles.roleExit}`} aria-hidden="true">
-          {roles[resolvedPreviousIndex]}
-        </span>
-      ) : null}
-      <span
-        className={`${styles.role} ${
-          isTransitioning ? styles.roleEnter : styles.roleStatic
-        }`}
-        data-testid="rotating-role"
-      >
-        {roles[roleIndex]}
-      </span>
+      <LazyMotion features={domAnimation}>
+        <m.span
+          key={roleIndex}
+          className={styles.role}
+          data-testid="rotating-role"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={transition}
+        >
+          {roles[roleIndex]}
+        </m.span>
+      </LazyMotion>
     </span>
   );
 }
