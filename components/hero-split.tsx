@@ -46,16 +46,12 @@ export function HeroSplit({ copy }: HeroSplitProps) {
       };
   const incomingImageInitial = transitionDurationMs === 0
     ? false
-    : { opacity: 0, filter: "blur(6px)" };
-  const incomingImageAnimate = transitionDurationMs === 0
-    ? { opacity: 1 }
-    : { opacity: 1, filter: "blur(0px)" };
+    : { opacity: 0 };
+  const incomingImageAnimate = { opacity: 1 };
   const outgoingImageInitial = transitionDurationMs === 0
-    ? { opacity: 0 }
-    : { opacity: 1, filter: "blur(0px)" };
-  const outgoingImageAnimate = transitionDurationMs === 0
-    ? { opacity: 0 }
-    : { opacity: 0, filter: "blur(6px)" };
+    ? { opacity: 1 }
+    : { opacity: 1 };
+  const outgoingImageAnimate = { opacity: 0 };
 
   useEffect(() => {
     if (copy.roles.length < 2) {

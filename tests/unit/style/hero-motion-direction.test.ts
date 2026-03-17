@@ -13,4 +13,15 @@ describe("hero motion direction", () => {
     expect(source).toMatch(/y:\s*-10/);
     expect(source).not.toMatch(/filter:\s*"blur\(/);
   });
+
+  it("keeps hero image motion fade-led without vertical travel", () => {
+    const source = fs.readFileSync(
+      path.join(process.cwd(), "components", "hero-split.tsx"),
+      "utf8",
+    );
+
+    expect(source).not.toMatch(/filter:\s*"blur\(/);
+    expect(source).not.toMatch(/[,{]\s*y:\s*-?\d+/);
+    expect(source).toMatch(/opacity:/);
+  });
 });
