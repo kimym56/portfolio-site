@@ -87,6 +87,20 @@ describe("HeroSplit", () => {
     expect(container.querySelector("[data-testid='hero-image-layer']")).not.toBeNull();
   });
 
+  it("keeps outgoing and incoming hero content mounted through the shared transition window", () => {
+    const { container } = render(<HeroSplit copy={copy} />);
+
+    act(() => {
+      vi.advanceTimersByTime(DEFAULT_INTERVAL_MS);
+    });
+
+    const roleStack = screen.getByTestId("rotating-role-stack");
+
+    expect(roleStack).toHaveTextContent("I am a Design Engineer");
+    expect(roleStack).toHaveTextContent("I am a UX Engineer");
+    expect(container.querySelectorAll("img")).toHaveLength(2);
+  });
+
   it("cleans up the outgoing layers after the shared crossfade window", () => {
     const { container } = render(<HeroSplit copy={copy} />);
 

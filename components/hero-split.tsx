@@ -42,7 +42,7 @@ export function HeroSplit({ copy }: HeroSplitProps) {
     ? { duration: 0.01 }
     : {
         duration: transitionDurationMs / 1000,
-        ease: [0.22, 1, 0.36, 1] as const,
+        ease: [0.16, 1, 0.3, 1] as const,
       };
 
   useEffect(() => {
@@ -99,7 +99,12 @@ export function HeroSplit({ copy }: HeroSplitProps) {
       <div className={styles.copy}>
         <p className={styles.greeting}>Hi :)</p>
         <h1 className={styles.title}>
-          <RotatingRole roles={copy.roles} activeIndex={activeIndex} />
+          <RotatingRole
+            roles={copy.roles}
+            activeIndex={activeIndex}
+            previousIndex={previousIndex}
+            isTransitioning={previousIndex !== null}
+          />
         </h1>
         <p className={styles.name}>{copy.name}</p>
       </div>
