@@ -77,16 +77,16 @@ export function RotatingRole({
       };
   const incomingRoleInitial = prefersReducedMotion
     ? false
-    : { opacity: 0, filter: "blur(10px)" };
+    : { opacity: 0, y: 10 };
   const incomingRoleAnimate = prefersReducedMotion
     ? { opacity: 1 }
-    : { opacity: 1, filter: "blur(0px)" };
+    : { opacity: 1, y: 0 };
   const outgoingRoleInitial = prefersReducedMotion
     ? false
-    : { opacity: 1, filter: "blur(0px)" };
+    : { opacity: 1, y: 0 };
   const outgoingRoleAnimate = prefersReducedMotion
     ? { opacity: 0 }
-    : { opacity: 0, filter: "blur(10px)" };
+    : { opacity: 0, y: -10 };
 
   return (
     <span className={styles.roleStack} data-testid="rotating-role-stack">
