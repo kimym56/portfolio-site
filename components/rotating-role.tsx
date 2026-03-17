@@ -13,12 +13,14 @@ interface RotatingRoleProps {
 }
 
 export const DEFAULT_INTERVAL_MS = 4500;
-export const DEFAULT_TRANSITION_MS = 320;
+export const DEFAULT_TRANSITION_MS = 440;
 
 export function RotatingRole({
   roles,
   activeIndex,
   intervalMs = DEFAULT_INTERVAL_MS,
+  previousIndex,
+  isTransitioning = false,
 }: RotatingRoleProps) {
   const [internalActiveIndex, setInternalActiveIndex] = useState(0);
   const prefersReducedMotion = useReducedMotion();
@@ -59,22 +61,41 @@ export function RotatingRole({
 
   const roleIndex =
     ((resolvedActiveIndex % roles.length) + roles.length) % roles.length;
+  const resolvedPreviousIndex =
+    previousIndex === null || previousIndex === undefined
+      ? null
+      : ((previousIndex % roles.length) + roles.length) % roles.length;
+  const showPreviousRole =
+    isTransitioning &&
+    resolvedPreviousIndex !== null &&
+    resolvedPreviousIndex !== roleIndex;
   const transition = prefersReducedMotion
     ? { duration: 0.01 }
     : {
         duration: DEFAULT_TRANSITION_MS / 1000,
-        ease: [0.22, 1, 0.36, 1] as const,
+        ease: [0.16, 1, 0.3, 1] as const,
       };
 
   return (
     <span className={styles.roleStack} data-testid="rotating-role-stack">
       <LazyMotion features={domAnimation}>
+        {showPreviousRole ? (
+          <m.span
+            className={styles.role}
+            aria-hidden="true"
+            initial={prefersReducedMotion ? false : { opacity: 1 }}
+            animate={{ opacity: 0 }}
+            transition={transition}
+          >
+            {roles[resolvedPreviousIndex]}
+          </m.span>
+        ) : null}
         <m.span
           key={roleIndex}
           className={styles.role}
           data-testid="rotating-role"
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={prefersReducedMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={transition}
         >
           {roles[roleIndex]}

@@ -3,14 +3,15 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 describe("rotating role animation speed", () => {
-  it("keeps rotating-role CSS focused on layout instead of keyframed animation", () => {
-    const cssPath = path.join(process.cwd(), "components", "rotating-role.module.css");
-    const cssContent = fs.readFileSync(cssPath, "utf8");
+  it("uses a calmer shared transition duration for the hero text handoff", () => {
+    const sourcePath = path.join(process.cwd(), "components", "rotating-role.tsx");
+    const source = fs.readFileSync(sourcePath, "utf8");
 
-    expect(cssContent).toMatch(/\.roleStack\s*\{/);
-    expect(cssContent).toMatch(/\.role\s*\{/);
-    expect(cssContent).not.toMatch(/@keyframes\s+role-fade-in/);
-    expect(cssContent).not.toMatch(/@keyframes\s+role-fade-out/);
-    expect(cssContent).not.toMatch(/animation:/);
+    const durationMatch = source.match(/DEFAULT_TRANSITION_MS\s*=\s*(\d+)/);
+
+    expect(durationMatch).not.toBeNull();
+    const durationMs = Number(durationMatch?.[1] ?? "0");
+    expect(durationMs).toBeGreaterThanOrEqual(420);
+    expect(durationMs).toBeLessThanOrEqual(480);
   });
 });

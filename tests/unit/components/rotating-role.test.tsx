@@ -120,4 +120,23 @@ describe("RotatingRole", () => {
     expect(secondRoleNode).not.toBe(firstRoleNode);
   });
 
+  it("renders both outgoing and incoming roles during a controlled transition", () => {
+    render(
+      <RotatingRole
+        roles={["I am a Design Engineer", "I am a UX Engineer"]}
+        activeIndex={1}
+        previousIndex={0}
+        isTransitioning
+      />,
+    );
+
+    const roleStack = screen.getByTestId("rotating-role-stack");
+
+    expect(roleStack).toHaveTextContent("I am a Design Engineer");
+    expect(roleStack).toHaveTextContent("I am a UX Engineer");
+    expect(screen.getByTestId("rotating-role")).toHaveTextContent(
+      "I am a UX Engineer",
+    );
+  });
+
 });
