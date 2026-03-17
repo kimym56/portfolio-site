@@ -44,6 +44,18 @@ export function HeroSplit({ copy }: HeroSplitProps) {
         duration: transitionDurationMs / 1000,
         ease: [0.16, 1, 0.3, 1] as const,
       };
+  const incomingImageInitial = transitionDurationMs === 0
+    ? false
+    : { opacity: 0, filter: "blur(6px)" };
+  const incomingImageAnimate = transitionDurationMs === 0
+    ? { opacity: 1 }
+    : { opacity: 1, filter: "blur(0px)" };
+  const outgoingImageInitial = transitionDurationMs === 0
+    ? { opacity: 0 }
+    : { opacity: 1, filter: "blur(0px)" };
+  const outgoingImageAnimate = transitionDurationMs === 0
+    ? { opacity: 0 }
+    : { opacity: 0, filter: "blur(6px)" };
 
   useEffect(() => {
     if (copy.roles.length < 2) {
@@ -114,8 +126,8 @@ export function HeroSplit({ copy }: HeroSplitProps) {
           {previousImageSrc ? (
             <m.div
               className={styles.imageLayer}
-              initial={transitionDurationMs === 0 ? { opacity: 0 } : { opacity: 1 }}
-              animate={{ opacity: 0 }}
+              initial={outgoingImageInitial}
+              animate={outgoingImageAnimate}
               transition={imageTransition}
             >
               <Image
@@ -134,8 +146,8 @@ export function HeroSplit({ copy }: HeroSplitProps) {
               key={activeImageSrc}
               className={styles.imageLayer}
               data-testid="hero-image-layer"
-              initial={transitionDurationMs === 0 ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={incomingImageInitial}
+              animate={incomingImageAnimate}
               transition={imageTransition}
             >
               <Image

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { domAnimation, LazyMotion, m, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
 import styles from "./rotating-role.module.css";
 
 interface RotatingRoleProps {
@@ -12,8 +12,8 @@ interface RotatingRoleProps {
   isTransitioning?: boolean;
 }
 
-export const DEFAULT_INTERVAL_MS = 4500;
-export const DEFAULT_TRANSITION_MS = 440;
+export const DEFAULT_INTERVAL_MS = 3600;
+export const DEFAULT_TRANSITION_MS = 480;
 
 export function RotatingRole({
   roles,
@@ -75,6 +75,18 @@ export function RotatingRole({
         duration: DEFAULT_TRANSITION_MS / 1000,
         ease: [0.16, 1, 0.3, 1] as const,
       };
+  const incomingRoleInitial = prefersReducedMotion
+    ? false
+    : { opacity: 0, filter: "blur(10px)" };
+  const incomingRoleAnimate = prefersReducedMotion
+    ? { opacity: 1 }
+    : { opacity: 1, filter: "blur(0px)" };
+  const outgoingRoleInitial = prefersReducedMotion
+    ? false
+    : { opacity: 1, filter: "blur(0px)" };
+  const outgoingRoleAnimate = prefersReducedMotion
+    ? { opacity: 0 }
+    : { opacity: 0, filter: "blur(10px)" };
 
   return (
     <span className={styles.roleStack} data-testid="rotating-role-stack">
@@ -83,8 +95,8 @@ export function RotatingRole({
           <m.span
             className={styles.role}
             aria-hidden="true"
-            initial={prefersReducedMotion ? false : { opacity: 1 }}
-            animate={{ opacity: 0 }}
+            initial={outgoingRoleInitial}
+            animate={outgoingRoleAnimate}
             transition={transition}
           >
             {roles[resolvedPreviousIndex]}
@@ -94,8 +106,8 @@ export function RotatingRole({
           key={roleIndex}
           className={styles.role}
           data-testid="rotating-role"
-          initial={prefersReducedMotion ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={incomingRoleInitial}
+          animate={incomingRoleAnimate}
           transition={transition}
         >
           {roles[roleIndex]}
