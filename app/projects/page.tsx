@@ -5,7 +5,7 @@ import { SITE_COPY } from "@/lib/site-copy";
 export default function ProjectsPage() {
   return (
     <main className="page container">
-      <section className="card projects-card">
+      <section className="projects-card">
         <h1 className="page-title">{SITE_COPY.projects.title}</h1>
         <p className="page-subtitle">{SITE_COPY.projects.subtitle}</p>
 

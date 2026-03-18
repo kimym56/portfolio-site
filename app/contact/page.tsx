@@ -26,7 +26,7 @@ export default function ContactPage() {
 
   return (
     <main className="page container">
-      <section className="card contact-card">
+      <section className="contact-card">
         <h1 className="page-title">{SITE_COPY.contact.title}</h1>
         <p className="page-subtitle">{SITE_COPY.contact.subtitle}</p>
 

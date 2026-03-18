@@ -3,7 +3,7 @@ import { SITE_COPY } from "@/lib/site-copy";
 export default function AboutPage() {
   return (
     <main className="page container">
-      <section className="card about-card">
+      <section className="about-card">
         <h1 className="page-title">{SITE_COPY.about.title}</h1>
         <p className="page-subtitle">{SITE_COPY.about.subtitle}</p>
 
