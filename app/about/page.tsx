@@ -12,6 +12,21 @@ export default function AboutPage() {
             <p key={paragraph}>{paragraph}</p>
           ))}
         </div>
+
+        <ul aria-label="Tech stack" className="about-tech-stack">
+          {SITE_COPY.about.techStack.map((item) => (
+            <li
+              key={item.label}
+              className={[
+                "about-chip",
+                `about-chip-${item.category}`,
+                `about-chip-${item.proficiency}`,
+              ].join(" ")}
+            >
+              {item.label}
+            </li>
+          ))}
+        </ul>
       </section>
     </main>
   );

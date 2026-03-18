@@ -6,6 +6,18 @@
   --text-muted: #52514d;
   --border: #d9d8d2;
   --shadow: 0 14px 40px rgba(15, 15, 14, 0.08);
+  --about-chip-frontend-strong-bg: #f2dccf;
+  --about-chip-frontend-soft-bg: #f7ece4;
+  --about-chip-frontend-strong-text: #6d3e23;
+  --about-chip-frontend-soft-text: #8a6247;
+  --about-chip-design-strong-bg: #dce9df;
+  --about-chip-design-soft-bg: #eaf1eb;
+  --about-chip-design-strong-text: #335244;
+  --about-chip-design-soft-text: #527061;
+  --about-chip-ai-strong-bg: #e5deef;
+  --about-chip-ai-soft-bg: #f0ebf6;
+  --about-chip-ai-strong-text: #57456f;
+  --about-chip-ai-soft-text: #756584;
 }
 
 [data-theme="dark"] {
@@ -16,6 +28,18 @@
   --text-muted: #c5c4bf;
   --border: #35342f;
   --shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+  --about-chip-frontend-strong-bg: #5f4333;
+  --about-chip-frontend-soft-bg: #49372d;
+  --about-chip-frontend-strong-text: #f6dfd4;
+  --about-chip-frontend-soft-text: #e8d2c7;
+  --about-chip-design-strong-bg: #315044;
+  --about-chip-design-soft-bg: #293f38;
+  --about-chip-design-strong-text: #def0e5;
+  --about-chip-design-soft-text: #cfe3d8;
+  --about-chip-ai-strong-bg: #4a3a61;
+  --about-chip-ai-soft-bg: #3e344f;
+  --about-chip-ai-strong-text: #ece2f8;
+  --about-chip-ai-soft-text: #ddd2ee;
 }
 
 *,
@@ -136,10 +160,67 @@ button {
   padding: clamp(1.2rem, 3vw, 2.2rem);
 }
 
+.about-tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.46rem;
+  list-style: none;
+  margin: 1.5rem 0 0;
+  max-width: 72ch;
+  padding: 0;
+}
+
+.about-chip {
+  border-radius: 999px;
+  font-size: 0.73rem;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  padding: 0.42rem 0.64rem;
+  white-space: nowrap;
+}
+
+.about-chip-strong {
+  font-weight: 700;
+}
+
+.about-chip-soft {
+  font-weight: 500;
+}
+
+.about-chip-frontend.about-chip-strong {
+  background: var(--about-chip-frontend-strong-bg);
+  color: var(--about-chip-frontend-strong-text);
+}
+
+.about-chip-frontend.about-chip-soft {
+  background: var(--about-chip-frontend-soft-bg);
+  color: var(--about-chip-frontend-soft-text);
+}
+
+.about-chip-design.about-chip-strong {
+  background: var(--about-chip-design-strong-bg);
+  color: var(--about-chip-design-strong-text);
+}
+
+.about-chip-design.about-chip-soft {
+  background: var(--about-chip-design-soft-bg);
+  color: var(--about-chip-design-soft-text);
+}
+
+.about-chip-ai.about-chip-strong {
+  background: var(--about-chip-ai-strong-bg);
+  color: var(--about-chip-ai-strong-text);
+}
+
+.about-chip-ai.about-chip-soft {
+  background: var(--about-chip-ai-soft-bg);
+  color: var(--about-chip-ai-soft-text);
+}
+
 .about-paragraphs {
   display: grid;
   gap: 1rem;
-  margin-top: 1.9rem;
+  margin-top: 1.5rem;
   max-width: 72ch;
 }
 

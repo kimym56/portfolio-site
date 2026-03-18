@@ -14,9 +14,19 @@ export interface HomeCopy {
   imageAlt: string;
 }
 
+export type AboutTechStackCategory = "frontend" | "design" | "ai";
+export type AboutTechStackProficiency = "strong" | "soft";
+
+export interface AboutTechStackItem {
+  label: string;
+  category: AboutTechStackCategory;
+  proficiency: AboutTechStackProficiency;
+}
+
 export interface AboutCopy {
   title: string;
   subtitle: string;
+  techStack: AboutTechStackItem[];
   paragraphs: string[];
 }
 
