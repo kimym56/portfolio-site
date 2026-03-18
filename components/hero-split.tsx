@@ -46,16 +46,12 @@ export function HeroSplit({ copy }: HeroSplitProps) {
       };
   const incomingImageInitial = transitionDurationMs === 0
     ? false
-    : { opacity: 0, y: 12 };
-  const incomingImageAnimate = transitionDurationMs === 0
-    ? { opacity: 1 }
-    : { opacity: 1, y: 0 };
+    : { opacity: 0 };
+  const incomingImageAnimate = { opacity: 1 };
   const outgoingImageInitial = transitionDurationMs === 0
     ? { opacity: 1 }
-    : { opacity: 1, y: 0 };
-  const outgoingImageAnimate = transitionDurationMs === 0
-    ? { opacity: 0 }
-    : { opacity: 0, y: -12 };
+    : { opacity: 1 };
+  const outgoingImageAnimate = { opacity: 0 };
 
   useEffect(() => {
     if (copy.roles.length < 2) {
@@ -125,6 +121,7 @@ export function HeroSplit({ copy }: HeroSplitProps) {
         <LazyMotion features={domAnimation}>
           {previousImageSrc ? (
             <m.div
+              key={previousImageSrc}
               className={styles.imageLayer}
               initial={outgoingImageInitial}
               animate={outgoingImageAnimate}

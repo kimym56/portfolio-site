@@ -42,6 +42,7 @@
 
 .media {
   align-self: center;
+  background: var(--surface);
   justify-self: end;
   border-radius: 14px;
   width: 72%;

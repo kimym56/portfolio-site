@@ -15,15 +15,24 @@ describe("hero motion direction", () => {
     expect(source).toMatch(/opacity:/);
   });
 
-  it("animates the hero image with the same upward crossfade", () => {
+  it("animates the hero image with a fixed-position opacity crossfade", () => {
     const source = fs.readFileSync(
       path.join(process.cwd(), "components", "hero-split.tsx"),
       "utf8",
     );
 
     expect(source).not.toMatch(/filter:\s*"blur\(/);
-    expect(source).toMatch(/y:\s*12/);
-    expect(source).toMatch(/y:\s*-12/);
+    expect(source).not.toMatch(/[,{]\s*y:\s*-?\d+/);
+    expect(source).toMatch(/key=\{previousImageSrc\}/);
     expect(source).toMatch(/opacity:/);
+  });
+
+  it("backs the portrait media frame with a solid surface color", () => {
+    const source = fs.readFileSync(
+      path.join(process.cwd(), "components", "hero-split.module.css"),
+      "utf8",
+    );
+
+    expect(source).toMatch(/background:\s*var\(--surface\)/);
   });
 });
