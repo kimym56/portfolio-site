@@ -42,16 +42,20 @@ export function HeroSplit({ copy }: HeroSplitProps) {
     ? { duration: 0.01 }
     : {
         duration: transitionDurationMs / 1000,
-        ease: [0.16, 1, 0.3, 1] as const,
+        ease: [0.4, 0, 0.2, 1] as const,
       };
   const incomingImageInitial = transitionDurationMs === 0
     ? false
-    : { opacity: 0 };
-  const incomingImageAnimate = { opacity: 1 };
+    : { opacity: 0, y: 12 };
+  const incomingImageAnimate = transitionDurationMs === 0
+    ? { opacity: 1 }
+    : { opacity: 1, y: 0 };
   const outgoingImageInitial = transitionDurationMs === 0
     ? { opacity: 1 }
-    : { opacity: 1 };
-  const outgoingImageAnimate = { opacity: 0 };
+    : { opacity: 1, y: 0 };
+  const outgoingImageAnimate = transitionDurationMs === 0
+    ? { opacity: 0 }
+    : { opacity: 0, y: -12 };
 
   useEffect(() => {
     if (copy.roles.length < 2) {

@@ -1,5 +1,8 @@
 .roleStack {
+  align-items: start;
   display: inline-grid;
+  min-height: 1lh;
+  vertical-align: top;
 }
 
 .role {

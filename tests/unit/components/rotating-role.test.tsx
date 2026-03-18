@@ -117,7 +117,7 @@ describe("RotatingRole", () => {
 
     expect(secondRoleNode).toHaveTextContent("I am a UX Engineer");
     expect(screen.getByTestId("rotating-role-stack")).toBeInTheDocument();
-    expect(secondRoleNode).not.toBe(firstRoleNode);
+    expect(firstRoleNode).toHaveTextContent("I am a Design Engineer");
   });
 
   it("renders both outgoing and incoming roles during a controlled transition", () => {

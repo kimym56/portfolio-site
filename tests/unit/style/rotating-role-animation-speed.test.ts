@@ -3,7 +3,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 describe("rotating role animation speed", () => {
-  it("uses a calmer default interval for the hero rotation", () => {
+  it("uses a slightly longer default interval for the slower hero rotation", () => {
     const sourcePath = path.join(process.cwd(), "components", "rotating-role.tsx");
     const source = fs.readFileSync(sourcePath, "utf8");
 
@@ -11,11 +11,11 @@ describe("rotating role animation speed", () => {
 
     expect(intervalMatch).not.toBeNull();
     const intervalMs = Number(intervalMatch?.[1] ?? "0");
-    expect(intervalMs).toBeGreaterThanOrEqual(3200);
-    expect(intervalMs).toBeLessThanOrEqual(4200);
+    expect(intervalMs).toBeGreaterThanOrEqual(4000);
+    expect(intervalMs).toBeLessThanOrEqual(4600);
   });
 
-  it("uses a calmer shared transition duration for the hero text handoff", () => {
+  it("uses a slower shared transition duration for the hero text handoff", () => {
     const sourcePath = path.join(process.cwd(), "components", "rotating-role.tsx");
     const source = fs.readFileSync(sourcePath, "utf8");
 
@@ -23,7 +23,7 @@ describe("rotating role animation speed", () => {
 
     expect(durationMatch).not.toBeNull();
     const durationMs = Number(durationMatch?.[1] ?? "0");
-    expect(durationMs).toBeGreaterThanOrEqual(420);
-    expect(durationMs).toBeLessThanOrEqual(520);
+    expect(durationMs).toBeGreaterThanOrEqual(860);
+    expect(durationMs).toBeLessThanOrEqual(960);
   });
 });

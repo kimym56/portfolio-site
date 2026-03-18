@@ -12,8 +12,8 @@ interface RotatingRoleProps {
   isTransitioning?: boolean;
 }
 
-export const DEFAULT_INTERVAL_MS = 3600;
-export const DEFAULT_TRANSITION_MS = 480;
+export const DEFAULT_INTERVAL_MS = 4200;
+export const DEFAULT_TRANSITION_MS = 900;
 
 export function RotatingRole({
   roles,
@@ -73,11 +73,11 @@ export function RotatingRole({
     ? { duration: 0.01 }
     : {
         duration: DEFAULT_TRANSITION_MS / 1000,
-        ease: [0.16, 1, 0.3, 1] as const,
+        ease: [0.4, 0, 0.2, 1] as const,
       };
   const incomingRoleInitial = prefersReducedMotion
     ? false
-    : { opacity: 0, y: 10 };
+    : { opacity: 0, y: 12 };
   const incomingRoleAnimate = prefersReducedMotion
     ? { opacity: 1 }
     : { opacity: 1, y: 0 };
@@ -86,7 +86,7 @@ export function RotatingRole({
     : { opacity: 1, y: 0 };
   const outgoingRoleAnimate = prefersReducedMotion
     ? { opacity: 0 }
-    : { opacity: 0, y: -10 };
+    : { opacity: 0, y: -12 };
 
   return (
     <span className={styles.roleStack} data-testid="rotating-role-stack">
