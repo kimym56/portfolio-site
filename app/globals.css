@@ -279,7 +279,12 @@ button {
 
 .contact-icon svg {
   display: block;
+  fill: none;
   height: 100%;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
   width: 100%;
 }
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import styles from "./theme-toggle.module.css";
 
@@ -28,6 +29,8 @@ export function ThemeToggle() {
     setTheme(nextTheme);
   };
 
+  const Icon = theme === "light" ? Sun : Moon;
+
   return (
     <button
       aria-label="Toggle color theme"
@@ -36,16 +39,13 @@ export function ThemeToggle() {
       type="button"
       onClick={handleToggle}
     >
-      <svg
+      <Icon
         aria-hidden="true"
         className={styles.icon}
-        fill="none"
         focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <circle cx="12" cy="12" r="4.5" />
-        <path d="M12 2v2.25M12 19.75V22M4.22 4.22l1.58 1.58M18.2 18.2l1.58 1.58M2 12h2.25M19.75 12H22M4.22 19.78l1.58-1.58M18.2 5.8l1.58-1.58" />
-      </svg>
+        size={18}
+        strokeWidth={1.8}
+      />
     </button>
   );
 }
