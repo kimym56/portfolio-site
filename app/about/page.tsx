@@ -1,4 +1,23 @@
+import type { AboutTechStackCategory } from "@/types/site";
 import { SITE_COPY } from "@/lib/site-copy";
+
+const TECH_STACK_CATEGORY_ORDER: AboutTechStackCategory[] = [
+  "frontend",
+  "design",
+  "ai",
+];
+
+const TECH_STACK_CATEGORY_LABELS: Record<AboutTechStackCategory, string> = {
+  frontend: "Frontend tech stack",
+  design: "Design tech stack",
+  ai: "AI tech stack",
+};
+
+const groupedTechStack = TECH_STACK_CATEGORY_ORDER.map((category) => ({
+  category,
+  ariaLabel: TECH_STACK_CATEGORY_LABELS[category],
+  items: SITE_COPY.about.techStack.filter((item) => item.category === category),
+}));
 
 export default function AboutPage() {
   return (
@@ -13,20 +32,28 @@ export default function AboutPage() {
           ))}
         </div>
 
-        <ul aria-label="Tech stack" className="about-tech-stack">
-          {SITE_COPY.about.techStack.map((item) => (
-            <li
-              key={item.label}
-              className={[
-                "about-chip",
-                `about-chip-${item.category}`,
-                `about-chip-${item.proficiency}`,
-              ].join(" ")}
+        <div aria-label="Tech stack" className="about-tech-stack" role="group">
+          {groupedTechStack.map(({ category, ariaLabel, items }) => (
+            <ul
+              key={category}
+              aria-label={ariaLabel}
+              className="about-tech-stack-row"
             >
-              {item.label}
-            </li>
+              {items.map((item) => (
+                <li
+                  key={item.label}
+                  className={[
+                    "about-chip",
+                    `about-chip-${item.category}`,
+                    `about-chip-${item.proficiency}`,
+                  ].join(" ")}
+                >
+                  {item.label}
+                </li>
+              ))}
+            </ul>
           ))}
-        </ul>
+        </div>
       </section>
     </main>
   );

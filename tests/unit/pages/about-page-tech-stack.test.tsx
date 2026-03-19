@@ -4,14 +4,21 @@ import { describe, expect, it } from "vitest";
 import AboutPage from "@/app/about/page";
 
 describe("AboutPage tech stack", () => {
-  it("renders grouped tech stack chips after the description paragraphs in the approved order", () => {
+  it("renders three category rows after the description paragraphs", () => {
     const { container } = render(<AboutPage />);
 
-    const techStack = screen.getByRole("list", { name: "Tech stack" });
-    const chips = within(techStack).getAllByRole("listitem");
+    const techStack = screen.getByRole("group", { name: "Tech stack" });
     const paragraphs = container.querySelector(".about-paragraphs");
+    const frontendRow = screen.getByRole("list", { name: "Frontend tech stack" });
+    const designRow = screen.getByRole("list", { name: "Design tech stack" });
+    const aiRow = screen.getByRole("list", { name: "AI tech stack" });
+    const frontendChips = within(frontendRow).getAllByRole("listitem");
+    const designChips = within(designRow).getAllByRole("listitem");
+    const aiChips = within(aiRow).getAllByRole("listitem");
 
-    expect(chips.map((chip) => chip.textContent)).toEqual([
+    expect(within(techStack).getAllByRole("list")).toHaveLength(3);
+
+    expect(frontendChips.map((chip) => chip.textContent)).toEqual([
       "React",
       "Next.js",
       "TypeScript",
@@ -19,9 +26,13 @@ describe("AboutPage tech stack", () => {
       "MUI",
       "React Native",
       "Framer Motion",
+    ]);
+    expect(designChips.map((chip) => chip.textContent)).toEqual([
       "Figma",
       "Design Systems",
       "Accessibility",
+    ]);
+    expect(aiChips.map((chip) => chip.textContent)).toEqual([
       "Claude Code",
       "Codex",
       "Gemini",
@@ -33,27 +44,27 @@ describe("AboutPage tech stack", () => {
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
 
-    expect(chips[0]).toHaveClass(
+    expect(frontendChips[0]).toHaveClass(
       "about-chip",
       "about-chip-frontend",
       "about-chip-strong",
     );
-    expect(chips[5]).toHaveClass(
+    expect(frontendChips[5]).toHaveClass(
       "about-chip",
       "about-chip-frontend",
       "about-chip-soft",
     );
-    expect(chips[7]).toHaveClass(
+    expect(designChips[0]).toHaveClass(
       "about-chip",
       "about-chip-design",
       "about-chip-strong",
     );
-    expect(chips[10]).toHaveClass(
+    expect(aiChips[0]).toHaveClass(
       "about-chip",
       "about-chip-ai",
       "about-chip-strong",
     );
-    expect(chips[12]).toHaveClass(
+    expect(aiChips[2]).toHaveClass(
       "about-chip",
       "about-chip-ai",
       "about-chip-soft",

@@ -23,7 +23,8 @@ export const SITE_COPY: SiteCopy = {
   },
   about: {
     title: "About Me",
-    subtitle: "A developer interested in UX/HCI, thoughtful interfaces, and design engineering.",
+    subtitle:
+      "A developer interested in UX/HCI, thoughtful interfaces, and design engineering.",
     techStack: [
       { label: "React", category: "frontend", proficiency: "strong" },
       { label: "Next.js", category: "frontend", proficiency: "strong" },
@@ -31,23 +32,26 @@ export const SITE_COPY: SiteCopy = {
       { label: "JavaScript", category: "frontend", proficiency: "strong" },
       { label: "MUI", category: "frontend", proficiency: "strong" },
       { label: "React Native", category: "frontend", proficiency: "soft" },
-      { label: "Framer Motion", category: "frontend", proficiency: "soft" },
+      { label: "WebGL", category: "frontend", proficiency: "soft" },
       { label: "Figma", category: "design", proficiency: "strong" },
+      { label: "v0", category: "design", proficiency: "strong" },
       { label: "Design Systems", category: "design", proficiency: "soft" },
+      { label: "Stitch", category: "design", proficiency: "soft" },
       { label: "Accessibility", category: "design", proficiency: "soft" },
       { label: "Claude Code", category: "ai", proficiency: "strong" },
       { label: "Codex", category: "ai", proficiency: "strong" },
-      { label: "Gemini", category: "ai", proficiency: "soft" },
+      { label: "Gemini", category: "ai", proficiency: "strong" },
     ],
     paragraphs: [
-      "I'm a developer with a strong interest in UX and HCI, and I care about building products that are both useful and intuitive.",
-      "Recently, I've become especially interested in design engineering: the space between design and frontend development where thoughtful interaction, visual polish, and implementation quality come together.",
-      "I enjoy creating interfaces that are clear, usable, and built with long-term maintainability in mind.",
+      "I’m a developer interested in UX and HCI, and I care about building products that are both useful and intuitive.",
+      "Recently, I’ve become especially interested in design engineering — the space between design and frontend development where interaction, visual detail, and implementation come together.",
+      "I enjoy creating interfaces that are clear, usable, and creative.",
     ],
   },
   projects: {
     title: "Projects",
-    subtitle: "Selected work and side projects with direct links to live products.",
+    subtitle:
+      "Selected work and side projects with direct links to live products.",
     workToggle: "Work Projects",
     sideToggle: "Side Projects",
     visitLabel: "Visit project",
