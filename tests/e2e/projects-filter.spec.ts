@@ -1,13 +1,31 @@
 import { expect, test } from "@playwright/test";
 
-test("projects page toggles between work and side lists", async ({ page }) => {
+test("projects page switches categories and opens an in-page detail view", async ({
+  page,
+}) => {
   await page.goto("/projects");
 
-  await expect(page.getByTestId("project-card")).toHaveCount(2);
-  await expect(page.getByText("Global Commerce Platform")).toBeVisible();
+  await expect(page.getByTestId("project-card")).toHaveCount(1);
+  await expect(page.getByText("Sellpath")).toBeVisible();
 
   await page.getByRole("button", { name: "Side Projects" }).click();
 
-  await expect(page.getByTestId("project-card")).toHaveCount(2);
-  await expect(page.getByText("Motion UI Studio")).toBeVisible();
+  await expect(page.getByTestId("project-card")).toHaveCount(3);
+  await expect(page.getByText("Mimesis")).toBeVisible();
+  await expect(page.getByText("Website")).toBeVisible();
+  await expect(page.getByText("Design System Project")).toBeVisible();
+
+  await page.getByRole("button", { name: /mimesis/i }).click();
+
+  await expect(page.getByRole("heading", { name: "Mimesis" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Back to side projects" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Side Projects" })).toHaveCount(0);
+
+  await page.getByRole("button", { name: "Back to side projects" }).click();
+
+  await expect(page.getByTestId("project-card")).toHaveCount(3);
+  await expect(page.getByRole("button", { name: "Side Projects" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
 });
