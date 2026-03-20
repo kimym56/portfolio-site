@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -91,8 +91,16 @@
         padding: 22px;
         border-radius: 24px;
         background:
-          radial-gradient(circle at top left, rgba(255, 255, 255, 0.88), transparent 46%),
-          linear-gradient(180deg, rgba(255, 255, 255, 0.58), rgba(239, 239, 236, 0.4));
+          radial-gradient(
+            circle at top left,
+            rgba(255, 255, 255, 0.88),
+            transparent 46%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.58),
+            rgba(239, 239, 236, 0.4)
+          );
       }
 
       .copy {
@@ -147,9 +155,26 @@
         inset: -8px;
         border-radius: 34px;
         background:
-          radial-gradient(circle at 100% 100%, rgba(246, 246, 244, 0.98) 0 14%, rgba(246, 246, 244, 0.45) 28%, transparent 52%),
-          linear-gradient(180deg, rgba(246, 246, 244, 0.14), transparent 14%, transparent 82%, rgba(246, 246, 244, 0.14)),
-          linear-gradient(90deg, rgba(246, 246, 244, 0.1), transparent 12%, transparent 88%, rgba(246, 246, 244, 0.1));
+          radial-gradient(
+            circle at 100% 100%,
+            rgba(246, 246, 244, 0.98) 0 14%,
+            rgba(246, 246, 244, 0.45) 28%,
+            transparent 52%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(246, 246, 244, 0.14),
+            transparent 14%,
+            transparent 82%,
+            rgba(246, 246, 244, 0.14)
+          ),
+          linear-gradient(
+            90deg,
+            rgba(246, 246, 244, 0.1),
+            transparent 12%,
+            transparent 88%,
+            rgba(246, 246, 244, 0.1)
+          );
         z-index: 2;
         pointer-events: none;
       }
@@ -164,9 +189,27 @@
         inset: -14px;
         border-radius: 38px;
         background:
-          radial-gradient(circle at 100% 100%, rgba(246, 246, 244, 1) 0 16%, rgba(246, 246, 244, 0.6) 30%, rgba(246, 246, 244, 0.18) 42%, transparent 56%),
-          linear-gradient(180deg, rgba(246, 246, 244, 0.24), transparent 16%, transparent 76%, rgba(246, 246, 244, 0.22)),
-          linear-gradient(90deg, rgba(246, 246, 244, 0.18), transparent 16%, transparent 84%, rgba(246, 246, 244, 0.18));
+          radial-gradient(
+            circle at 100% 100%,
+            rgba(246, 246, 244, 1) 0 16%,
+            rgba(246, 246, 244, 0.6) 30%,
+            rgba(246, 246, 244, 0.18) 42%,
+            transparent 56%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(246, 246, 244, 0.24),
+            transparent 16%,
+            transparent 76%,
+            rgba(246, 246, 244, 0.22)
+          ),
+          linear-gradient(
+            90deg,
+            rgba(246, 246, 244, 0.18),
+            transparent 16%,
+            transparent 84%,
+            rgba(246, 246, 244, 0.18)
+          );
         z-index: 2;
         pointer-events: none;
       }
@@ -181,10 +224,32 @@
         inset: -18px;
         border-radius: 42px 30px 52px 30px;
         background:
-          radial-gradient(circle at 102% 100%, rgba(246, 246, 244, 1) 0 16%, rgba(246, 246, 244, 0.68) 30%, rgba(246, 246, 244, 0.18) 42%, transparent 56%),
-          radial-gradient(circle at -2% 0%, rgba(246, 246, 244, 0.52) 0 10%, transparent 28%),
-          linear-gradient(180deg, rgba(246, 246, 244, 0.22), transparent 18%, transparent 74%, rgba(246, 246, 244, 0.18)),
-          linear-gradient(90deg, rgba(246, 246, 244, 0.14), transparent 16%, transparent 82%, rgba(246, 246, 244, 0.08));
+          radial-gradient(
+            circle at 102% 100%,
+            rgba(246, 246, 244, 1) 0 16%,
+            rgba(246, 246, 244, 0.68) 30%,
+            rgba(246, 246, 244, 0.18) 42%,
+            transparent 56%
+          ),
+          radial-gradient(
+            circle at -2% 0%,
+            rgba(246, 246, 244, 0.52) 0 10%,
+            transparent 28%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(246, 246, 244, 0.22),
+            transparent 18%,
+            transparent 74%,
+            rgba(246, 246, 244, 0.18)
+          ),
+          linear-gradient(
+            90deg,
+            rgba(246, 246, 244, 0.14),
+            transparent 16%,
+            transparent 82%,
+            rgba(246, 246, 244, 0.08)
+          );
         z-index: 2;
         pointer-events: none;
       }
@@ -210,8 +275,9 @@
     <main>
       <h1>Full Edge-Fade / Mask Preview</h1>
       <p class="subtitle">
-        These versions remove the obvious bottom-right patch and instead hide the corner naturally
-        with full edge fading. The only difference is how strong and stylized the fade feels.
+        These versions remove the obvious bottom-right patch and instead hide
+        the corner naturally with full edge fading. The only difference is how
+        strong and stylized the fade feels.
       </p>
 
       <section class="grid">
@@ -226,7 +292,10 @@
               <p class="name">YongMin Kim</p>
             </div>
             <div class="media">
-              <img src="/public/images/profile1.png" alt="Hero portrait preview" />
+              <img
+                src="/public/images/profile1.png"
+                alt="Hero portrait preview"
+              />
             </div>
           </div>
           <ul>
@@ -238,7 +307,10 @@
         <article class="card balanced">
           <span class="tag">Version B</span>
           <h2>Balanced Mask</h2>
-          <p>Full-frame fade with extra weight at the bottom-right where the logo sits.</p>
+          <p>
+            Full-frame fade with extra weight at the bottom-right where the logo
+            sits.
+          </p>
           <div class="hero">
             <div class="copy">
               <p class="greeting">Hi :)</p>
@@ -246,7 +318,10 @@
               <p class="name">YongMin Kim</p>
             </div>
             <div class="media">
-              <img src="/public/images/profile1.png" alt="Hero portrait preview" />
+              <img
+                src="/public/images/profile1.png"
+                alt="Hero portrait preview"
+              />
             </div>
           </div>
           <ul>
@@ -266,7 +341,10 @@
               <p class="name">YongMin Kim</p>
             </div>
             <div class="media">
-              <img src="/public/images/profile1.png" alt="Hero portrait preview" />
+              <img
+                src="/public/images/profile1.png"
+                alt="Hero portrait preview"
+              />
             </div>
           </div>
           <ul>

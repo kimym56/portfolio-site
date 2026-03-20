@@ -1,19 +1,14 @@
 "use client";
 
-import { startTransition, useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import {
-  domAnimation,
-  LazyMotion,
-  m,
-  useReducedMotion,
-} from "framer-motion";
 import {
   DEFAULT_INTERVAL_MS,
   DEFAULT_TRANSITION_MS,
   RotatingRole,
 } from "@/components/rotating-role";
 import type { HomeCopy } from "@/types/site";
+import { domAnimation, LazyMotion, m, useReducedMotion } from "framer-motion";
+import Image from "next/image";
+import { startTransition, useEffect, useRef, useState } from "react";
 import styles from "./hero-split.module.css";
 
 interface HeroSplitProps {
@@ -38,19 +33,18 @@ export function HeroSplit({ copy }: HeroSplitProps) {
       ? copy.profileImages[previousIndex % copy.profileImages.length]
       : null;
   const transitionDurationMs = prefersReducedMotion ? 0 : DEFAULT_TRANSITION_MS;
-  const imageTransition = transitionDurationMs === 0
-    ? { duration: 0.01 }
-    : {
-        duration: transitionDurationMs / 1000,
-        ease: [0.4, 0, 0.2, 1] as const,
-      };
-  const incomingImageInitial = transitionDurationMs === 0
-    ? false
-    : { opacity: 0 };
+  const imageTransition =
+    transitionDurationMs === 0
+      ? { duration: 0.01 }
+      : {
+          duration: transitionDurationMs / 1000,
+          ease: [0.4, 0, 0.2, 1] as const,
+        };
+  const incomingImageInitial =
+    transitionDurationMs === 0 ? false : { opacity: 0 };
   const incomingImageAnimate = { opacity: 1 };
-  const outgoingImageInitial = transitionDurationMs === 0
-    ? { opacity: 1 }
-    : { opacity: 1 };
+  const outgoingImageInitial =
+    transitionDurationMs === 0 ? { opacity: 1 } : { opacity: 1 };
   const outgoingImageAnimate = { opacity: 0 };
 
   useEffect(() => {

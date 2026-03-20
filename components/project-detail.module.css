@@ -1,0 +1,145 @@
+.panel {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 0.35rem;
+  padding: clamp(1.2rem, 2.6vw, 1.8rem);
+}
+
+.backButton {
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  height: 2.6rem;
+  justify-content: center;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+  width: 2.6rem;
+}
+
+.backButton:hover,
+.backButton:active {
+  background: var(--surface-soft);
+  border-color: var(--text);
+  transform: translateX(-2px);
+}
+
+.header {
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  gap: 1rem;
+  padding-bottom: 1.4rem;
+}
+
+.headerTop {
+  align-items: flex-start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.role {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--font-bold), "Noto Serif KR", serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-top: 0.35rem;
+}
+
+.visitLink {
+  align-items: center;
+  align-self: flex-start;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  display: inline-flex;
+  gap: 0.4rem;
+  padding: 0.6rem 0.9rem;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+  white-space: nowrap;
+}
+
+.visitLink:hover,
+.visitLink:active {
+  background: var(--surface-soft);
+  border-color: var(--text);
+}
+
+.summaryBlock {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.kicker {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.summary {
+  font-size: clamp(1.05rem, 1.7vw, 1.18rem);
+  line-height: 1.65;
+  max-width: 65ch;
+}
+
+.sections {
+  display: grid;
+  gap: 1rem;
+}
+
+.section {
+  background: color-mix(in srgb, var(--surface-soft) 68%, var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1rem 1.05rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-bold), "Noto Serif KR", serif;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+}
+
+.sectionBody {
+  line-height: 1.7;
+  margin-top: 0.5rem;
+  max-width: 68ch;
+}
+
+.metaList {
+  display: grid;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+}
+
+.metaItem {
+  color: var(--text-muted);
+  font-size: 0.96rem;
+}
+
+@media (max-width: 720px) {
+  .headerTop {
+    flex-direction: column;
+  }
+
+  .visitLink {
+    white-space: normal;
+  }
+}

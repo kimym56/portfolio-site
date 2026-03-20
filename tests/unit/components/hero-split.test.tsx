@@ -1,10 +1,10 @@
-import { act, cleanup, render, screen } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { HeroSplit } from "@/components/hero-split";
 import {
   DEFAULT_INTERVAL_MS,
   DEFAULT_TRANSITION_MS,
 } from "@/components/rotating-role";
+import { act, cleanup, render, screen } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("next/image", () => ({
   default: ({
@@ -49,14 +49,22 @@ describe("HeroSplit", () => {
     render(<HeroSplit copy={copy} />);
 
     const greeting = screen.getByText("Hi :)");
-    const heading = screen.getByRole("heading", { level: 1, name: "I am a Design Engineer" });
+    const heading = screen.getByRole("heading", {
+      level: 1,
+      name: "I am a Design Engineer",
+    });
     const name = screen.getByText("YongMin Kim");
 
     expect(greeting).toBeInTheDocument();
     expect(heading).toHaveTextContent("I am a Design Engineer");
     expect(name).toBeInTheDocument();
-    expect(greeting.compareDocumentPosition(heading) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(heading.compareDocumentPosition(name) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(
+      greeting.compareDocumentPosition(heading) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      heading.compareDocumentPosition(name) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
   });
 
   it("keeps the portrait source in sync with each role change", () => {
@@ -74,7 +82,9 @@ describe("HeroSplit", () => {
       vi.advanceTimersByTime(DEFAULT_INTERVAL_MS);
     });
 
-    expect(screen.getByTestId("rotating-role")).toHaveTextContent("I am a UX Engineer");
+    expect(screen.getByTestId("rotating-role")).toHaveTextContent(
+      "I am a UX Engineer",
+    );
     expect(screen.getByAltText("Portrait image")).toHaveAttribute(
       "src",
       "/images/profile2.png",
@@ -84,7 +94,9 @@ describe("HeroSplit", () => {
   it("renders the active portrait inside a dedicated image motion layer", () => {
     const { container } = render(<HeroSplit copy={copy} />);
 
-    expect(container.querySelector("[data-testid='hero-image-layer']")).not.toBeNull();
+    expect(
+      container.querySelector("[data-testid='hero-image-layer']"),
+    ).not.toBeNull();
   });
 
   it("keeps outgoing and incoming hero content mounted through the shared transition window", () => {
@@ -118,7 +130,9 @@ describe("HeroSplit", () => {
   it("does not render a concealment layer over the portrait corner", () => {
     const { container } = render(<HeroSplit copy={copy} />);
 
-    const concealmentLayer = container.querySelector("[data-testid='hero-image-concealment']");
+    const concealmentLayer = container.querySelector(
+      "[data-testid='hero-image-concealment']",
+    );
 
     expect(concealmentLayer).toBeNull();
   });

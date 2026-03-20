@@ -23,8 +23,7 @@ export const SITE_COPY: SiteCopy = {
   },
   about: {
     title: "About Me",
-    subtitle:
-      "A developer interested in UX/HCI, thoughtful interfaces, and design engineering.",
+    subtitle: "YongMin Kim, based in Seoul, South Korea.",
     techStack: [
       { label: "React", category: "frontend", proficiency: "strong" },
       { label: "Next.js", category: "frontend", proficiency: "strong" },

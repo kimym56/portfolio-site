@@ -11,15 +11,15 @@ test("projects page switches categories and opens an in-page detail view", async
   await page.getByRole("button", { name: "Side Projects" }).click();
 
   await expect(page.getByTestId("project-card")).toHaveCount(3);
-  await expect(page.getByText("Mimesis")).toBeVisible();
-  await expect(page.getByText("Website")).toBeVisible();
-  await expect(page.getByText("Design System Project")).toBeVisible();
+  await expect(page.getByRole("button", { name: /mimesis/i })).toBeVisible();
+  await expect(page.getByRole("button", { name: /website/i })).toBeVisible();
+  await expect(page.getByRole("button", { name: /design system project/i })).toBeVisible();
 
   await page.getByRole("button", { name: /mimesis/i }).click();
 
   await expect(page.getByRole("heading", { name: "Mimesis" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Back to side projects" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Side Projects" })).toHaveCount(0);
+  await expect(page.getByRole("group", { name: "Project types" })).toHaveCount(0);
 
   await page.getByRole("button", { name: "Back to side projects" }).click();
 

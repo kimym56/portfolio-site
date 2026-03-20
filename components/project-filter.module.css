@@ -3,12 +3,14 @@
 }
 
 .toggles {
-  display: inline-flex;
-  margin-bottom: 1rem;
+  background: color-mix(in srgb, var(--surface) 76%, var(--surface-soft));
   border: 1px solid var(--border);
   border-radius: 999px;
-  padding: 0.2rem;
-  background: var(--surface);
+  display: inline-grid;
+  gap: 0.35rem;
+  grid-auto-flow: column;
+  margin-bottom: 1rem;
+  padding: 0.28rem;
 }
 
 .toggle {
@@ -20,10 +22,28 @@
   font-size: 0.88rem;
   font-weight: 700;
   letter-spacing: 0.01em;
-  padding: 0.48rem 0.85rem;
+  padding: 0.62rem 1.02rem;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    transform 150ms ease;
+}
+
+.toggle:hover,
+.toggle:active {
+  background: var(--surface-soft);
+  color: var(--text);
+  transform: translateY(-1px);
 }
 
 .toggle[data-active="true"] {
   background: var(--text);
   color: var(--surface);
+}
+
+@media (max-width: 720px) {
+  .toggles {
+    display: grid;
+    width: 100%;
+  }
 }
