@@ -28,9 +28,9 @@ describe("HeroSplit", () => {
       "I am a Frontend Engineer",
     ],
     profileImages: [
-      "/images/profile1.png",
-      "/images/profile2.png",
-      "/images/profile3.png",
+      "/images/profile1.webp",
+      "/images/profile2.webp",
+      "/images/profile3.webp",
     ],
     name: "YongMin Kim",
     imageAlt: "Portrait image",
@@ -75,7 +75,7 @@ describe("HeroSplit", () => {
     );
     expect(screen.getByAltText("Portrait image")).toHaveAttribute(
       "src",
-      "/images/profile1.png",
+      "/images/profile1.webp",
     );
 
     act(() => {
@@ -87,7 +87,7 @@ describe("HeroSplit", () => {
     );
     expect(screen.getByAltText("Portrait image")).toHaveAttribute(
       "src",
-      "/images/profile2.png",
+      "/images/profile2.webp",
     );
   });
 
