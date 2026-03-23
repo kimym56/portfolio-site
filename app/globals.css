@@ -110,6 +110,10 @@ button {
   padding-block: clamp(2rem, 4vw, 4rem);
 }
 
+.page-reveal {
+  width: 100%;
+}
+
 .page-title {
   font-family: var(--font-bold), "Noto Serif KR", serif;
   font-size: clamp(2rem, 4vw, 3rem);
@@ -121,6 +125,32 @@ button {
 .page-subtitle {
   max-width: 65ch;
   color: var(--text-muted);
+}
+
+.page-reveal-body {
+  display: grid;
+}
+
+[data-page-reveal="animated"] .page-title,
+[data-page-reveal="animated"] .page-subtitle,
+[data-page-reveal="animated"] .page-reveal-body {
+  animation-duration: 520ms;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-page-reveal="animated"] .page-title {
+  animation-name: pageRevealTitle;
+}
+
+[data-page-reveal="animated"] .page-subtitle {
+  animation-delay: 70ms;
+  animation-name: pageRevealBody;
+}
+
+[data-page-reveal="animated"] .page-reveal-body {
+  animation-delay: 140ms;
+  animation-name: pageRevealBody;
 }
 
 .card {
@@ -153,6 +183,34 @@ button {
 @media (max-width: 767px) {
   .home-page {
     padding-block: 1rem 1.5rem;
+  }
+}
+
+@keyframes pageRevealTitle {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes pageRevealBody {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
   }
 }
 
@@ -298,4 +356,12 @@ button {
   position: absolute;
   white-space: nowrap;
   width: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-page-reveal="animated"] .page-title,
+  [data-page-reveal="animated"] .page-subtitle,
+  [data-page-reveal="animated"] .page-reveal-body {
+    animation: none;
+  }
 }

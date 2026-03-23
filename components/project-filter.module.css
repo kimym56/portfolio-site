@@ -2,6 +2,10 @@
   margin-top: 1.35rem;
 }
 
+.panel {
+  display: grid;
+}
+
 .toggles {
   background: color-mix(in srgb, var(--surface) 76%, var(--surface-soft));
   border: 1px solid var(--border);
@@ -41,9 +45,33 @@
   color: var(--surface);
 }
 
+@keyframes projectOnceReveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.panelReveal {
+  animation: projectOnceReveal 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 @media (max-width: 720px) {
   .toggles {
     display: grid;
     width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panelReveal {
+    animation: none;
   }
 }

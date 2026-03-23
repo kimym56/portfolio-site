@@ -3,6 +3,7 @@ import type { ProjectItem } from "@/lib/projects";
 import styles from "./project-detail.module.css";
 
 interface ProjectDetailProps {
+  animateOnFirstOpen?: boolean;
   project: ProjectItem;
   backLabel: string;
   visitLabel: string;
@@ -10,13 +11,18 @@ interface ProjectDetailProps {
 }
 
 export function ProjectDetail({
+  animateOnFirstOpen = false,
   project,
   backLabel,
   visitLabel,
   onBack,
 }: ProjectDetailProps) {
   return (
-    <article className={`${styles.panel} card`}>
+    <article
+      className={`${styles.panel} ${animateOnFirstOpen ? styles.panelReveal : ""} card`}
+      data-once-reveal={animateOnFirstOpen ? "animated" : "static"}
+      data-testid="project-detail-panel"
+    >
       <button className={styles.backButton} type="button" onClick={onBack}>
         <ArrowLeft aria-hidden="true" size={18} strokeWidth={2} />
         <span className="visually-hidden">{backLabel}</span>

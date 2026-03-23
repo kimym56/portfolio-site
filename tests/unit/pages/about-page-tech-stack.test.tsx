@@ -25,11 +25,13 @@ describe("AboutPage tech stack", () => {
       "JavaScript",
       "MUI",
       "React Native",
-      "Framer Motion",
+      "WebGL",
     ]);
     expect(designChips.map((chip) => chip.textContent)).toEqual([
       "Figma",
+      "v0",
       "Design Systems",
+      "Stitch",
       "Accessibility",
     ]);
     expect(aiChips.map((chip) => chip.textContent)).toEqual([
@@ -40,34 +42,34 @@ describe("AboutPage tech stack", () => {
 
     expect(paragraphs).not.toBeNull();
     expect(
-      paragraphs?.compareDocumentPosition(techStack) &
+      paragraphs!.compareDocumentPosition(techStack) &
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
 
-    expect(frontendChips[0]).toHaveClass(
+    expect(frontendChips[0]!).toHaveClass(
       "about-chip",
       "about-chip-frontend",
       "about-chip-strong",
     );
-    expect(frontendChips[5]).toHaveClass(
+    expect(frontendChips[5]!).toHaveClass(
       "about-chip",
       "about-chip-frontend",
       "about-chip-soft",
     );
-    expect(designChips[0]).toHaveClass(
+    expect(designChips[0]!).toHaveClass(
       "about-chip",
       "about-chip-design",
       "about-chip-strong",
     );
-    expect(aiChips[0]).toHaveClass(
+    expect(aiChips[0]!).toHaveClass(
       "about-chip",
       "about-chip-ai",
       "about-chip-strong",
     );
-    expect(aiChips[2]).toHaveClass(
+    expect(aiChips[2]!).toHaveClass(
       "about-chip",
       "about-chip-ai",
-      "about-chip-soft",
+      "about-chip-strong",
     );
   });
 });

@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { ProjectFilter } from "@/components/project-filter";
 import type { ProjectItem } from "@/lib/projects";
 
@@ -85,6 +85,22 @@ function renderProjectFilter() {
 }
 
 describe("ProjectFilter", () => {
+  let cookieStore = "";
+
+  beforeEach(() => {
+    cookieStore = "";
+
+    Object.defineProperty(document, "cookie", {
+      configurable: true,
+      get() {
+        return cookieStore;
+      },
+      set(value: string) {
+        cookieStore = cookieStore ? `${cookieStore}; ${value}` : value;
+      },
+    });
+  });
+
   afterEach(() => {
     cleanup();
   });
@@ -130,6 +146,49 @@ describe("ProjectFilter", () => {
     expect(screen.getByRole("button", { name: "Side Projects" })).toHaveAttribute(
       "aria-pressed",
       "true",
+    );
+  });
+
+  it("animates the side tab content only the first time it is opened", async () => {
+    const user = userEvent.setup();
+
+    renderProjectFilter();
+
+    await user.click(screen.getByRole("button", { name: "Side Projects" }));
+
+    expect(screen.getByTestId("projects-tab-panel")).toHaveAttribute(
+      "data-once-reveal",
+      "animated",
+    );
+
+    await user.click(screen.getByRole("button", { name: "Work Projects" }));
+    await user.click(screen.getByRole("button", { name: "Side Projects" }));
+
+    expect(screen.getByTestId("projects-tab-panel")).toHaveAttribute(
+      "data-once-reveal",
+      "static",
+    );
+  });
+
+  it("animates each project detail only on first open", async () => {
+    const user = userEvent.setup();
+
+    renderProjectFilter();
+
+    await user.click(screen.getByRole("button", { name: "Side Projects" }));
+    await user.click(screen.getByRole("button", { name: /mimesis/i }));
+
+    expect(screen.getByTestId("project-detail-panel")).toHaveAttribute(
+      "data-once-reveal",
+      "animated",
+    );
+
+    await user.click(screen.getByRole("button", { name: "Back to side projects" }));
+    await user.click(screen.getByRole("button", { name: /mimesis/i }));
+
+    expect(screen.getByTestId("project-detail-panel")).toHaveAttribute(
+      "data-once-reveal",
+      "static",
     );
   });
 });

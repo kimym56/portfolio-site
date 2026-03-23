@@ -1,9 +1,9 @@
 import { AboutPageContent } from "@/components/about-page-content";
 import { PageReveal } from "@/components/page-reveal";
 
-export default function AboutPage() {
+export default function AnimatedAboutPage() {
   return (
-    <PageReveal>
+    <PageReveal variant="animated">
       <AboutPageContent />
     </PageReveal>
   );
