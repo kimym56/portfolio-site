@@ -5,6 +5,9 @@
   --text: #1b1b1a;
   --text-muted: #52514d;
   --border: #d9d8d2;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-full: 999px;
   --shadow: 0 14px 40px rgba(15, 15, 14, 0.08);
   --about-chip-frontend-strong-bg: #f2dccf;
   --about-chip-frontend-soft-bg: #f7ece4;
@@ -153,7 +156,7 @@ button {
 
 .card {
   border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: var(--radius-lg);
   background: var(--surface);
   box-shadow: var(--shadow);
 }
@@ -224,7 +227,7 @@ button {
 }
 
 .about-chip {
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   font-size: 0.73rem;
   letter-spacing: 0.01em;
   line-height: 1;

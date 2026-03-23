@@ -44,7 +44,7 @@
   align-self: center;
   background: var(--surface);
   justify-self: end;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   width: 72%;
   min-height: 420px;
   overflow: hidden;

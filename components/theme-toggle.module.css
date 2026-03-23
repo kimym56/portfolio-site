@@ -1,6 +1,6 @@
 .button {
   border: none;
-  border-radius: 0;
+  border-radius: var(--radius-md);
   width: 2.35rem;
   height: 2.35rem;
   position: relative;
