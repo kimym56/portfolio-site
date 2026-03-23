@@ -23,17 +23,25 @@ export function AboutPageContent() {
   return (
     <main className="page container">
       <section className="about-card">
-        <h1 className="page-title">{SITE_COPY.about.title}</h1>
-        <p className="page-subtitle">{SITE_COPY.about.subtitle}</p>
+        <h1 className="page-title page-stagger page-stagger-0">
+          {SITE_COPY.about.title}
+        </h1>
+        <p className="page-subtitle page-stagger page-stagger-1">
+          {SITE_COPY.about.subtitle}
+        </p>
 
         <div className="page-reveal-body">
-          <div className="about-paragraphs">
+          <div className="about-paragraphs page-stagger page-stagger-2">
             {SITE_COPY.about.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
 
-          <div aria-label="Tech stack" className="about-tech-stack" role="group">
+          <div
+            aria-label="Tech stack"
+            className="about-tech-stack page-stagger page-stagger-3"
+            role="group"
+          >
             {groupedTechStack.map(({ category, ariaLabel, items }) => (
               <ul
                 key={category}

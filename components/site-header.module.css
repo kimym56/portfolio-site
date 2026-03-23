@@ -31,18 +31,17 @@
 }
 
 .navLink {
-  border: 1px solid transparent;
   border-radius: 14px;
   color: var(--text-muted);
   font-size: 0.95rem;
+
   padding: 0.45rem 0.75rem;
 }
 
 .navLink:hover,
-.navLink:active {
-  background: var(--surface-soft);
-  border-color: var(--border);
-  color: var(--text);
+.navLink:active,
+.navLink[aria-current="page"] {
+  font-weight: 700;
 }
 
 .controls {

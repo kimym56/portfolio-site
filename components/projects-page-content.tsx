@@ -6,10 +6,14 @@ export function ProjectsPageContent() {
   return (
     <main className="page container">
       <section className="projects-card">
-        <h1 className="page-title">{SITE_COPY.projects.title}</h1>
-        <p className="page-subtitle">{SITE_COPY.projects.subtitle}</p>
+        <h1 className="page-title page-stagger page-stagger-0">
+          {SITE_COPY.projects.title}
+        </h1>
+        <p className="page-subtitle page-stagger page-stagger-1">
+          {SITE_COPY.projects.subtitle}
+        </p>
 
-        <div className="page-reveal-body">
+        <div className="page-reveal-body page-stagger page-stagger-2">
           <ProjectFilter
             projects={PROJECTS}
             labels={{

@@ -131,26 +131,24 @@ button {
   display: grid;
 }
 
-[data-page-reveal="animated"] .page-title,
-[data-page-reveal="animated"] .page-subtitle,
-[data-page-reveal="animated"] .page-reveal-body {
-  animation-duration: 520ms;
-  animation-fill-mode: both;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+.page-stagger {
+  --page-stagger-step: 0;
 }
 
-[data-page-reveal="animated"] .page-title {
-  animation-name: pageRevealTitle;
+.page-stagger-0 {
+  --page-stagger-step: 0;
 }
 
-[data-page-reveal="animated"] .page-subtitle {
-  animation-delay: 70ms;
-  animation-name: pageRevealBody;
+.page-stagger-1 {
+  --page-stagger-step: 1;
 }
 
-[data-page-reveal="animated"] .page-reveal-body {
-  animation-delay: 140ms;
-  animation-name: pageRevealBody;
+.page-stagger-2 {
+  --page-stagger-step: 2;
+}
+
+.page-stagger-3 {
+  --page-stagger-step: 3;
 }
 
 .card {
@@ -186,31 +184,22 @@ button {
   }
 }
 
-@keyframes pageRevealTitle {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-    filter: blur(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
+@media (prefers-reduced-motion: no-preference) {
+  .page-stagger {
+    animation: 0.6s ease both pageStaggerEnter;
+    animation-delay: calc(var(--page-stagger-step) * 0.12s);
   }
 }
 
-@keyframes pageRevealBody {
+@keyframes pageStaggerEnter {
   from {
     opacity: 0;
-    transform: translateY(14px);
-    filter: blur(8px);
+    transform: translateY(10px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
+    transform: none;
   }
 }
 
@@ -359,9 +348,7 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-page-reveal="animated"] .page-title,
-  [data-page-reveal="animated"] .page-subtitle,
-  [data-page-reveal="animated"] .page-reveal-body {
+  .page-stagger {
     animation: none;
   }
 }

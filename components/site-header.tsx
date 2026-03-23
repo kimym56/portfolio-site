@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
   buildCookieAssignment,
@@ -27,6 +28,8 @@ const SEEN_TRANSITIONS_MAX_AGE = 60 * 60 * 24 * 365;
 const PENDING_TRANSITION_MAX_AGE = 90;
 
 export function SiteHeader({ navCopy }: SiteHeaderProps) {
+  const pathname = usePathname();
+
   function handleNavClick(
     event: React.MouseEvent<HTMLAnchorElement>,
     pathname: string,
@@ -77,10 +80,15 @@ export function SiteHeader({ navCopy }: SiteHeaderProps) {
         </Link>
 
         <nav className={styles.nav} aria-label="Primary">
-          <Link className={styles.navLink} href="/">
+          <Link
+            aria-current={pathname === "/" ? "page" : undefined}
+            className={styles.navLink}
+            href="/"
+          >
             {navCopy.home}
           </Link>
           <Link
+            aria-current={pathname === "/about" ? "page" : undefined}
             className={styles.navLink}
             href="/about"
             onClick={(event) => handleNavClick(event, "/about")}
@@ -89,6 +97,7 @@ export function SiteHeader({ navCopy }: SiteHeaderProps) {
             {navCopy.about}
           </Link>
           <Link
+            aria-current={pathname === "/projects" ? "page" : undefined}
             className={styles.navLink}
             href="/projects"
             onClick={(event) => handleNavClick(event, "/projects")}
@@ -97,6 +106,7 @@ export function SiteHeader({ navCopy }: SiteHeaderProps) {
             {navCopy.projects}
           </Link>
           <Link
+            aria-current={pathname === "/contact" ? "page" : undefined}
             className={styles.navLink}
             href="/contact"
             onClick={(event) => handleNavClick(event, "/contact")}

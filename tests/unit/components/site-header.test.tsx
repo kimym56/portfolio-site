@@ -3,6 +3,10 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { SiteHeader } from "@/components/site-header";
 
+const { usePathnameMock } = vi.hoisted(() => ({
+  usePathnameMock: vi.fn(),
+}));
+
 vi.mock("next/link", () => ({
   default: ({
     children,
@@ -34,6 +38,10 @@ vi.mock("next/link", () => ({
   },
 }));
 
+vi.mock("next/navigation", () => ({
+  usePathname: usePathnameMock,
+}));
+
 vi.mock("@/components/theme-toggle", () => ({
   ThemeToggle: () => <button type="button">theme-toggle</button>,
 }));
@@ -43,6 +51,7 @@ describe("SiteHeader", () => {
 
   beforeEach(() => {
     cookieStore = "";
+    usePathnameMock.mockReturnValue("/");
 
     Object.defineProperty(document, "cookie", {
       configurable: true,
@@ -118,5 +127,28 @@ describe("SiteHeader", () => {
     await user.click(screen.getByRole("link", { name: "About Me" }));
 
     expect(document.cookie.match(/ymkim_pending_transition=/g)).toHaveLength(1);
+  });
+
+  it("marks the current route link as the active page", () => {
+    usePathnameMock.mockReturnValue("/about");
+
+    render(
+      <SiteHeader
+        navCopy={{
+          home: "Home",
+          about: "About Me",
+          projects: "Projects",
+          contact: "Contact",
+        }}
+      />,
+    );
+
+    expect(screen.getByRole("link", { name: "About Me" })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
+    expect(screen.getByRole("link", { name: "Home" })).not.toHaveAttribute(
+      "aria-current",
+    );
   });
 });

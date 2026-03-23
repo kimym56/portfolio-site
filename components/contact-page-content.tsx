@@ -48,11 +48,15 @@ export function ContactPageContent() {
   return (
     <main className="page container">
       <section className="contact-card">
-        <h1 className="page-title">{SITE_COPY.contact.title}</h1>
-        <p className="page-subtitle">{SITE_COPY.contact.subtitle}</p>
+        <h1 className="page-title page-stagger page-stagger-0">
+          {SITE_COPY.contact.title}
+        </h1>
+        <p className="page-subtitle page-stagger page-stagger-1">
+          {SITE_COPY.contact.subtitle}
+        </p>
 
         <div className="page-reveal-body">
-          <ul className="contact-list">
+          <ul className="contact-list page-stagger page-stagger-2">
             {visibleContacts.map((contact) => {
               const Icon = contact.icon;
 
