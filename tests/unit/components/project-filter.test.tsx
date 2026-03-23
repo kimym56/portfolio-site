@@ -170,6 +170,31 @@ describe("ProjectFilter", () => {
     );
   });
 
+  it("renders an active indicator that follows the selected category", async () => {
+    const user = userEvent.setup();
+
+    renderProjectFilter();
+
+    const workButton = screen.getByRole("button", { name: "Work Projects" });
+    const sideButton = screen.getByRole("button", { name: "Side Projects" });
+
+    expect(workButton).toHaveAttribute("aria-pressed", "true");
+    expect(sideButton).toHaveAttribute("aria-pressed", "false");
+    expect(screen.getByTestId("projects-toggle-indicator")).toHaveAttribute(
+      "data-active-tab",
+      "work",
+    );
+
+    await user.click(sideButton);
+
+    expect(workButton).toHaveAttribute("aria-pressed", "false");
+    expect(sideButton).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByTestId("projects-toggle-indicator")).toHaveAttribute(
+      "data-active-tab",
+      "side",
+    );
+  });
+
   it("animates each project detail only on first open", async () => {
     const user = userEvent.setup();
 

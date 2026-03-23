@@ -1,5 +1,6 @@
 "use client";
 
+import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ProjectDetail } from "@/components/project-detail";
 import { ProjectGrid } from "@/components/project-grid";
@@ -24,8 +25,15 @@ interface ProjectFilterProps {
 }
 
 const SEEN_TRANSITIONS_MAX_AGE = 60 * 60 * 24 * 365;
+const TOGGLE_PILL_TRANSITION = {
+  type: "spring",
+  stiffness: 420,
+  damping: 34,
+  mass: 0.7,
+} as const;
 
 export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
+  const shouldReduceMotion = useReducedMotion();
   const [selected, setSelected] = useState<ProjectType>("work");
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [tabRevealState, setTabRevealState] = useState<"animated" | "static">(
@@ -41,6 +49,9 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
   const backLabel = `Back to ${
     (selected === "work" ? labels.work : labels.side).toLowerCase()
   }`;
+  const togglePillTransition = shouldReduceMotion
+    ? { duration: 0 }
+    : TOGGLE_PILL_TRANSITION;
 
   function markSeenTransition(transitionKey: string) {
     const seenTransitionCookie = readCookieValue(
@@ -112,7 +123,17 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
               aria-pressed={selected === "work"}
               onClick={() => handleCategoryChange("work")}
             >
-              {labels.work}
+              {selected === "work" ? (
+                <motion.span
+                  aria-hidden="true"
+                  className={styles.activePill}
+                  data-active-tab="work"
+                  data-testid="projects-toggle-indicator"
+                  layoutId="projects-toggle-indicator"
+                  transition={togglePillTransition}
+                />
+              ) : null}
+              <span className={styles.toggleLabel}>{labels.work}</span>
             </button>
             <button
               className={styles.toggle}
@@ -121,7 +142,17 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
               aria-pressed={selected === "side"}
               onClick={() => handleCategoryChange("side")}
             >
-              {labels.side}
+              {selected === "side" ? (
+                <motion.span
+                  aria-hidden="true"
+                  className={styles.activePill}
+                  data-active-tab="side"
+                  data-testid="projects-toggle-indicator"
+                  layoutId="projects-toggle-indicator"
+                  transition={togglePillTransition}
+                />
+              ) : null}
+              <span className={styles.toggleLabel}>{labels.side}</span>
             </button>
           </div>
 

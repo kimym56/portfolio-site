@@ -23,26 +23,45 @@
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;
+  isolation: isolate;
   font-size: 0.88rem;
   font-weight: 700;
   letter-spacing: 0.01em;
+  overflow: hidden;
   padding: 0.62rem 1.02rem;
+  position: relative;
   transition:
     background-color 150ms ease,
-    color 150ms ease,
-    transform 150ms ease;
+    color 150ms ease;
 }
 
 .toggle:hover,
 .toggle:active {
   background: var(--surface-soft);
   color: var(--text);
-  transform: translateY(-1px);
 }
 
 .toggle[data-active="true"] {
-  background: var(--text);
   color: var(--surface);
+}
+
+.toggle[data-active="true"]:hover,
+.toggle[data-active="true"]:active {
+  background: transparent;
+  color: var(--surface);
+}
+
+.toggleLabel {
+  position: relative;
+  z-index: 1;
+}
+
+.activePill {
+  background: var(--text);
+  border-radius: inherit;
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
 }
 
 @keyframes projectOnceReveal {
