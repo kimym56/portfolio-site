@@ -7,14 +7,35 @@
 }
 
 .toggles {
+  --toggle-gap: 0.35rem;
+  --toggle-padding: 0.28rem;
   background: color-mix(in srgb, var(--surface) 76%, var(--surface-soft));
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   display: inline-grid;
-  gap: 0.35rem;
-  grid-auto-flow: column;
+  gap: var(--toggle-gap);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-bottom: 1rem;
-  padding: 0.28rem;
+  padding: var(--toggle-padding);
+  position: relative;
+}
+
+.indicatorTrack {
+  border-radius: inherit;
+  inset: var(--toggle-padding);
+  pointer-events: none;
+  position: absolute;
+}
+
+.activePill {
+  background: var(--text);
+  border-radius: inherit;
+  bottom: 0;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--text) 16%, transparent);
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: calc((100% - var(--toggle-gap)) / 2);
 }
 
 .toggle {
@@ -23,21 +44,20 @@
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;
-  isolation: isolate;
+  display: inline-flex;
+  justify-content: center;
   font-size: 0.88rem;
   font-weight: 700;
   letter-spacing: 0.01em;
-  overflow: hidden;
+  min-width: 0;
   padding: 0.62rem 1.02rem;
   position: relative;
-  transition:
-    background-color 150ms ease,
-    color 150ms ease;
+  transition: color 150ms ease;
+  z-index: 1;
 }
 
 .toggle:hover,
 .toggle:active {
-  background: var(--surface-soft);
   color: var(--text);
 }
 
@@ -47,21 +67,11 @@
 
 .toggle[data-active="true"]:hover,
 .toggle[data-active="true"]:active {
-  background: transparent;
   color: var(--surface);
 }
 
 .toggleLabel {
-  position: relative;
-  z-index: 1;
-}
-
-.activePill {
-  background: var(--text);
-  border-radius: inherit;
-  inset: 0;
-  pointer-events: none;
-  position: absolute;
+  white-space: nowrap;
 }
 
 @keyframes projectOnceReveal {

@@ -116,6 +116,20 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
       ) : (
         <>
           <div className={styles.toggles} role="group" aria-label="Project types">
+            <div aria-hidden="true" className={styles.indicatorTrack}>
+              <motion.span
+                className={styles.activePill}
+                data-active-tab={selected}
+                data-testid="projects-toggle-indicator"
+                transition={togglePillTransition}
+                animate={{
+                  left:
+                    selected === "work"
+                      ? "0px"
+                      : "calc(50% + (var(--toggle-gap) / 2))",
+                }}
+              />
+            </div>
             <button
               className={styles.toggle}
               type="button"
@@ -123,16 +137,6 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
               aria-pressed={selected === "work"}
               onClick={() => handleCategoryChange("work")}
             >
-              {selected === "work" ? (
-                <motion.span
-                  aria-hidden="true"
-                  className={styles.activePill}
-                  data-active-tab="work"
-                  data-testid="projects-toggle-indicator"
-                  layoutId="projects-toggle-indicator"
-                  transition={togglePillTransition}
-                />
-              ) : null}
               <span className={styles.toggleLabel}>{labels.work}</span>
             </button>
             <button
@@ -142,16 +146,6 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
               aria-pressed={selected === "side"}
               onClick={() => handleCategoryChange("side")}
             >
-              {selected === "side" ? (
-                <motion.span
-                  aria-hidden="true"
-                  className={styles.activePill}
-                  data-active-tab="side"
-                  data-testid="projects-toggle-indicator"
-                  layoutId="projects-toggle-indicator"
-                  transition={togglePillTransition}
-                />
-              ) : null}
               <span className={styles.toggleLabel}>{labels.side}</span>
             </button>
           </div>

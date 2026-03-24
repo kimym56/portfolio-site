@@ -25,6 +25,7 @@ describe("button radius alignment", () => {
     expect(themeToggleCss).toMatch(/border-radius:\s*var\(--radius-md\);/);
     expect(siteHeaderCss).toMatch(/\.navLink\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);
     expect(projectFilterCss).toMatch(/\.toggles\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);
+    expect(projectFilterCss).toMatch(/\.indicatorTrack\s*\{[^}]*border-radius:\s*inherit;/);
     expect(projectFilterCss).toMatch(/\.toggle\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);
     expect(projectGridCss).toMatch(/\.cardButton\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);
     expect(projectGridCss).toMatch(/\.action\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);

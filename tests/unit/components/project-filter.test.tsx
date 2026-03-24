@@ -175,15 +175,17 @@ describe("ProjectFilter", () => {
 
     renderProjectFilter();
 
+    const toggleGroup = screen.getByRole("group", { name: "Project types" });
     const workButton = screen.getByRole("button", { name: "Work Projects" });
     const sideButton = screen.getByRole("button", { name: "Side Projects" });
+    const indicator = screen.getByTestId("projects-toggle-indicator");
 
     expect(workButton).toHaveAttribute("aria-pressed", "true");
     expect(sideButton).toHaveAttribute("aria-pressed", "false");
-    expect(screen.getByTestId("projects-toggle-indicator")).toHaveAttribute(
-      "data-active-tab",
-      "work",
-    );
+    expect(indicator).toHaveAttribute("data-active-tab", "work");
+    expect(toggleGroup).toContainElement(indicator);
+    expect(workButton.contains(indicator)).toBe(false);
+    expect(sideButton.contains(indicator)).toBe(false);
 
     await user.click(sideButton);
 
