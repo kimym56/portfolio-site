@@ -12,7 +12,10 @@ const projects: ProjectItem[] = [
     description: "Frontend work for a production commerce product.",
     type: "work",
     url: "https://example.com/sellpath",
-    stack: ["Next.js", "TypeScript"],
+    stack: [
+      { label: "Next.js", category: "frontend", proficiency: "strong" },
+      { label: "TypeScript", category: "frontend", proficiency: "strong" },
+    ],
     details: {
       summary: "Sellpath summary",
       whatThisProjectIs: "Sellpath overview",
@@ -28,7 +31,10 @@ const projects: ProjectItem[] = [
     description: "A side project exploring interface systems.",
     type: "side",
     url: "https://example.com/mimesis",
-    stack: ["React", "Motion"],
+    stack: [
+      { label: "React", category: "frontend", proficiency: "strong" },
+      { label: "Motion", category: "design", proficiency: "soft" },
+    ],
     details: {
       summary: "Mimesis summary",
       whatThisProjectIs: "Mimesis overview",
@@ -44,7 +50,10 @@ const projects: ProjectItem[] = [
     description: "A personal website project.",
     type: "side",
     url: "https://example.com/website",
-    stack: ["Next.js", "CSS"],
+    stack: [
+      { label: "Next.js", category: "frontend", proficiency: "strong" },
+      { label: "CSS", category: "design", proficiency: "soft" },
+    ],
     details: {
       summary: "Website summary",
       whatThisProjectIs: "Website overview",
@@ -60,7 +69,10 @@ const projects: ProjectItem[] = [
     description: "A reusable component and token system.",
     type: "side",
     url: "https://example.com/design-system",
-    stack: ["Storybook", "TypeScript"],
+    stack: [
+      { label: "Storybook", category: "design", proficiency: "strong" },
+      { label: "TypeScript", category: "frontend", proficiency: "strong" },
+    ],
     details: {
       summary: "Design system summary",
       whatThisProjectIs: "Design system overview",

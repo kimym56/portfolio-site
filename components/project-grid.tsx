@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import type { ProjectItem } from "@/lib/projects";
 import styles from "./project-grid.module.css";
 
@@ -17,15 +18,31 @@ export function ProjectGrid({ projects, onSelect }: ProjectGridProps) {
             onClick={() => onSelect(project)}
           >
             <span className={styles.content}>
-              <span className={styles.role}>{project.role}</span>
-              <span className={styles.title}>{project.title}</span>
-              <span className={styles.description}>{project.description}</span>
-            </span>
+              <span className={styles.header}>
+                <span className={styles.heading}>
+                  <span className={styles.title}>{project.title}</span>
+                  <span className={styles.role}>{project.role}</span>
+                </span>
 
-            <span className={styles.footer}>
-              <span className={styles.stack}>{project.stack.join(" · ")}</span>
-              <span className={styles.action} aria-hidden="true">
-                Open
+                <span className={styles.action} aria-hidden="true">
+                  <ArrowRight size={18} strokeWidth={2} />
+                </span>
+              </span>
+
+              <span className={styles.description}>{project.description}</span>
+              <span className={styles.stack}>
+                {project.stack.map((item) => (
+                  <span
+                    key={item.label}
+                    className={[
+                      "about-chip",
+                      `about-chip-${item.category}`,
+                      `about-chip-${item.proficiency}`,
+                    ].join(" ")}
+                  >
+                    {item.label}
+                  </span>
+                ))}
               </span>
             </span>
           </button>

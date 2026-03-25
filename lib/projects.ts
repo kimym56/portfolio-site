@@ -1,4 +1,4 @@
-import type { ProjectType } from "@/types/site";
+import type { AboutTechStackItem, ProjectType } from "@/types/site";
 
 export interface ProjectDetailContent {
   summary: string;
@@ -15,7 +15,7 @@ export interface ProjectItem {
   description: string;
   type: ProjectType;
   url: string;
-  stack: string[];
+  stack: AboutTechStackItem[];
   details: ProjectDetailContent;
 }
 
@@ -28,7 +28,11 @@ export const PROJECTS: ProjectItem[] = [
       "Worked on production frontend flows with attention to clarity, conversion, and implementation quality.",
     type: "work",
     url: "https://example.com/sellpath",
-    stack: ["React", "Next.js", "TypeScript"],
+    stack: [
+      { label: "React", category: "frontend", proficiency: "strong" },
+      { label: "Next.js", category: "frontend", proficiency: "strong" },
+      { label: "TypeScript", category: "frontend", proficiency: "strong" },
+    ],
     details: {
       summary:
         "Add a concise summary of your frontend work at Sellpath here.",
@@ -53,7 +57,11 @@ export const PROJECTS: ProjectItem[] = [
       "An interface-focused side project exploring interaction patterns and visual structure.",
     type: "side",
     url: "https://example.com/mimesis",
-    stack: ["React", "TypeScript", "CSS"],
+    stack: [
+      { label: "React", category: "frontend", proficiency: "strong" },
+      { label: "TypeScript", category: "frontend", proficiency: "strong" },
+      { label: "CSS", category: "design", proficiency: "soft" },
+    ],
     details: {
       summary: "Add a short summary of what Mimesis is and why you made it.",
       whatThisProjectIs:
@@ -77,7 +85,11 @@ export const PROJECTS: ProjectItem[] = [
       "A personal website project centered on information hierarchy, visual tone, and frontend craft.",
     type: "side",
     url: "https://example.com/website",
-    stack: ["Next.js", "TypeScript", "CSS Modules"],
+    stack: [
+      { label: "Next.js", category: "frontend", proficiency: "strong" },
+      { label: "TypeScript", category: "frontend", proficiency: "strong" },
+      { label: "CSS Modules", category: "design", proficiency: "soft" },
+    ],
     details: {
       summary:
         "Add a brief summary of the website project and what you wanted it to communicate.",
@@ -102,7 +114,11 @@ export const PROJECTS: ProjectItem[] = [
       "A component and token system project focused on consistency, reuse, and interface scale.",
     type: "side",
     url: "https://example.com/design-system",
-    stack: ["TypeScript", "Storybook", "Design Tokens"],
+    stack: [
+      { label: "TypeScript", category: "frontend", proficiency: "strong" },
+      { label: "Storybook", category: "design", proficiency: "strong" },
+      { label: "Design Tokens", category: "design", proficiency: "strong" },
+    ],
     details: {
       summary:
         "Add a summary of the design system project and the need it was created to address.",

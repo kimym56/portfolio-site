@@ -28,7 +28,7 @@ describe("button radius alignment", () => {
     expect(projectFilterCss).toMatch(/\.indicatorTrack\s*\{[^}]*border-radius:\s*inherit;/);
     expect(projectFilterCss).toMatch(/\.toggle\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);
     expect(projectGridCss).toMatch(/\.cardButton\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);
-    expect(projectGridCss).toMatch(/\.action\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);
+    expect(projectGridCss).toMatch(/\.action\s*\{[\s\S]*?border-radius:\s*var\(--radius-full\);/);
     expect(projectDetailCss).toMatch(/\.visitLink\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);
     expect(projectDetailCss).toMatch(/\.section\s*\{[\s\S]*?border-radius:\s*var\(--radius-lg\);/);
     expect(projectDetailCss).toMatch(/\.backButton\s*\{[\s\S]*?border-radius:\s*var\(--radius-full\);/);
