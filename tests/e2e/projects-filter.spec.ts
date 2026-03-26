@@ -24,11 +24,17 @@ test("projects page switches categories and opens an in-page detail view", async
   await expect(page.getByRole("button", { name: /design system project/i })).toBeVisible();
 
   await page.getByRole("button", { name: "Work Projects" }).click();
+
+  await expect(page.getByTestId("projects-tab-panel")).toHaveAttribute(
+    "data-once-reveal",
+    "animated",
+  );
+
   await page.getByRole("button", { name: "Side Projects" }).click();
 
   await expect(page.getByTestId("projects-tab-panel")).toHaveAttribute(
     "data-once-reveal",
-    "static",
+    "animated",
   );
 
   await page.getByRole("button", { name: /mimesis/i }).click();

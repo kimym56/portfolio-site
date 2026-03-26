@@ -1,0 +1,213 @@
+<style>
+  .stagger-grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 1.5rem;
+  }
+
+  .stagger-card {
+    border: 1px solid rgba(27, 27, 26, 0.12);
+    border-radius: 22px;
+    overflow: hidden;
+    background: #faf9f6;
+    box-shadow: 0 18px 36px rgba(18, 18, 16, 0.06);
+  }
+
+  .toggle-bar {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.35rem;
+    margin: 1rem;
+    padding: 0.3rem;
+    border-radius: 999px;
+    border: 1px solid rgba(27, 27, 26, 0.12);
+    background: #efefec;
+  }
+
+  .toggle-pill {
+    position: absolute;
+    top: 0.3rem;
+    bottom: 0.3rem;
+    width: calc(50% - 0.175rem);
+    border-radius: 999px;
+    background: #1b1b1a;
+  }
+
+  .toggle-pill.right {
+    left: calc(50% + 0.175rem);
+  }
+
+  .toggle-pill.left {
+    left: 0.3rem;
+  }
+
+  .toggle-label {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+
+  .toggle-label.active {
+    color: #faf9f6;
+  }
+
+  .toggle-label.inactive {
+    color: #5a5852;
+  }
+
+  .mock-grid {
+    display: grid;
+    gap: 0.8rem;
+    padding: 0 1rem 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-height: 16rem;
+    align-content: start;
+  }
+
+  .mock-project {
+    border-radius: 18px;
+    border: 1px solid rgba(27, 27, 26, 0.08);
+    background: white;
+    padding: 1rem;
+    min-height: 7rem;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .mock-project h4 {
+    margin: 0 0 0.45rem;
+    font-size: 1rem;
+  }
+
+  .mock-project p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: #5a5852;
+    line-height: 1.45;
+  }
+
+  .subtle-right .mock-project {
+    animation-name: subtleRight;
+    animation-duration: 540ms;
+  }
+
+  .subtle-right .mock-project:nth-child(2) {
+    animation-delay: 70ms;
+  }
+
+  .subtle-right .mock-project:nth-child(3) {
+    animation-delay: 140ms;
+  }
+
+  .subtle-right .mock-project:nth-child(4) {
+    animation-delay: 210ms;
+  }
+
+  .bold-right .mock-project {
+    animation-name: boldRight;
+    animation-duration: 620ms;
+  }
+
+  .bold-right .mock-project:nth-child(2) {
+    animation-delay: 90ms;
+  }
+
+  .bold-right .mock-project:nth-child(3) {
+    animation-delay: 180ms;
+  }
+
+  .bold-right .mock-project:nth-child(4) {
+    animation-delay: 270ms;
+  }
+
+  @keyframes subtleRight {
+    from {
+      opacity: 0;
+      transform: translateX(-14px) translateY(4px);
+      filter: blur(6px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0) translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes boldRight {
+    from {
+      opacity: 0;
+      transform: translateX(-34px) translateY(6px);
+      filter: blur(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0) translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  .caption {
+    padding: 0 1rem 1rem;
+    color: #5a5852;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 900px) {
+    .stagger-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<h2>Stagger Direction Preview</h2>
+<p class="subtitle">Both options move in the same direction as the toggle switching from Work to Side. Pick the one that feels right.</p>
+
+<div class="cards stagger-grid">
+  <div class="card stagger-card" data-choice="subtle" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>Subtle stagger</h3>
+      <p>Cards drift in lightly from the left with short offsets. The motion supports the toggle without calling too much attention to itself.</p>
+    </div>
+    <div class="toggle-bar" aria-hidden="true">
+      <div class="toggle-pill right"></div>
+      <div class="toggle-label inactive">Work</div>
+      <div class="toggle-label active">Side</div>
+    </div>
+    <div class="mock-grid subtle-right">
+      <div class="mock-project"><h4>Mimesis</h4><p>Interface systems exploration.</p></div>
+      <div class="mock-project"><h4>Website</h4><p>Personal site experiments.</p></div>
+      <div class="mock-project"><h4>Design System</h4><p>Reusable components and tokens.</p></div>
+      <div class="mock-project"><h4>Archive</h4><p>Smaller interaction studies.</p></div>
+    </div>
+    <p class="caption">Feels restrained and polished. Best if you want the toggle to stay primary.</p>
+  </div>
+
+  <div class="card stagger-card" data-choice="bold" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>More noticeable stagger</h3>
+      <p>Cards travel farther from the left and the offsets are stronger, so the direction is much more obvious during the tab change.</p>
+    </div>
+    <div class="toggle-bar" aria-hidden="true">
+      <div class="toggle-pill right"></div>
+      <div class="toggle-label inactive">Work</div>
+      <div class="toggle-label active">Side</div>
+    </div>
+    <div class="mock-grid bold-right">
+      <div class="mock-project"><h4>Mimesis</h4><p>Interface systems exploration.</p></div>
+      <div class="mock-project"><h4>Website</h4><p>Personal site experiments.</p></div>
+      <div class="mock-project"><h4>Design System</h4><p>Reusable components and tokens.</p></div>
+      <div class="mock-project"><h4>Archive</h4><p>Smaller interaction studies.</p></div>
+    </div>
+    <p class="caption">Feels more expressive. Best if you want the card section to visibly echo the toggle motion.</p>
+  </div>
+</div>

@@ -161,7 +161,7 @@ describe("ProjectFilter", () => {
     );
   });
 
-  it("animates the side tab content only the first time it is opened", async () => {
+  it("animates the tab content on every category switch", async () => {
     const user = userEvent.setup();
 
     renderProjectFilter();
@@ -174,11 +174,17 @@ describe("ProjectFilter", () => {
     );
 
     await user.click(screen.getByRole("button", { name: "Work Projects" }));
+
+    expect(screen.getByTestId("projects-tab-panel")).toHaveAttribute(
+      "data-once-reveal",
+      "animated",
+    );
+
     await user.click(screen.getByRole("button", { name: "Side Projects" }));
 
     expect(screen.getByTestId("projects-tab-panel")).toHaveAttribute(
       "data-once-reveal",
-      "static",
+      "animated",
     );
   });
 

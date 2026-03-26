@@ -36,9 +36,7 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
   const shouldReduceMotion = useReducedMotion();
   const [selected, setSelected] = useState<ProjectType>("work");
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
-  const [tabRevealState, setTabRevealState] = useState<"animated" | "static">(
-    "static",
-  );
+  const [tabRevealState, setTabRevealState] = useState<"animated" | "static">("static");
   const [detailRevealState, setDetailRevealState] = useState<"animated" | "static">(
     "static",
   );
@@ -85,12 +83,14 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
   }, []);
 
   function handleCategoryChange(next: ProjectType) {
+    if (next === selected) {
+      return;
+    }
+
     setSelected(next);
     setSelectedProjectId(null);
     setDetailRevealState("static");
-    setTabRevealState(
-      consumeOnceReveal(`projects:tab:${next}`) ? "animated" : "static",
-    );
+    setTabRevealState("animated");
   }
 
   function handleProjectSelect(project: ProjectItem) {
@@ -151,6 +151,7 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
           </div>
 
           <div
+            key={selected}
             className={`${styles.panel} ${
               tabRevealState === "animated" ? styles.panelReveal : ""
             }`}
