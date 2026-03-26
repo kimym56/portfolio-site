@@ -32,4 +32,28 @@ describe("project grid card layout", () => {
     expect(actionRuleBody).toMatch(/border-radius:\s*var\(--radius-full\);/);
     expect(actionRuleBody).toMatch(/align-self:\s*flex-start;/);
   });
+
+  it("matches the about-page stagger timing for animated project cards", () => {
+    const cssPath = path.join(process.cwd(), "components", "project-grid.module.css");
+    const cssContent = fs.readFileSync(cssPath, "utf8");
+    const revealRuleBody = getRuleBody(cssContent, ".cardReveal");
+
+    expect(revealRuleBody).toMatch(/animation-duration:\s*600ms;/);
+    expect(revealRuleBody).toMatch(/animation-timing-function:\s*ease;/);
+    expect(cssContent).toMatch(
+      /\.cardReveal\[data-stagger-index="1"\]\s*\{[^}]*animation-delay:\s*120ms;/,
+    );
+    expect(cssContent).toMatch(
+      /\.cardReveal\[data-stagger-index="2"\]\s*\{[^}]*animation-delay:\s*240ms;/,
+    );
+    expect(cssContent).toMatch(
+      /\.cardReveal\[data-stagger-index="3"\]\s*\{[^}]*animation-delay:\s*360ms;/,
+    );
+    expect(cssContent).toMatch(
+      /@keyframes projectCardRevealForward\s*\{[\s\S]*translateY\(10px\)[\s\S]*\}/,
+    );
+    expect(cssContent).toMatch(
+      /@keyframes projectCardRevealBackward\s*\{[\s\S]*translateY\(10px\)[\s\S]*\}/,
+    );
+  });
 });

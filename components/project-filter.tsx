@@ -37,6 +37,9 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
   const [selected, setSelected] = useState<ProjectType>("work");
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [tabRevealState, setTabRevealState] = useState<"animated" | "static">("static");
+  const [tabRevealDirection, setTabRevealDirection] = useState<"forward" | "backward">(
+    "forward",
+  );
   const [detailRevealState, setDetailRevealState] = useState<"animated" | "static">(
     "static",
   );
@@ -87,6 +90,7 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
       return;
     }
 
+    setTabRevealDirection(next === "side" ? "forward" : "backward");
     setSelected(next);
     setSelectedProjectId(null);
     setDetailRevealState("static");
@@ -158,7 +162,12 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
             data-once-reveal={tabRevealState}
             data-testid="projects-tab-panel"
           >
-            <ProjectGrid projects={filteredProjects} onSelect={handleProjectSelect} />
+            <ProjectGrid
+              projects={filteredProjects}
+              revealDirection={tabRevealDirection}
+              shouldAnimate={tabRevealState === "animated"}
+              onSelect={handleProjectSelect}
+            />
           </div>
         </>
       )}

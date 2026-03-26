@@ -5,13 +5,26 @@ import styles from "./project-grid.module.css";
 interface ProjectGridProps {
   projects: ProjectItem[];
   onSelect: (project: ProjectItem) => void;
+  revealDirection?: "forward" | "backward";
+  shouldAnimate?: boolean;
 }
 
-export function ProjectGrid({ projects, onSelect }: ProjectGridProps) {
+export function ProjectGrid({
+  projects,
+  onSelect,
+  revealDirection = "forward",
+  shouldAnimate = false,
+}: ProjectGridProps) {
   return (
     <div className={styles.grid}>
-      {projects.map((project) => (
-        <article key={project.id} data-testid="project-card">
+      {projects.map((project, index) => (
+        <article
+          key={project.id}
+          className={shouldAnimate ? styles.cardReveal : undefined}
+          data-reveal-direction={revealDirection}
+          data-stagger-index={index}
+          data-testid="project-card"
+        >
           <button
             className={`${styles.cardButton} card`}
             type="button"

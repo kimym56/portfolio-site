@@ -4,6 +4,32 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.cardReveal {
+  animation-duration: 600ms;
+  animation-fill-mode: both;
+  animation-timing-function: ease;
+}
+
+.cardReveal[data-reveal-direction="forward"] {
+  animation-name: projectCardRevealForward;
+}
+
+.cardReveal[data-reveal-direction="backward"] {
+  animation-name: projectCardRevealBackward;
+}
+
+.cardReveal[data-stagger-index="1"] {
+  animation-delay: 120ms;
+}
+
+.cardReveal[data-stagger-index="2"] {
+  animation-delay: 240ms;
+}
+
+.cardReveal[data-stagger-index="3"] {
+  animation-delay: 360ms;
+}
+
 .cardButton {
   appearance: none;
   border-radius: var(--radius-md);
@@ -92,8 +118,38 @@
   background: color-mix(in srgb, var(--surface-soft) 55%, var(--surface));
 }
 
+@keyframes projectCardRevealForward {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes projectCardRevealBackward {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardReveal {
+    animation: none;
   }
 }

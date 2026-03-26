@@ -188,6 +188,26 @@ describe("ProjectFilter", () => {
     );
   });
 
+  it("passes forward and backward reveal directions on tab switches", async () => {
+    const user = userEvent.setup();
+
+    renderProjectFilter();
+
+    await user.click(screen.getByRole("button", { name: "Side Projects" }));
+
+    expect(screen.getAllByTestId("project-card")[0]).toHaveAttribute(
+      "data-reveal-direction",
+      "forward",
+    );
+
+    await user.click(screen.getByRole("button", { name: "Work Projects" }));
+
+    expect(screen.getByTestId("project-card")).toHaveAttribute(
+      "data-reveal-direction",
+      "backward",
+    );
+  });
+
   it("renders an active indicator that follows the selected category", async () => {
     const user = userEvent.setup();
 
