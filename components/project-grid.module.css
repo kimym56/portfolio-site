@@ -34,8 +34,9 @@
   appearance: none;
   border-radius: var(--radius-md);
   cursor: pointer;
+  display: flex;
   min-height: 240px;
-  padding: 1rem 1.2rem;
+  padding: 2rem 1.5rem;
   text-align: left;
   transition:
     border-color 150ms ease,
@@ -47,15 +48,14 @@
 .cardButton:hover,
 .cardButton:active {
   background: color-mix(in srgb, var(--surface) 78%, var(--surface-soft));
-  border-color: var(--text);
   transform: translateY(-3px);
 }
 
 .content {
-  display: grid;
-  align-content: start;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   gap: 0.68rem;
-  height: 100%;
 }
 
 .header {
@@ -97,6 +97,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.46rem;
+  margin-top: auto;
 }
 
 .action {

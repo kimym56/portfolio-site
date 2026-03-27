@@ -1,0 +1,318 @@
+<style>
+  .spacing-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 22px;
+  }
+
+  .spacing-card {
+    border: 1px solid rgba(217, 216, 210, 0.9);
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 20px 44px rgba(15, 15, 14, 0.07);
+    overflow: hidden;
+  }
+
+  .spacing-card .card-body {
+    border: 0;
+    padding: 18px 20px;
+  }
+
+  .spacing-card[data-choice="current"] .card-body {
+    padding: 16px 19px;
+  }
+
+  .spacing-card[data-choice="balanced"] .card-body {
+    padding: 22px 24px;
+  }
+
+  .spacing-card[data-choice="open"] .card-body {
+    padding: 26px 28px;
+  }
+
+  .card-preview {
+    border: 1px solid rgba(217, 216, 210, 0.78);
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 248, 246, 0.98));
+    box-shadow: 0 14px 32px rgba(15, 15, 14, 0.08);
+    min-height: 290px;
+  }
+
+  .project-shell {
+    display: grid;
+    align-content: start;
+    height: 100%;
+  }
+
+  .project-shell.current {
+    gap: 11px;
+  }
+
+  .project-shell.balanced {
+    gap: 15px;
+  }
+
+  .project-shell.open {
+    gap: 18px;
+  }
+
+  .project-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .project-header.current {
+    gap: 14px;
+  }
+
+  .project-header.balanced {
+    gap: 10px;
+  }
+
+  .project-header.open {
+    gap: 10px;
+  }
+
+  .project-heading {
+    min-width: 0;
+    display: grid;
+    align-content: start;
+  }
+
+  .project-heading.current {
+    gap: 6px;
+  }
+
+  .project-heading.balanced {
+    gap: 8px;
+  }
+
+  .project-heading.open {
+    gap: 10px;
+  }
+
+  .project-role {
+    color: #67655f;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .project-title {
+    margin: 0;
+    font-family: "Times New Roman", Georgia, serif;
+    font-size: 27px;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+  }
+
+  .project-arrow {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid rgba(217, 216, 210, 1);
+    color: #1b1b1a;
+    background: #efefec;
+    line-height: 1;
+    font-size: 18px;
+  }
+
+  .project-arrow.current {
+    width: 36px;
+    height: 36px;
+  }
+
+  .project-arrow.balanced {
+    width: 32px;
+    height: 32px;
+  }
+
+  .project-arrow.open {
+    width: 32px;
+    height: 32px;
+  }
+
+  .project-description {
+    margin: 0;
+    color: #34332f;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .project-description.current {
+    margin-top: -1px;
+  }
+
+  .project-description.balanced {
+    max-width: 30ch;
+  }
+
+  .project-description.open {
+    max-width: 30ch;
+  }
+
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .chip {
+    border-radius: 999px;
+    padding: 7px 11px;
+    font-size: 11px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .chip.frontend {
+    background: #f2dccf;
+    color: #6d3e23;
+    font-weight: 700;
+  }
+
+  .chip.design {
+    background: #eaf1eb;
+    color: #527061;
+    font-weight: 500;
+  }
+
+  .chip.ai {
+    background: #f0ebf6;
+    color: #756584;
+    font-weight: 500;
+  }
+
+  .option-copy {
+    display: grid;
+    gap: 10px;
+  }
+
+  .option-copy p {
+    margin: 0;
+  }
+
+  .meta {
+    display: inline-flex;
+    width: fit-content;
+    border-radius: 999px;
+    padding: 6px 10px;
+    background: rgba(27, 27, 26, 0.05);
+    color: #52514d;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 1100px) {
+    .spacing-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<h2>Project Card Spacing Study</h2>
+<p class="subtitle">
+  Compare the current proportions against two spacing revisions. Focus on padding,
+  header balance, and the separation between title, description, and chip stack.
+</p>
+
+<div class="cards spacing-grid">
+  <div class="card spacing-card" data-choice="current" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="card-preview">
+        <div class="card-body">
+          <div class="project-shell current">
+            <div class="project-header current">
+              <div class="project-heading current">
+                <div class="project-title">PulseBoard</div>
+                <div class="project-role">Frontend Engineer</div>
+              </div>
+              <div class="project-arrow current">↗</div>
+            </div>
+            <p class="project-description current">
+              Real-time analytics workspace for campaign health, reporting, and creative monitoring.
+            </p>
+            <div class="chip-row">
+              <span class="chip frontend">Next.js</span>
+              <span class="chip frontend">TypeScript</span>
+              <span class="chip design">Design System</span>
+              <span class="chip ai">LLM Assist</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body option-copy">
+      <div class="meta">Current Feel</div>
+      <p>Tight interior, larger arrow badge, and nearly even spacing between all rows.</p>
+    </div>
+  </div>
+
+  <div class="card spacing-card" data-choice="balanced" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="card-preview">
+        <div class="card-body">
+          <div class="project-shell balanced">
+            <div class="project-header balanced">
+              <div class="project-heading balanced">
+                <div class="project-role">Frontend Engineer</div>
+                <div class="project-title">PulseBoard</div>
+              </div>
+              <div class="project-arrow balanced">↗</div>
+            </div>
+            <p class="project-description balanced">
+              Real-time analytics workspace for campaign health, reporting, and creative monitoring.
+            </p>
+            <div class="chip-row">
+              <span class="chip frontend">Next.js</span>
+              <span class="chip frontend">TypeScript</span>
+              <span class="chip design">Design System</span>
+              <span class="chip ai">LLM Assist</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body option-copy">
+      <div class="meta">Recommended</div>
+      <p>More generous padding, quieter arrow, and clearer section rhythm without making the card feel airy.</p>
+    </div>
+  </div>
+
+  <div class="card spacing-card" data-choice="open" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="card-preview">
+        <div class="card-body">
+          <div class="project-shell open">
+            <div class="project-header open">
+              <div class="project-heading open">
+                <div class="project-role">Frontend Engineer</div>
+                <div class="project-title">PulseBoard</div>
+              </div>
+              <div class="project-arrow open">↗</div>
+            </div>
+            <p class="project-description open">
+              Real-time analytics workspace for campaign health, reporting, and creative monitoring.
+            </p>
+            <div class="chip-row">
+              <span class="chip frontend">Next.js</span>
+              <span class="chip frontend">TypeScript</span>
+              <span class="chip design">Design System</span>
+              <span class="chip ai">LLM Assist</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body option-copy">
+      <div class="meta">Open Premium</div>
+      <p>Breathier padding and more vertical air. Cleaner, but it risks softening the editorial compactness of the page.</p>
+    </div>
+  </div>
+</div>

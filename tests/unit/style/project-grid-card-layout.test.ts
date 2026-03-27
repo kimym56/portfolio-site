@@ -16,21 +16,33 @@ describe("project grid card layout", () => {
     const cssPath = path.join(process.cwd(), "components", "project-grid.module.css");
     const cssContent = fs.readFileSync(cssPath, "utf8");
     const cardButtonRuleBody = getRuleBody(cssContent, ".cardButton");
+    const contentRuleBody = getRuleBody(cssContent, ".content");
     const headerRuleBody = getRuleBody(cssContent, ".header");
     const headingRuleBody = getRuleBody(cssContent, ".heading");
+    const descriptionRuleBody = getRuleBody(cssContent, ".description");
     const stackRuleBody = getRuleBody(cssContent, ".stack");
     const actionRuleBody = getRuleBody(cssContent, ".action");
 
+    expect(cardButtonRuleBody).toMatch(/min-height:\s*240px;/);
+    expect(cardButtonRuleBody).toMatch(/display:\s*flex;/);
     expect(cardButtonRuleBody).toMatch(/padding:\s*1rem 1\.2rem;/);
+    expect(contentRuleBody).toMatch(/display:\s*flex;/);
+    expect(contentRuleBody).toMatch(/flex:\s*1;/);
+    expect(contentRuleBody).toMatch(/flex-direction:\s*column;/);
+    expect(contentRuleBody).toMatch(/gap:\s*0\.68rem;/);
     expect(headerRuleBody).toMatch(/display:\s*flex;/);
     expect(headerRuleBody).toMatch(/justify-content:\s*space-between;/);
     expect(headerRuleBody).toMatch(/align-items:\s*flex-start;/);
     expect(headingRuleBody).toMatch(/display:\s*flex;/);
     expect(headingRuleBody).toMatch(/flex-wrap:\s*wrap;/);
+    expect(descriptionRuleBody).not.toMatch(/margin-top:/);
     expect(stackRuleBody).toMatch(/display:\s*flex;/);
     expect(stackRuleBody).toMatch(/flex-wrap:\s*wrap;/);
+    expect(stackRuleBody).toMatch(/margin-top:\s*auto;/);
     expect(actionRuleBody).toMatch(/border-radius:\s*var\(--radius-full\);/);
     expect(actionRuleBody).toMatch(/align-self:\s*flex-start;/);
+    expect(actionRuleBody).toMatch(/height:\s*2\.25rem;/);
+    expect(actionRuleBody).toMatch(/width:\s*2\.25rem;/);
   });
 
   it("matches the about-page stagger timing for animated project cards", () => {
