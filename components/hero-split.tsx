@@ -8,7 +8,7 @@ import {
 import type { HomeCopy } from "@/types/site";
 import { domAnimation, LazyMotion, m, useReducedMotion } from "framer-motion";
 import Image from "next/image";
-import { startTransition, useEffect, useRef, useState } from "react";
+import { startTransition, useEffect, useEffectEvent, useRef, useState } from "react";
 import styles from "./hero-split.module.css";
 
 interface HeroSplitProps {
@@ -20,6 +20,7 @@ export function HeroSplit({ copy }: HeroSplitProps) {
     activeIndex: 0,
     previousIndex: null as number | null,
   });
+  const autoRotateTimeoutRef = useRef<number | null>(null);
   const cleanupTimeoutRef = useRef<number | null>(null);
   const prefersReducedMotion = useReducedMotion();
   const activeIndex = rotationState.activeIndex;
@@ -46,55 +47,70 @@ export function HeroSplit({ copy }: HeroSplitProps) {
   const outgoingImageInitial =
     transitionDurationMs === 0 ? { opacity: 1 } : { opacity: 1 };
   const outgoingImageAnimate = { opacity: 0 };
+  const clearAutoRotateTimeout = useEffectEvent(() => {
+    if (autoRotateTimeoutRef.current !== null) {
+      window.clearTimeout(autoRotateTimeoutRef.current);
+      autoRotateTimeoutRef.current = null;
+    }
+  });
+  const clearCleanupTimeout = useEffectEvent(() => {
+    if (cleanupTimeoutRef.current !== null) {
+      window.clearTimeout(cleanupTimeoutRef.current);
+      cleanupTimeoutRef.current = null;
+    }
+  });
+  const scheduleCleanup = useEffectEvent(() => {
+    clearCleanupTimeout();
+
+    cleanupTimeoutRef.current = window.setTimeout(() => {
+      setRotationState((previousState) => ({
+        ...previousState,
+        previousIndex: null,
+      }));
+      cleanupTimeoutRef.current = null;
+    }, transitionDurationMs);
+  });
+  const rotate = useEffectEvent((direction: 1 | -1) => {
+    if (copy.roles.length < 2) {
+      return;
+    }
+
+    startTransition(() => {
+      setRotationState((previousState) => ({
+        activeIndex:
+          (previousState.activeIndex + direction + copy.roles.length) %
+          copy.roles.length,
+        previousIndex: previousState.activeIndex,
+      }));
+    });
+
+    scheduleCleanup();
+  });
+  const scheduleNextAutoRotation = useEffectEvent(function scheduleNextAutoRotation() {
+    if (copy.roles.length < 2) {
+      clearAutoRotateTimeout();
+      return;
+    }
+
+    clearAutoRotateTimeout();
+    autoRotateTimeoutRef.current = window.setTimeout(() => {
+      rotate(1);
+      scheduleNextAutoRotation();
+    }, DEFAULT_INTERVAL_MS);
+  });
 
   useEffect(() => {
     if (copy.roles.length < 2) {
       return;
     }
 
-    let timeoutId: number | null = null;
-    let expectedTickTime = performance.now() + DEFAULT_INTERVAL_MS;
-
-    const tick = () => {
-      startTransition(() => {
-        setRotationState((previousState) => ({
-          activeIndex: (previousState.activeIndex + 1) % copy.roles.length,
-          previousIndex: previousState.activeIndex,
-        }));
-      });
-
-      if (cleanupTimeoutRef.current !== null) {
-        window.clearTimeout(cleanupTimeoutRef.current);
-      }
-
-      cleanupTimeoutRef.current = window.setTimeout(() => {
-        setRotationState((previousState) => ({
-          ...previousState,
-          previousIndex: null,
-        }));
-        cleanupTimeoutRef.current = null;
-      }, transitionDurationMs);
-
-      expectedTickTime += DEFAULT_INTERVAL_MS;
-      const delayUntilNextTick = Math.max(
-        0,
-        expectedTickTime - performance.now(),
-      );
-      timeoutId = window.setTimeout(tick, delayUntilNextTick);
-    };
-
-    timeoutId = window.setTimeout(tick, DEFAULT_INTERVAL_MS);
+    scheduleNextAutoRotation();
 
     return () => {
-      if (timeoutId !== null) {
-        window.clearTimeout(timeoutId);
-      }
-      if (cleanupTimeoutRef.current !== null) {
-        window.clearTimeout(cleanupTimeoutRef.current);
-        cleanupTimeoutRef.current = null;
-      }
+      clearAutoRotateTimeout();
+      clearCleanupTimeout();
     };
-  }, [copy.roles.length, transitionDurationMs]);
+  }, [copy.roles.length]);
 
   return (
     <section className={styles.hero}>

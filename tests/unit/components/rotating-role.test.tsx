@@ -139,4 +139,39 @@ describe("RotatingRole", () => {
     );
   });
 
+  it("does not queue rapid catch-up transitions after a delayed timer callback", () => {
+    let now = 0;
+    const nowSpy = vi.spyOn(performance, "now").mockImplementation(() => now);
+
+    render(
+      <RotatingRole
+        roles={[
+          "I am a Design Engineer",
+          "I am a UX Engineer",
+          "I am a Frontend Engineer",
+        ]}
+      />,
+    );
+
+    now = DEFAULT_INTERVAL_MS * 6;
+
+    act(() => {
+      vi.advanceTimersByTime(DEFAULT_INTERVAL_MS);
+    });
+
+    expect(screen.getByTestId("rotating-role")).toHaveTextContent(
+      "I am a UX Engineer",
+    );
+
+    act(() => {
+      vi.advanceTimersByTime(1);
+    });
+
+    expect(screen.getByTestId("rotating-role")).toHaveTextContent(
+      "I am a UX Engineer",
+    );
+
+    nowSpy.mockRestore();
+  });
+
 });

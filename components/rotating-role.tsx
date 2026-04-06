@@ -12,7 +12,7 @@ interface RotatingRoleProps {
   isTransitioning?: boolean;
 }
 
-export const DEFAULT_INTERVAL_MS = 4200;
+export const DEFAULT_INTERVAL_MS = 2000;
 export const DEFAULT_TRANSITION_MS = 900;
 
 export function RotatingRole({
@@ -32,18 +32,14 @@ export function RotatingRole({
     }
 
     let timeoutId: number | null = null;
-    let expectedTickTime = performance.now() + intervalMs;
 
     const tick = () => {
       setInternalActiveIndex(
         (previousIndex) => (previousIndex + 1) % roles.length,
       );
-      expectedTickTime += intervalMs;
-      const delayUntilNextTick = Math.max(
-        0,
-        expectedTickTime - performance.now(),
-      );
-      timeoutId = window.setTimeout(tick, delayUntilNextTick);
+      // Hidden tabs can delay callbacks for a long time. Restart from "now"
+      // so resume does not fast-forward through every missed role.
+      timeoutId = window.setTimeout(tick, intervalMs);
     };
 
     timeoutId = window.setTimeout(tick, intervalMs);

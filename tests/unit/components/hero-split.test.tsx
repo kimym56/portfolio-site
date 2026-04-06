@@ -136,4 +136,39 @@ describe("HeroSplit", () => {
 
     expect(concealmentLayer).toBeNull();
   });
+
+  it("does not queue rapid catch-up hero transitions after a delayed timer callback", () => {
+    let now = 0;
+    const nowSpy = vi.spyOn(performance, "now").mockImplementation(() => now);
+
+    render(<HeroSplit copy={copy} />);
+
+    now = DEFAULT_INTERVAL_MS * 6;
+
+    act(() => {
+      vi.advanceTimersByTime(DEFAULT_INTERVAL_MS);
+    });
+
+    expect(screen.getByTestId("rotating-role")).toHaveTextContent(
+      "I am a UX Engineer",
+    );
+    expect(screen.getByAltText("Portrait image")).toHaveAttribute(
+      "src",
+      "/images/profile2.webp",
+    );
+
+    act(() => {
+      vi.advanceTimersByTime(1);
+    });
+
+    expect(screen.getByTestId("rotating-role")).toHaveTextContent(
+      "I am a UX Engineer",
+    );
+    expect(screen.getByAltText("Portrait image")).toHaveAttribute(
+      "src",
+      "/images/profile2.webp",
+    );
+
+    nowSpy.mockRestore();
+  });
 });
