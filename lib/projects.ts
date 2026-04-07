@@ -8,6 +8,24 @@ export interface ProjectDetailContent {
   meta: string[];
 }
 
+interface ProjectImageMedia {
+  type: "image";
+  src: string;
+  alt: string;
+  caption: string;
+  width: number;
+  height: number;
+}
+
+interface ProjectVideoMedia {
+  type: "video";
+  src: string;
+  label: string;
+  caption: string;
+}
+
+export type ProjectMediaItem = ProjectImageMedia | ProjectVideoMedia;
+
 export interface ProjectItem {
   id: string;
   title: string;
@@ -16,6 +34,7 @@ export interface ProjectItem {
   type: ProjectType;
   url: string;
   stack: AboutTechStackItem[];
+  media?: ProjectMediaItem[];
   details: ProjectDetailContent;
 }
 
@@ -35,6 +54,32 @@ export const PROJECTS: ProjectItem[] = [
       { label: "OpenAI API", category: "ai", proficiency: "strong" },
       { label: "WebSocket", category: "frontend", proficiency: "soft" },
       { label: "WebRTC", category: "frontend", proficiency: "soft" },
+    ],
+    media: [
+      {
+        type: "image",
+        src: "/images/projects/sellpath_main.png",
+        alt: "Sellpath sales dashboard screenshot",
+        caption: "Sales dashboard",
+        width: 1641,
+        height: 865,
+      },
+      {
+        type: "image",
+        src: "/images/projects/sellpath_detail1.png",
+        alt: "Sellpath Activity Modal customer analytics screenshot",
+        caption: "Activity Modal analytics",
+        width: 1161,
+        height: 846,
+      },
+      {
+        type: "image",
+        src: "/images/projects/sellpath_detail2.png",
+        alt: "Sellpath Activity Modal chat UI screenshot",
+        caption: "Chat UI",
+        width: 495,
+        height: 846,
+      },
     ],
     details: {
       summary:
@@ -70,6 +115,14 @@ export const PROJECTS: ProjectItem[] = [
       { label: "Framer Motion", category: "design", proficiency: "strong" },
       { label: "Realtime BPM", category: "frontend", proficiency: "soft" },
     ],
+    media: [
+      {
+        type: "video",
+        src: "/videos/projects/mimesis_main.webm",
+        label: "Mimesis interaction preview",
+        caption: "Interaction preview",
+      },
+    ],
     details: {
       summary:
         "A study of interaction fidelity, 3D rendering, audio-driven motion, and expressive text animation on the web.",
@@ -102,6 +155,32 @@ export const PROJECTS: ProjectItem[] = [
       { label: "PostgreSQL", category: "frontend", proficiency: "soft" },
       { label: "Prisma", category: "frontend", proficiency: "soft" },
       { label: "Tailwind CSS", category: "design", proficiency: "strong" },
+    ],
+    media: [
+      {
+        type: "image",
+        src: "/images/projects/dsskills_main.png",
+        alt: "DSSkills project overview screenshot",
+        caption: "Generation playground",
+        width: 1097,
+        height: 811,
+      },
+      {
+        type: "image",
+        src: "/images/projects/dsskills_detail1.png",
+        alt: "DSSkills agent skill selection screenshot",
+        caption: "Agent skill selection",
+        width: 646,
+        height: 505,
+      },
+      {
+        type: "image",
+        src: "/images/projects/dsskills_detail2.png",
+        alt: "DSSkills component preview and code output screenshot",
+        caption: "Preview and code output",
+        width: 971,
+        height: 651,
+      },
     ],
     details: {
       summary:

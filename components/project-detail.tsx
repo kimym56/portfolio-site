@@ -1,4 +1,5 @@
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import type { ProjectItem } from "@/lib/projects";
 import styles from "./project-detail.module.css";
 
@@ -53,6 +54,44 @@ export function ProjectDetail({
           </p>
         </section>
       </header>
+
+      {project.media && project.media.length > 0 ? (
+        <section
+          className={styles.mediaSection}
+          aria-label={`${project.title} project media`}
+        >
+          <div className={styles.mediaGrid}>
+            {project.media.map((item) => (
+              <figure key={item.src} className={styles.mediaCard}>
+                {item.type === "image" ? (
+                  <Image
+                    className={styles.mediaImage}
+                    src={item.src}
+                    alt={item.alt}
+                    width={item.width}
+                    height={item.height}
+                    sizes="(max-width: 720px) 100vw, 50vw"
+                  />
+                ) : (
+                  <video
+                    className={styles.mediaVideo}
+                    src={item.src}
+                    aria-label={item.label}
+                    controls
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                  />
+                )}
+                <figcaption className={styles.mediaCaption}>
+                  {item.caption}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <div className={styles.sections}>
         <section className={styles.section}>
