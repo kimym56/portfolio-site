@@ -103,16 +103,12 @@
 
 .detailRows {
   display: grid;
-  gap: 1rem;
+  gap: clamp(2.5rem, 5vw, 4rem);
 }
 
 .detailRow {
-  background: color-mix(in srgb, var(--surface-soft) 68%, var(--surface));
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
   display: grid;
-  gap: 1rem;
-  padding: 1rem 1.05rem;
+  gap: clamp(1rem, 2.2vw, 1.8rem);
 }
 
 .detailRowWithMedia {
