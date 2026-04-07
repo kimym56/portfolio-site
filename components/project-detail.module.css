@@ -177,11 +177,11 @@
 
 @media (min-width: 860px) {
   .detailRowWithMedia {
-    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 
   .detailRowWithMedia[data-media-side="left"] {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 
   .detailRowWithMedia[data-media-side="left"] .mediaCard {
