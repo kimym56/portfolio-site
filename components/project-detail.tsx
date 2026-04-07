@@ -18,6 +18,66 @@ export function ProjectDetail({
   visitLabel,
   onBack,
 }: ProjectDetailProps) {
+  const detailSections = [
+    {
+      id: "what-this-project-is",
+      title: "What This Project Is",
+      body: <p className={styles.sectionBody}>{project.details.whatThisProjectIs}</p>,
+    },
+    {
+      id: "what-i-focused-on",
+      title: "What I Focused On",
+      body: <p className={styles.sectionBody}>{project.details.whatIFocusedOn}</p>,
+    },
+    {
+      id: "considerations",
+      title: "UI/UX/HCI/Frontend Considerations",
+      body: <p className={styles.sectionBody}>{project.details.considerations}</p>,
+    },
+    {
+      id: "project-meta",
+      title: "Project Meta",
+      body: (
+        <ul className={styles.metaList}>
+          {project.details.meta.map((item) => (
+            <li key={item} className={styles.metaItem}>
+              {item}
+            </li>
+          ))}
+        </ul>
+      ),
+    },
+  ];
+
+  function renderMedia(item: NonNullable<ProjectItem["media"]>[number]) {
+    return (
+      <figure className={styles.mediaCard}>
+        {item.type === "image" ? (
+          <Image
+            className={styles.mediaImage}
+            src={item.src}
+            alt={item.alt}
+            width={item.width}
+            height={item.height}
+            sizes="(max-width: 720px) 100vw, 50vw"
+          />
+        ) : (
+          <video
+            className={styles.mediaVideo}
+            src={item.src}
+            aria-label={item.label}
+            controls
+            loop
+            muted
+            playsInline
+            preload="metadata"
+          />
+        )}
+        <figcaption className={styles.mediaCaption}>{item.caption}</figcaption>
+      </figure>
+    );
+  }
+
   return (
     <article
       className={`${styles.panel} ${animateOnFirstOpen ? styles.panelReveal : ""} card`}
@@ -57,69 +117,47 @@ export function ProjectDetail({
 
       {project.media && project.media.length > 0 ? (
         <section
-          className={styles.mediaSection}
-          aria-label={`${project.title} project media`}
+          className={styles.detailRows}
+          aria-label={`${project.title} project details`}
         >
-          <div className={styles.mediaGrid}>
-            {project.media.map((item) => (
-              <figure key={item.src} className={styles.mediaCard}>
-                {item.type === "image" ? (
-                  <Image
-                    className={styles.mediaImage}
-                    src={item.src}
-                    alt={item.alt}
-                    width={item.width}
-                    height={item.height}
-                    sizes="(max-width: 720px) 100vw, 50vw"
-                  />
-                ) : (
-                  <video
-                    className={styles.mediaVideo}
-                    src={item.src}
-                    aria-label={item.label}
-                    controls
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                  />
-                )}
-                <figcaption className={styles.mediaCaption}>
-                  {item.caption}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </section>
-      ) : null}
+          {detailSections.map((section, index) => {
+            const mediaItem = project.media?.[index];
+            const mediaSide = index % 2 === 0 ? "right" : "left";
 
-      <div className={styles.sections}>
-        <section className={styles.section}>
-          <h3 className={styles.sectionTitle}>What This Project Is</h3>
-          <p className={styles.sectionBody}>{project.details.whatThisProjectIs}</p>
+            return (
+              <section
+                key={section.id}
+                className={`${styles.detailRow} ${
+                  mediaItem ? styles.detailRowWithMedia : styles.detailRowTextOnly
+                }`}
+                data-media-side={mediaItem ? mediaSide : undefined}
+                data-testid="project-detail-row"
+              >
+                <div className={styles.detailCopy}>
+                  <h3 className={styles.sectionTitle}>{section.title}</h3>
+                  {section.body}
+                </div>
+                {mediaItem ? renderMedia(mediaItem) : null}
+              </section>
+            );
+          })}
         </section>
-
-        <section className={styles.section}>
-          <h3 className={styles.sectionTitle}>What I Focused On</h3>
-          <p className={styles.sectionBody}>{project.details.whatIFocusedOn}</p>
-        </section>
-
-        <section className={styles.section}>
-          <h3 className={styles.sectionTitle}>UI/UX/HCI/Frontend Considerations</h3>
-          <p className={styles.sectionBody}>{project.details.considerations}</p>
-        </section>
-
-        <section className={styles.section}>
-          <h3 className={styles.sectionTitle}>Project Meta</h3>
-          <ul className={styles.metaList}>
-            {project.details.meta.map((item) => (
-              <li key={item} className={styles.metaItem}>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </section>
-      </div>
+      ) : (
+        <div className={styles.detailRows}>
+          {detailSections.map((section) => (
+            <section
+              key={section.id}
+              className={`${styles.detailRow} ${styles.detailRowTextOnly}`}
+              data-testid="project-detail-row"
+            >
+              <div className={styles.detailCopy}>
+                <h3 className={styles.sectionTitle}>{section.title}</h3>
+                {section.body}
+              </div>
+            </section>
+          ))}
+        </div>
+      )}
     </article>
   );
 }

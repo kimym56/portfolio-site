@@ -61,10 +61,22 @@ describe("ProjectDetail", () => {
       />,
     );
 
-    const mediaRegion = screen.getByLabelText("Sellpath project media");
+    const mediaRegion = screen.getByLabelText("Sellpath project details");
+    const mediaRows = screen.getAllByTestId("project-detail-row");
     const screenshot = within(mediaRegion).getByAltText("Sellpath dashboard screenshot");
     const preview = within(mediaRegion).getByLabelText("Mimesis interaction preview");
 
+    expect(mediaRows).toHaveLength(4);
+    expect(mediaRows[0]).toHaveAttribute("data-media-side", "right");
+    expect(mediaRows[1]).toHaveAttribute("data-media-side", "left");
+    expect(within(mediaRows[0]).getByText("What This Project Is")).toBeInTheDocument();
+    expect(
+      within(mediaRows[0]).getByAltText("Sellpath dashboard screenshot"),
+    ).toBeInTheDocument();
+    expect(within(mediaRows[1]).getByText("What I Focused On")).toBeInTheDocument();
+    expect(
+      within(mediaRows[1]).getByLabelText("Mimesis interaction preview"),
+    ).toBeInTheDocument();
     expect(screenshot).toHaveAttribute("src", "/images/projects/sellpath_main.png");
     expect(preview).toHaveAttribute("src", "/videos/projects/mimesis_main.webm");
     expect(preview.tagName).toBe("VIDEO");
