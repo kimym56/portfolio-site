@@ -25,7 +25,7 @@ describe("project grid card layout", () => {
 
     expect(cardButtonRuleBody).toMatch(/min-height:\s*240px;/);
     expect(cardButtonRuleBody).toMatch(/display:\s*flex;/);
-    expect(cardButtonRuleBody).toMatch(/padding:\s*1rem 1\.2rem;/);
+    expect(cardButtonRuleBody).toMatch(/padding:\s*2rem 1\.5rem;/);
     expect(contentRuleBody).toMatch(/display:\s*flex;/);
     expect(contentRuleBody).toMatch(/flex:\s*1;/);
     expect(contentRuleBody).toMatch(/flex-direction:\s*column;/);
