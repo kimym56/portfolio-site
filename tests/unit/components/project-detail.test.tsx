@@ -117,14 +117,15 @@ describe("ProjectDetail", () => {
           media: [
             {
               type: "video",
-              src: "/videos/projects/mimesis_page_curl.webm",
-              label: "My Mimesis iOS Page Curl implementation preview",
+              src: "/videos/projects/mimesis_page_curl_slide.webm",
+              label: "My Mimesis iOS Page Curl slide implementation preview",
               caption: "iOS Page Curl Effect",
               width: 354,
               height: 264,
               referenceMedia: {
-                src: "/images/projects/mimesis_page_curl_reference.jpg",
-                alt: "Original Page Curl reference",
+                type: "video",
+                src: "/videos/projects/mimesis_page_curl.webm",
+                ariaLabel: "Original iOS Page Curl reference preview",
                 label: "Original",
                 width: 600,
                 height: 600,
@@ -132,14 +133,15 @@ describe("ProjectDetail", () => {
             },
             {
               type: "video",
-              src: "/videos/projects/mimesis_wiper_typography.webm",
-              label: "My Mimesis Wiper Typography implementation preview",
+              src: "/videos/projects/mimesis_wiper_typography_slide.webm",
+              label: "My Mimesis Wiper Typography slide implementation preview",
               caption: "Wiper Typography",
               width: 548,
               height: 410,
               referenceMedia: {
-                src: "/images/projects/mimesis_wiper_typography_reference.png",
-                alt: "Original Wiper Typography reference",
+                type: "video",
+                src: "/videos/projects/mimesis_wiper_typography.webm",
+                ariaLabel: "Original Wiper Typography reference preview",
                 label: "Original",
                 width: 900,
                 height: 560,
@@ -147,14 +149,15 @@ describe("ProjectDetail", () => {
             },
             {
               type: "video",
-              src: "/videos/projects/mimesis_black_white_circle.webm",
-              label: "My Mimesis Black & White Circle implementation preview",
+              src: "/videos/projects/mimesis_black_white_circle_slide.webm",
+              label: "My Mimesis Black & White Circle slide implementation preview",
               caption: "Black & White Circle",
               width: 548,
               height: 410,
               referenceMedia: {
-                src: "/images/projects/mimesis_black_white_circle_reference.jpg",
-                alt: "Original Black & White Circle reference",
+                type: "video",
+                src: "/videos/projects/mimesis_black_white_circle.webm",
+                ariaLabel: "Original Black & White Circle reference preview",
                 label: "Original",
                 width: 360,
                 height: 640,
@@ -211,13 +214,32 @@ describe("ProjectDetail", () => {
     expect(
       screen.getByText("My Mimesis implementation rebuilds the drag interaction in R3F."),
     ).toBeInTheDocument();
-    expect(within(mediaRows[0]).getByAltText("Original Page Curl reference")).toHaveAttribute(
-      "src",
-      "/images/projects/mimesis_page_curl_reference.jpg",
+    const originalPreview = within(mediaRows[0]).getByLabelText(
+      "Original iOS Page Curl reference preview",
     );
-    expect(
-      within(mediaRows[0]).getByLabelText("My Mimesis iOS Page Curl implementation preview"),
-    ).toHaveAttribute("src", "/videos/projects/mimesis_page_curl.webm");
+    const slidePreview = within(mediaRows[0]).getByLabelText(
+      "My Mimesis iOS Page Curl slide implementation preview",
+    );
+
+    expect(originalPreview).toHaveAttribute(
+      "src",
+      "/videos/projects/mimesis_page_curl.webm",
+    );
+    expect(slidePreview).toHaveAttribute(
+      "src",
+      "/videos/projects/mimesis_page_curl_slide.webm",
+    );
+    expect(originalPreview.tagName).toBe("VIDEO");
+    expect(originalPreview).toHaveAttribute("autoplay");
+    expect(originalPreview).toHaveAttribute("loop");
+    expect((originalPreview as HTMLVideoElement).muted).toBe(true);
+    expect(originalPreview).toHaveAttribute("playsinline");
+    expect(originalPreview).not.toHaveAttribute("controls");
+    expect(slidePreview).toHaveAttribute("autoplay");
+    expect(slidePreview).toHaveAttribute("loop");
+    expect((slidePreview as HTMLVideoElement).muted).toBe(true);
+    expect(slidePreview).toHaveAttribute("playsinline");
+    expect(slidePreview).not.toHaveAttribute("controls");
     expect(within(mediaRows[0]).getByText("Original")).toBeInTheDocument();
     expect(within(mediaRows[0]).getByText("My Mimesis")).toBeInTheDocument();
     expect(

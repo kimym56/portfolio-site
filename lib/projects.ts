@@ -16,13 +16,27 @@ export interface ProjectDetailSection {
   implementation?: string;
 }
 
-interface ProjectReferenceMedia {
+interface ProjectReferenceImageMedia {
+  type: "image";
   src: string;
   alt: string;
   label: string;
   width: number;
   height: number;
 }
+
+interface ProjectReferenceVideoMedia {
+  type: "video";
+  src: string;
+  ariaLabel: string;
+  label: string;
+  width: number;
+  height: number;
+}
+
+type ProjectReferenceMedia =
+  | ProjectReferenceImageMedia
+  | ProjectReferenceVideoMedia;
 
 interface ProjectImageMedia {
   type: "image";
@@ -139,62 +153,66 @@ export const PROJECTS: ProjectItem[] = [
     media: [
       {
         type: "video",
-        src: "/videos/projects/mimesis_page_curl.webm",
-        label: "My Mimesis iOS Page Curl Effect implementation preview",
+        src: "/videos/projects/mimesis_page_curl_slide.webm",
+        label: "My Mimesis iOS Page Curl Effect slide implementation preview",
         caption: "iOS Page Curl Effect",
-        width: 354,
-        height: 264,
+        width: 570,
+        height: 540,
         referenceMedia: {
-          src: "/images/projects/mimesis_page_curl_reference.jpg",
-          alt: "Original Page Curl reference",
+          type: "video",
+          src: "/videos/projects/mimesis_page_curl.webm",
+          ariaLabel: "Original iOS Page Curl Effect reference preview",
           label: "Original",
-          width: 600,
-          height: 600,
+          width: 354,
+          height: 264,
         },
       },
       {
         type: "video",
-        src: "/videos/projects/mimesis_wiper_typography.webm",
-        label: "My Mimesis Wiper Typography implementation preview",
+        src: "/videos/projects/mimesis_wiper_typography_slide.webm",
+        label: "My Mimesis Wiper Typography slide implementation preview",
         caption: "Wiper Typography",
-        width: 548,
-        height: 410,
+        width: 570,
+        height: 540,
         referenceMedia: {
-          src: "/images/projects/mimesis_wiper_typography_reference.png",
-          alt: "Original Wiper Typography reference",
+          type: "video",
+          src: "/videos/projects/mimesis_wiper_typography.webm",
+          ariaLabel: "Original Wiper Typography reference preview",
           label: "Original",
-          width: 900,
-          height: 560,
+          width: 548,
+          height: 410,
         },
       },
       {
         type: "video",
-        src: "/videos/projects/mimesis_black_white_circle.webm",
-        label: "My Mimesis Black & White Circle implementation preview",
+        src: "/videos/projects/mimesis_black_white_circle_slide.webm",
+        label: "My Mimesis Black & White Circle slide implementation preview",
         caption: "Black & White Circle",
-        width: 548,
-        height: 410,
+        width: 570,
+        height: 540,
         referenceMedia: {
-          src: "/images/projects/mimesis_black_white_circle_reference.jpg",
-          alt: "Original Black & White Circle reference",
+          type: "video",
+          src: "/videos/projects/mimesis_black_white_circle.webm",
+          ariaLabel: "Original Black & White Circle reference preview",
           label: "Original",
-          width: 360,
-          height: 640,
+          width: 548,
+          height: 410,
         },
       },
       {
         type: "video",
-        src: "/videos/projects/mimesis_staggered_text.webm",
-        label: "My Mimesis Staggered Text implementation preview",
+        src: "/videos/projects/mimesis_staggered_text_slide.webm",
+        label: "My Mimesis Staggered Text slide implementation preview",
         caption: "Staggered Text",
-        width: 548,
-        height: 410,
+        width: 570,
+        height: 540,
         referenceMedia: {
-          src: "/images/projects/mimesis_staggered_text_reference.svg",
-          alt: "Original Staggered Text reference",
+          type: "video",
+          src: "/videos/projects/mimesis_staggered_text.webm",
+          ariaLabel: "Original Staggered Text reference preview",
           label: "Original",
-          width: 1200,
-          height: 800,
+          width: 548,
+          height: 410,
         },
       },
     ],

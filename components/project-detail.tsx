@@ -93,6 +93,44 @@ export function ProjectDetail({
     return section.body;
   }
 
+  function renderReferenceMedia(
+    referenceMedia: Extract<
+      NonNullable<ProjectItem["media"]>[number],
+      { type: "video" }
+    >["referenceMedia"],
+  ) {
+    if (!referenceMedia) {
+      return null;
+    }
+
+    if (referenceMedia.type === "image") {
+      return (
+        <Image
+          className={styles.mediaComparisonImage}
+          src={referenceMedia.src}
+          alt={referenceMedia.alt}
+          fill
+          sizes="(max-width: 720px) 50vw, 25vw"
+        />
+      );
+    }
+
+    return (
+      <video
+        className={styles.mediaComparisonVideo}
+        src={referenceMedia.src}
+        aria-label={referenceMedia.ariaLabel}
+        width={referenceMedia.width}
+        height={referenceMedia.height}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+      />
+    );
+  }
+
   function renderMedia(item: NonNullable<ProjectItem["media"]>[number]) {
     const mediaOrientation = getMediaOrientation(item);
     const mediaAspectRatio =
@@ -129,13 +167,7 @@ export function ProjectDetail({
               tabIndex={0}
               aria-label={item.referenceMedia.label}
             >
-              <Image
-                className={styles.mediaComparisonImage}
-                src={item.referenceMedia.src}
-                alt={item.referenceMedia.alt}
-                fill
-                sizes="(max-width: 720px) 50vw, 25vw"
-              />
+              {renderReferenceMedia(item.referenceMedia)}
               <span className={styles.mediaComparisonLabel}>
                 {item.referenceMedia.label}
               </span>
