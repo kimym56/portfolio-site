@@ -49,9 +49,20 @@ export function ProjectDetail({
     },
   ];
 
+  function getMediaOrientation(item: NonNullable<ProjectItem["media"]>[number]) {
+    return item.width && item.height && item.height > item.width
+      ? "portrait"
+      : "landscape";
+  }
+
   function renderMedia(item: NonNullable<ProjectItem["media"]>[number]) {
+    const mediaOrientation = getMediaOrientation(item);
+
     return (
-      <figure className={styles.mediaCard}>
+      <figure
+        className={styles.mediaCard}
+        data-media-orientation={mediaOrientation}
+      >
         {item.type === "image" ? (
           <Image
             className={styles.mediaImage}
@@ -59,13 +70,19 @@ export function ProjectDetail({
             alt={item.alt}
             width={item.width}
             height={item.height}
-            sizes="(max-width: 720px) 100vw, 50vw"
+            sizes={
+              mediaOrientation === "portrait"
+                ? "(max-width: 720px) 100vw, 24rem"
+                : "(max-width: 720px) 100vw, 50vw"
+            }
           />
         ) : (
           <video
             className={styles.mediaVideo}
             src={item.src}
             aria-label={item.label}
+            width={item.width}
+            height={item.height}
             controls
             loop
             muted

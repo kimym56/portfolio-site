@@ -40,6 +40,14 @@ const projectWithMedia: ProjectItem = {
       label: "Mimesis interaction preview",
       caption: "Interaction preview",
     },
+    {
+      type: "image",
+      src: "/images/projects/sellpath_detail2.png",
+      alt: "Sellpath chat UI screenshot",
+      caption: "Chat UI",
+      width: 495,
+      height: 846,
+    },
   ],
   details: {
     summary: "Sellpath summary",
@@ -65,6 +73,7 @@ describe("ProjectDetail", () => {
     const mediaRows = screen.getAllByTestId("project-detail-row");
     const screenshot = within(mediaRegion).getByAltText("Sellpath dashboard screenshot");
     const preview = within(mediaRegion).getByLabelText("Mimesis interaction preview");
+    const chatUi = within(mediaRegion).getByAltText("Sellpath chat UI screenshot");
 
     expect(mediaRows).toHaveLength(4);
     expect(mediaRows[0]).toHaveAttribute("data-media-side", "right");
@@ -77,10 +86,17 @@ describe("ProjectDetail", () => {
     expect(
       within(mediaRows[1]).getByLabelText("Mimesis interaction preview"),
     ).toBeInTheDocument();
+    expect(mediaRows[2]).toHaveAttribute("data-media-side", "right");
+    expect(chatUi.closest("figure")).toHaveAttribute(
+      "data-media-orientation",
+      "portrait",
+    );
     expect(screenshot).toHaveAttribute("src", "/images/projects/sellpath_main.png");
     expect(preview).toHaveAttribute("src", "/videos/projects/mimesis_main.webm");
+    expect(chatUi).toHaveAttribute("src", "/images/projects/sellpath_detail2.png");
     expect(preview.tagName).toBe("VIDEO");
     expect(within(mediaRegion).getByText("Sales dashboard")).toBeInTheDocument();
     expect(within(mediaRegion).getByText("Interaction preview")).toBeInTheDocument();
+    expect(within(mediaRegion).getByText("Chat UI")).toBeInTheDocument();
   });
 });

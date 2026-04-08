@@ -133,6 +133,11 @@
   overflow: hidden;
 }
 
+.mediaCard[data-media-orientation="portrait"] {
+  justify-self: center;
+  width: min(100%, 24rem);
+}
+
 .mediaImage,
 .mediaVideo {
   background: var(--surface);

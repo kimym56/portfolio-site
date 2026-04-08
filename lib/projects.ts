@@ -22,6 +22,8 @@ interface ProjectVideoMedia {
   src: string;
   label: string;
   caption: string;
+  width?: number;
+  height?: number;
 }
 
 export type ProjectMediaItem = ProjectImageMedia | ProjectVideoMedia;
@@ -118,9 +120,35 @@ export const PROJECTS: ProjectItem[] = [
     media: [
       {
         type: "video",
-        src: "/videos/projects/mimesis_main.webm",
-        label: "Mimesis interaction preview",
-        caption: "Interaction preview",
+        src: "/videos/projects/mimesis_page_curl.webm",
+        label: "Mimesis iOS Page Curl Effect preview",
+        caption: "iOS Page Curl Effect",
+        width: 354,
+        height: 264,
+      },
+      {
+        type: "video",
+        src: "/videos/projects/mimesis_wiper_typography.webm",
+        label: "Mimesis Wiper Typography preview",
+        caption: "Wiper Typography",
+        width: 548,
+        height: 410,
+      },
+      {
+        type: "video",
+        src: "/videos/projects/mimesis_black_white_circle.webm",
+        label: "Mimesis Black & White Circle preview",
+        caption: "Black & White Circle",
+        width: 548,
+        height: 410,
+      },
+      {
+        type: "video",
+        src: "/videos/projects/mimesis_staggered_text.webm",
+        label: "Mimesis Staggered Text preview",
+        caption: "Staggered Text",
+        width: 548,
+        height: 410,
       },
     ],
     details: {

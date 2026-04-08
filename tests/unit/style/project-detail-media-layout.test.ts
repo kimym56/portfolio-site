@@ -22,4 +22,15 @@ describe("project detail media layout", () => {
     );
     expect(cssContent.match(new RegExp(equalColumns, "g"))).toHaveLength(2);
   });
+
+  it("caps portrait media inside the 50/50 media column", () => {
+    const cssContent = readProjectDetailCss();
+
+    expect(cssContent).toMatch(
+      /\.mediaCard\[data-media-orientation="portrait"\]\s*\{[\s\S]*?justify-self:\s*center;/,
+    );
+    expect(cssContent).toMatch(
+      /\.mediaCard\[data-media-orientation="portrait"\]\s*\{[\s\S]*?width:\s*min\(100%,\s*24rem\);/,
+    );
+  });
 });

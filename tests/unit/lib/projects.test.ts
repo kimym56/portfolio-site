@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import fs from "node:fs";
+import path from "node:path";
 import { PROJECTS } from "@/lib/projects";
 
 describe("PROJECTS", () => {
@@ -37,11 +39,25 @@ describe("PROJECTS", () => {
     expect(sellpath?.media?.map((item) => item.src) ?? []).toContain(
       "/images/projects/sellpath_main.png",
     );
-    expect(mimesis?.media?.map((item) => item.src) ?? []).toContain(
-      "/videos/projects/mimesis_main.webm",
-    );
+    expect(mimesis?.media?.map((item) => item.src) ?? []).toEqual([
+      "/videos/projects/mimesis_page_curl.webm",
+      "/videos/projects/mimesis_wiper_typography.webm",
+      "/videos/projects/mimesis_black_white_circle.webm",
+      "/videos/projects/mimesis_staggered_text.webm",
+    ]);
     expect(dsskills?.media?.map((item) => item.src) ?? []).toContain(
       "/images/projects/dsskills_main.png",
     );
+  });
+
+  it("references local project media assets that exist in public", () => {
+    const mediaItems = PROJECTS.flatMap((project) => project.media ?? []);
+
+    expect(mediaItems.length).toBeGreaterThan(0);
+
+    for (const item of mediaItems) {
+      expect(item.src.startsWith("/")).toBe(true);
+      expect(fs.existsSync(path.join(process.cwd(), "public", item.src))).toBe(true);
+    }
   });
 });
