@@ -72,12 +72,32 @@ describe("PROJECTS", () => {
       "Staggered Text",
     ]);
 
-    const sectionCopy = mimesis?.detailSections?.map((section) => section.body).join(" ");
+    const referenceCopy = mimesis?.detailSections
+      ?.map((section) => section.reference)
+      .join(" ");
+    const implementationCopy = mimesis?.detailSections
+      ?.map((section) => section.implementation)
+      .join(" ");
 
-    expect(sectionCopy).toMatch(/original/i);
-    expect(sectionCopy).toMatch(/inspired/i);
-    expect(sectionCopy).toMatch(/my/i);
-    expect(sectionCopy).toMatch(/R3F/i);
-    expect(sectionCopy).toMatch(/Framer Motion/i);
+    expect(mimesis?.media?.map((item) => item.caption)).toEqual([
+      "My Mimesis: iOS Page Curl Effect",
+      "My Mimesis: Wiper Typography",
+      "My Mimesis: Black & White Circle",
+      "My Mimesis: Staggered Text",
+    ]);
+    expect(referenceCopy).toMatch(/reference/i);
+    expect(referenceCopy).toMatch(/inspir/i);
+    expect(implementationCopy).toMatch(/My Mimesis/i);
+    expect(implementationCopy).toMatch(/R3F/i);
+    expect(implementationCopy).toMatch(/Framer Motion/i);
+    expect(
+      mimesis?.detailSections?.map((section) => section.implementationUrl),
+    ).toEqual([
+      "https://ymkim-mimesis.vercel.app/project/ios-curl-animation",
+      "https://ymkim-mimesis.vercel.app/project/wiper-typography",
+      "https://ymkim-mimesis.vercel.app/project/black-white-circle",
+      "https://ymkim-mimesis.vercel.app/project/staggered-text",
+    ]);
+    expect(mimesis?.detailSections?.some((section) => section.body)).toBe(false);
   });
 });

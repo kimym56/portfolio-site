@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
+import type { ReactNode } from "react";
 import type { ProjectItem } from "@/lib/projects";
 import styles from "./project-detail.module.css";
 
@@ -9,6 +10,15 @@ interface ProjectDetailProps {
   backLabel: string;
   visitLabel: string;
   onBack: () => void;
+}
+
+interface DetailSectionViewModel {
+  id: string;
+  title: string;
+  body?: ReactNode;
+  reference?: string;
+  implementation?: string;
+  implementationUrl?: string;
 }
 
 export function ProjectDetail({
@@ -48,16 +58,50 @@ export function ProjectDetail({
       ),
     },
   ];
-  const detailSections =
-    project.detailSections?.map((section) => ({
-      ...section,
-      body: <p className={styles.sectionBody}>{section.body}</p>,
-    })) ?? defaultDetailSections;
+  const detailSections: DetailSectionViewModel[] =
+    project.detailSections ?? defaultDetailSections;
 
   function getMediaOrientation(item: NonNullable<ProjectItem["media"]>[number]) {
     return item.width && item.height && item.height > item.width
       ? "portrait"
       : "landscape";
+  }
+
+  function renderSectionBody(section: DetailSectionViewModel) {
+    if (section.reference || section.implementation) {
+      return (
+        <div className={styles.sectionBlocks}>
+          {section.reference ? (
+            <div className={styles.sectionBlock}>
+              <p className={styles.sectionLabel}>Original reference</p>
+              <p className={styles.sectionBody}>{section.reference}</p>
+            </div>
+          ) : null}
+          {section.implementation ? (
+            <div className={styles.sectionBlock}>
+              <p className={styles.sectionLabel}>My Mimesis implementation</p>
+              <p className={styles.sectionBody}>{section.implementation}</p>
+              {section.implementationUrl ? (
+                <a
+                  className={styles.sectionLink}
+                  href={section.implementationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open My Mimesis: {section.title}
+                </a>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+      );
+    }
+
+    if (typeof section.body === "string") {
+      return <p className={styles.sectionBody}>{section.body}</p>;
+    }
+
+    return section.body;
   }
 
   function renderMedia(item: NonNullable<ProjectItem["media"]>[number]) {
@@ -163,7 +207,7 @@ export function ProjectDetail({
               >
                 <div className={styles.detailCopy}>
                   <h3 className={styles.sectionTitle}>{section.title}</h3>
-                  {section.body}
+                  {renderSectionBody(section)}
                 </div>
                 {mediaItem ? renderMedia(mediaItem) : null}
               </section>
@@ -180,7 +224,7 @@ export function ProjectDetail({
             >
               <div className={styles.detailCopy}>
                 <h3 className={styles.sectionTitle}>{section.title}</h3>
-                {section.body}
+                {renderSectionBody(section)}
               </div>
             </section>
           ))}

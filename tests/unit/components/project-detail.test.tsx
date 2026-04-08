@@ -118,17 +118,29 @@ describe("ProjectDetail", () => {
             {
               id: "page-curl",
               title: "iOS Page Curl Effect",
-              body: "Original Page Curl inspiration, then my R3F implementation.",
+              reference: "Page Curl inspiration from the iOS reference.",
+              implementation:
+                "My Mimesis implementation rebuilds the drag interaction in R3F.",
+              implementationUrl:
+                "https://ymkim-mimesis.vercel.app/project/ios-curl-animation",
             },
             {
               id: "wiper-typography",
               title: "Wiper Typography",
-              body: "Original FFF typography reference, then my Tesla model implementation.",
+              reference: "FFF typography reference by Jongmin Kim.",
+              implementation:
+                "My Mimesis implementation adds the Tesla driver-view scene.",
+              implementationUrl:
+                "https://ymkim-mimesis.vercel.app/project/wiper-typography",
             },
             {
               id: "black-white-circle",
               title: "Black & White Circle",
-              body: "Original audio-driven particle reference, then my browser audio implementation.",
+              reference: "Original audio-driven particle reference.",
+              implementation:
+                "My Mimesis implementation analyzes browser audio output.",
+              implementationUrl:
+                "https://ymkim-mimesis.vercel.app/project/black-white-circle",
             },
           ],
         }}
@@ -147,6 +159,19 @@ describe("ProjectDetail", () => {
     expect(screen.getByText("iOS Page Curl Effect")).toBeInTheDocument();
     expect(screen.getByText("Wiper Typography")).toBeInTheDocument();
     expect(screen.getByText("Black & White Circle")).toBeInTheDocument();
+    expect(screen.getAllByText("Original reference")).toHaveLength(3);
+    expect(screen.getAllByText("My Mimesis implementation")).toHaveLength(3);
+    expect(
+      screen.getByText("My Mimesis implementation rebuilds the drag interaction in R3F."),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", {
+        name: "Open My Mimesis: iOS Page Curl Effect",
+      }),
+    ).toHaveAttribute(
+      "href",
+      "https://ymkim-mimesis.vercel.app/project/ios-curl-animation",
+    );
     expect(screen.queryByText("What This Project Is")).not.toBeInTheDocument();
   });
 });

@@ -11,7 +11,10 @@ export interface ProjectDetailContent {
 export interface ProjectDetailSection {
   id: string;
   title: string;
-  body: string;
+  body?: string;
+  reference?: string;
+  implementation?: string;
+  implementationUrl?: string;
 }
 
 interface ProjectImageMedia {
@@ -129,32 +132,32 @@ export const PROJECTS: ProjectItem[] = [
       {
         type: "video",
         src: "/videos/projects/mimesis_page_curl.webm",
-        label: "Mimesis iOS Page Curl Effect preview",
-        caption: "iOS Page Curl Effect",
+        label: "My Mimesis iOS Page Curl Effect implementation preview",
+        caption: "My Mimesis: iOS Page Curl Effect",
         width: 354,
         height: 264,
       },
       {
         type: "video",
         src: "/videos/projects/mimesis_wiper_typography.webm",
-        label: "Mimesis Wiper Typography preview",
-        caption: "Wiper Typography",
+        label: "My Mimesis Wiper Typography implementation preview",
+        caption: "My Mimesis: Wiper Typography",
         width: 548,
         height: 410,
       },
       {
         type: "video",
         src: "/videos/projects/mimesis_black_white_circle.webm",
-        label: "Mimesis Black & White Circle preview",
-        caption: "Black & White Circle",
+        label: "My Mimesis Black & White Circle implementation preview",
+        caption: "My Mimesis: Black & White Circle",
         width: 548,
         height: 410,
       },
       {
         type: "video",
         src: "/videos/projects/mimesis_staggered_text.webm",
-        label: "Mimesis Staggered Text preview",
-        caption: "Staggered Text",
+        label: "My Mimesis Staggered Text implementation preview",
+        caption: "My Mimesis: Staggered Text",
         width: 548,
         height: 410,
       },
@@ -164,26 +167,42 @@ export const PROJECTS: ProjectItem[] = [
       {
         id: "ios-page-curl-effect",
         title: "iOS Page Curl Effect",
-        body:
-          "Original reference: the Page Curl effect used in iBooks and Apple Maps, inspired by Minsang Choi's Metal shader work. My Mimesis implementation rebuilds the interaction in R3F from a SwiftUI reference, so users can drag a corner and flip a page to reveal the reverse side.",
+        reference:
+          "Reference inspiration from the Page Curl effect used in iBooks and Apple Maps, with Minsang Choi's Metal shader work as the visual benchmark.",
+        implementation:
+          "My Mimesis implementation rebuilds the corner-peel interaction in R3F from a SwiftUI reference, with draggable page corners and a reverse-side reveal.",
+        implementationUrl:
+          "https://ymkim-mimesis.vercel.app/project/ios-curl-animation",
       },
       {
         id: "wiper-typography",
         title: "Wiper Typography",
-        body:
-          "Original reference: Jongmin Kim's FFF typography experiment, where a wiper reveals and transforms type in real time. My Mimesis implementation recreates the idea in R3F by combining the original HTML/CSS behavior with a Tesla 3D model and a driver-view wiper scene.",
+        reference:
+          "Reference inspiration from Jongmin Kim's FFF typography experiment, where a wiper reveals and transforms type in real time.",
+        implementation:
+          "My Mimesis implementation recreates the interaction in R3F by combining the original HTML/CSS behavior with a Tesla 3D model and a driver-view wiper scene.",
+        implementationUrl:
+          "https://ymkim-mimesis.vercel.app/project/wiper-typography",
       },
       {
         id: "black-white-circle",
         title: "Black & White Circle",
-        body:
-          "Original reference: SABUM's Yin and Yang Dynamics project, which connects sound to particle motion. My Mimesis implementation analyzes the browser's audio output instead of extracting YouTube audio directly, then drives the black-and-white particle motion in real time.",
+        reference:
+          "Reference inspiration from SABUM's Yin and Yang Dynamics project, which connects sound to black-and-white particle motion.",
+        implementation:
+          "My Mimesis implementation analyzes the browser's audio output instead of extracting YouTube audio directly, then drives the particle motion in real time.",
+        implementationUrl:
+          "https://ymkim-mimesis.vercel.app/project/black-white-circle",
       },
       {
         id: "staggered-text",
         title: "Staggered Text",
-        body:
-          "Original reference: Rauno Freiberg's staggered text interaction with a soft 3D feel. My Mimesis implementation recreates the motion with Framer Motion, supporting user text input and click-driven previews that make the staggered motion easier to test and tune.",
+        reference:
+          "Reference inspiration from Rauno Freiberg's staggered text interaction with a soft 3D feel.",
+        implementation:
+          "My Mimesis implementation recreates the motion with Framer Motion, supporting user text input and click-driven previews that make the staggered motion easier to test and tune.",
+        implementationUrl:
+          "https://ymkim-mimesis.vercel.app/project/staggered-text",
       },
     ],
     details: {

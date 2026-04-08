@@ -67,7 +67,10 @@ Add:
 export interface ProjectDetailSection {
   id: string;
   title: string;
-  body: string;
+  body?: string;
+  reference?: string;
+  implementation?: string;
+  implementationUrl?: string;
 }
 ```
 
@@ -152,3 +155,71 @@ Result: configured e2e was blocked by the existing `.next/dev/lock`, so the equi
 
 Run: `git diff --stat && git diff --check`
 Result: PASS. Diff is limited to autoplay video behavior, Mimesis custom rows/layout, tests, and docs.
+
+---
+
+## Chunk 2: Clarify My Mimesis Implementation Presence
+
+### Task 5: Add Regression Coverage For Implementation Visibility
+
+**Files:**
+- Modify: `tests/unit/components/project-detail.test.tsx`
+- Modify: `tests/unit/lib/projects.test.ts`
+
+- [x] **Step 1: Assert explicit reference and implementation labels**
+
+Update the component test so custom Mimesis-like sections assert both `Original reference` and `My Mimesis implementation` labels, plus a direct implementation link.
+
+- [x] **Step 2: Assert Mimesis media is labelled as My Mimesis**
+
+Update the project data test so the four Mimesis media captions begin with `My Mimesis:` and the detail rows use separate `reference`, `implementation`, and `implementationUrl` fields.
+
+- [x] **Step 3: Verify the tests fail before the fix**
+
+Run: `npm run test -- tests/unit/components/project-detail.test.tsx tests/unit/lib/projects.test.ts`
+Result: FAIL because the component rendered one combined body paragraph and the media captions only used effect names.
+
+### Task 6: Split Reference And Implementation Presentation
+
+**Files:**
+- Modify: `lib/projects.ts`
+- Modify: `components/project-detail.tsx`
+- Modify: `components/project-detail.module.css`
+
+- [x] **Step 1: Update Mimesis data**
+
+Replace the single combined Mimesis `body` strings with separate `reference`, `implementation`, and `implementationUrl` fields. Update Mimesis media captions and labels so the videos are explicitly framed as My Mimesis implementation previews.
+
+- [x] **Step 2: Render labelled borderless blocks**
+
+Render custom detail sections as two borderless text groups: `Original reference` and `My Mimesis implementation`. Add a text link to the corresponding Mimesis implementation page.
+
+- [x] **Step 3: Run focused tests**
+
+Run: `npm run test -- tests/unit/components/project-detail.test.tsx tests/unit/lib/projects.test.ts`
+Result: PASS, 2 files / 7 tests.
+
+### Task 7: Verify Clarification Patch
+
+**Files:**
+- Test: full repo checks
+
+- [x] **Step 1: Run unit tests**
+
+Run: `npm test`
+Result: PASS, 37 files / 77 tests.
+
+- [x] **Step 2: Run lint**
+
+Run: `npm run lint`
+Result: PASS.
+
+- [x] **Step 3: Run build**
+
+Run: `npm run build`
+Result: PASS.
+
+- [x] **Step 4: Run or account for Projects browser flow**
+
+Run: `npm run test:e2e -- tests/e2e/projects-filter.spec.ts`
+Result: configured e2e is still blocked by the existing `.next/dev/lock`. The equivalent Playwright browser flow against `http://127.0.0.1:3000/projects` passed for the Mimesis row rhythm, four reference labels, four My Mimesis implementation labels, My Mimesis captions, implementation links, and autoplay/no-controls video behavior.
