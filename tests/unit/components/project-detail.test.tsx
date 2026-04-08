@@ -116,51 +116,54 @@ describe("ProjectDetail", () => {
           mediaStartSide: "left",
           media: [
             {
-              type: "video",
-              src: "/videos/projects/mimesis_page_curl_slide.webm",
-              label: "My Mimesis iOS Page Curl slide implementation preview",
+              type: "image",
+              src: "/images/projects/mimesis_page_curl.webp",
+              alt: "My Mimesis iOS Page Curl implementation preview",
+              label: "My Mimesis iOS Page Curl implementation preview",
               caption: "iOS Page Curl Effect",
-              width: 354,
-              height: 264,
+              width: 548,
+              height: 548,
               referenceMedia: {
-                type: "video",
-                src: "/videos/projects/mimesis_page_curl.webm",
-                ariaLabel: "Original iOS Page Curl reference preview",
+                type: "image",
+                src: "/images/projects/mimesis_page_curl_original.webp",
+                alt: "Original iOS Page Curl reference preview",
                 label: "Original",
-                width: 600,
-                height: 600,
+                width: 548,
+                height: 548,
               },
             },
             {
-              type: "video",
-              src: "/videos/projects/mimesis_wiper_typography_slide.webm",
-              label: "My Mimesis Wiper Typography slide implementation preview",
+              type: "image",
+              src: "/images/projects/mimesis_wiper_typography.webp",
+              alt: "My Mimesis Wiper Typography implementation preview",
+              label: "My Mimesis Wiper Typography implementation preview",
               caption: "Wiper Typography",
               width: 548,
-              height: 410,
+              height: 548,
               referenceMedia: {
-                type: "video",
-                src: "/videos/projects/mimesis_wiper_typography.webm",
-                ariaLabel: "Original Wiper Typography reference preview",
+                type: "image",
+                src: "/images/projects/mimesis_wiper_typography_original.webp",
+                alt: "Original Wiper Typography reference preview",
                 label: "Original",
-                width: 900,
-                height: 560,
+                width: 548,
+                height: 548,
               },
             },
             {
-              type: "video",
-              src: "/videos/projects/mimesis_black_white_circle_slide.webm",
-              label: "My Mimesis Black & White Circle slide implementation preview",
+              type: "image",
+              src: "/images/projects/mimesis_black_white_circle.webp",
+              alt: "My Mimesis Black & White Circle implementation preview",
+              label: "My Mimesis Black & White Circle implementation preview",
               caption: "Black & White Circle",
               width: 548,
-              height: 410,
+              height: 548,
               referenceMedia: {
-                type: "video",
-                src: "/videos/projects/mimesis_black_white_circle.webm",
-                ariaLabel: "Original Black & White Circle reference preview",
+                type: "image",
+                src: "/images/projects/mimesis_black_white_circle_original.webp",
+                alt: "Original Black & White Circle reference preview",
                 label: "Original",
-                width: 360,
-                height: 640,
+                width: 548,
+                height: 548,
               },
             },
           ],
@@ -214,40 +217,31 @@ describe("ProjectDetail", () => {
     expect(
       screen.getByText("My Mimesis implementation rebuilds the drag interaction in R3F."),
     ).toBeInTheDocument();
-    const originalPreview = within(mediaRows[0]).getByLabelText(
+    const originalPreview = within(mediaRows[0]).getByAltText(
       "Original iOS Page Curl reference preview",
     );
-    const slidePreview = within(mediaRows[0]).getByLabelText(
-      "My Mimesis iOS Page Curl slide implementation preview",
+    const mimesisPreview = within(mediaRows[0]).getByAltText(
+      "My Mimesis iOS Page Curl implementation preview",
     );
 
     expect(originalPreview).toHaveAttribute(
       "src",
-      "/videos/projects/mimesis_page_curl.webm",
+      "/images/projects/mimesis_page_curl_original.webp",
     );
-    expect(slidePreview).toHaveAttribute(
+    expect(mimesisPreview).toHaveAttribute(
       "src",
-      "/videos/projects/mimesis_page_curl_slide.webm",
+      "/images/projects/mimesis_page_curl.webp",
     );
     expect(originalPreview.closest("[data-media-role]")).toHaveAttribute(
       "data-media-role",
       "original",
     );
-    expect(slidePreview.closest("[data-media-role]")).toHaveAttribute(
+    expect(mimesisPreview.closest("[data-media-role]")).toHaveAttribute(
       "data-media-role",
       "mimesis",
     );
-    expect(originalPreview.tagName).toBe("VIDEO");
-    expect(originalPreview).toHaveAttribute("autoplay");
-    expect(originalPreview).toHaveAttribute("loop");
-    expect((originalPreview as HTMLVideoElement).muted).toBe(true);
-    expect(originalPreview).toHaveAttribute("playsinline");
-    expect(originalPreview).not.toHaveAttribute("controls");
-    expect(slidePreview).toHaveAttribute("autoplay");
-    expect(slidePreview).toHaveAttribute("loop");
-    expect((slidePreview as HTMLVideoElement).muted).toBe(true);
-    expect(slidePreview).toHaveAttribute("playsinline");
-    expect(slidePreview).not.toHaveAttribute("controls");
+    expect(originalPreview.tagName).toBe("IMG");
+    expect(mimesisPreview.tagName).toBe("IMG");
     expect(within(mediaRows[0]).getByText("Original")).toBeInTheDocument();
     expect(within(mediaRows[0]).getByText("My Mimesis")).toBeInTheDocument();
     expect(

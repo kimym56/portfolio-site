@@ -34,7 +34,7 @@ interface ProjectReferenceVideoMedia {
   height: number;
 }
 
-type ProjectReferenceMedia =
+export type ProjectReferenceMedia =
   | ProjectReferenceImageMedia
   | ProjectReferenceVideoMedia;
 
@@ -42,9 +42,11 @@ interface ProjectImageMedia {
   type: "image";
   src: string;
   alt: string;
+  label?: string;
   caption: string;
   width: number;
   height: number;
+  referenceMedia?: ProjectReferenceMedia;
 }
 
 interface ProjectVideoMedia {
@@ -152,67 +154,71 @@ export const PROJECTS: ProjectItem[] = [
     ],
     media: [
       {
-        type: "video",
-        src: "/videos/projects/mimesis_page_curl_slide.webm",
-        label: "My Mimesis iOS Page Curl Effect slide implementation preview",
+        type: "image",
+        src: "/images/projects/mimesis_page_curl.webp",
+        alt: "My Mimesis iOS Page Curl Effect implementation preview",
+        label: "My Mimesis iOS Page Curl Effect implementation preview",
         caption: "iOS Page Curl Effect",
-        width: 570,
-        height: 540,
+        width: 548,
+        height: 548,
         referenceMedia: {
-          type: "video",
-          src: "/videos/projects/mimesis_page_curl.webm",
-          ariaLabel: "Original iOS Page Curl Effect reference preview",
+          type: "image",
+          src: "/images/projects/mimesis_page_curl_original.webp",
+          alt: "Original iOS Page Curl Effect reference preview",
           label: "Original",
-          width: 354,
-          height: 264,
+          width: 548,
+          height: 548,
         },
       },
       {
-        type: "video",
-        src: "/videos/projects/mimesis_wiper_typography_slide.webm",
-        label: "My Mimesis Wiper Typography slide implementation preview",
+        type: "image",
+        src: "/images/projects/mimesis_wiper_typography.webp",
+        alt: "My Mimesis Wiper Typography implementation preview",
+        label: "My Mimesis Wiper Typography implementation preview",
         caption: "Wiper Typography",
-        width: 570,
-        height: 540,
+        width: 548,
+        height: 548,
         referenceMedia: {
-          type: "video",
-          src: "/videos/projects/mimesis_wiper_typography.webm",
-          ariaLabel: "Original Wiper Typography reference preview",
+          type: "image",
+          src: "/images/projects/mimesis_wiper_typography_original.webp",
+          alt: "Original Wiper Typography reference preview",
           label: "Original",
           width: 548,
-          height: 410,
+          height: 548,
         },
       },
       {
-        type: "video",
-        src: "/videos/projects/mimesis_black_white_circle_slide.webm",
-        label: "My Mimesis Black & White Circle slide implementation preview",
+        type: "image",
+        src: "/images/projects/mimesis_black_white_circle.webp",
+        alt: "My Mimesis Black & White Circle implementation preview",
+        label: "My Mimesis Black & White Circle implementation preview",
         caption: "Black & White Circle",
-        width: 570,
-        height: 540,
+        width: 548,
+        height: 548,
         referenceMedia: {
-          type: "video",
-          src: "/videos/projects/mimesis_black_white_circle.webm",
-          ariaLabel: "Original Black & White Circle reference preview",
+          type: "image",
+          src: "/images/projects/mimesis_black_white_circle_original.webp",
+          alt: "Original Black & White Circle reference preview",
           label: "Original",
           width: 548,
-          height: 410,
+          height: 548,
         },
       },
       {
-        type: "video",
-        src: "/videos/projects/mimesis_staggered_text_slide.webm",
-        label: "My Mimesis Staggered Text slide implementation preview",
+        type: "image",
+        src: "/images/projects/mimesis_staggered_text.webp",
+        alt: "My Mimesis Staggered Text implementation preview",
+        label: "My Mimesis Staggered Text implementation preview",
         caption: "Staggered Text",
-        width: 570,
-        height: 540,
+        width: 548,
+        height: 548,
         referenceMedia: {
-          type: "video",
-          src: "/videos/projects/mimesis_staggered_text.webm",
-          ariaLabel: "Original Staggered Text reference preview",
+          type: "image",
+          src: "/images/projects/mimesis_staggered_text_original.webp",
+          alt: "Original Staggered Text reference preview",
           label: "Original",
           width: 548,
-          height: 410,
+          height: 548,
         },
       },
     ],

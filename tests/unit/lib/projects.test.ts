@@ -40,10 +40,10 @@ describe("PROJECTS", () => {
       "/images/projects/sellpath_main.png",
     );
     expect(mimesis?.media?.map((item) => item.src) ?? []).toEqual([
-      "/videos/projects/mimesis_page_curl_slide.webm",
-      "/videos/projects/mimesis_wiper_typography_slide.webm",
-      "/videos/projects/mimesis_black_white_circle_slide.webm",
-      "/videos/projects/mimesis_staggered_text_slide.webm",
+      "/images/projects/mimesis_page_curl.webp",
+      "/images/projects/mimesis_wiper_typography.webp",
+      "/images/projects/mimesis_black_white_circle.webp",
+      "/images/projects/mimesis_staggered_text.webp",
     ]);
     expect(dsskills?.media?.map((item) => item.src) ?? []).toContain(
       "/images/projects/dsskills_main.png",
@@ -59,7 +59,7 @@ describe("PROJECTS", () => {
       expect(item.src.startsWith("/")).toBe(true);
       expect(fs.existsSync(path.join(process.cwd(), "public", item.src))).toBe(true);
 
-      if (item.type === "video" && item.referenceMedia) {
+      if ("referenceMedia" in item && item.referenceMedia) {
         expect(item.referenceMedia.src.startsWith("/")).toBe(true);
         expect(
           fs.existsSync(path.join(process.cwd(), "public", item.referenceMedia.src)),
@@ -94,15 +94,15 @@ describe("PROJECTS", () => {
     ]);
     expect(
       mimesis?.media?.map((item) =>
-        item.type === "video"
+        "referenceMedia" in item
           ? `${item.referenceMedia?.type}:${item.referenceMedia?.src}`
           : undefined,
       ),
     ).toEqual([
-      "video:/videos/projects/mimesis_page_curl.webm",
-      "video:/videos/projects/mimesis_wiper_typography.webm",
-      "video:/videos/projects/mimesis_black_white_circle.webm",
-      "video:/videos/projects/mimesis_staggered_text.webm",
+      "image:/images/projects/mimesis_page_curl_original.webp",
+      "image:/images/projects/mimesis_wiper_typography_original.webp",
+      "image:/images/projects/mimesis_black_white_circle_original.webp",
+      "image:/images/projects/mimesis_staggered_text_original.webp",
     ]);
     expect(referenceCopy).toMatch(/reference/i);
     expect(referenceCopy).toMatch(/inspir/i);

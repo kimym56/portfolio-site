@@ -1,7 +1,11 @@
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import type { ReactNode } from "react";
-import type { ProjectItem } from "@/lib/projects";
+import type {
+  ProjectItem,
+  ProjectMediaItem,
+  ProjectReferenceMedia,
+} from "@/lib/projects";
 import styles from "./project-detail.module.css";
 
 interface ProjectDetailProps {
@@ -19,6 +23,8 @@ interface DetailSectionViewModel {
   reference?: string;
   implementation?: string;
 }
+
+type ProjectComparisonMedia = ProjectMediaItem | ProjectReferenceMedia;
 
 export function ProjectDetail({
   animateOnFirstOpen = false,
@@ -60,10 +66,21 @@ export function ProjectDetail({
   const detailSections: DetailSectionViewModel[] =
     project.detailSections ?? defaultDetailSections;
 
-  function getMediaOrientation(item: NonNullable<ProjectItem["media"]>[number]) {
+  function getMediaOrientation(item: ProjectMediaItem) {
     return item.width && item.height && item.height > item.width
       ? "portrait"
       : "landscape";
+  }
+
+  function getMediaAccessibilityLabel(
+    item: ProjectComparisonMedia,
+    fallback: string,
+  ) {
+    if (item.type === "image") {
+      return item.label ?? item.alt ?? fallback;
+    }
+
+    return "ariaLabel" in item ? item.ariaLabel : item.label;
   }
 
   function renderSectionBody(section: DetailSectionViewModel) {
@@ -93,24 +110,16 @@ export function ProjectDetail({
     return section.body;
   }
 
-  function renderReferenceMedia(
-    referenceMedia: Extract<
-      NonNullable<ProjectItem["media"]>[number],
-      { type: "video" }
-    >["referenceMedia"],
-  ) {
-    if (!referenceMedia) {
-      return null;
-    }
-
-    if (referenceMedia.type === "image") {
+  function renderComparisonMedia(item: ProjectComparisonMedia) {
+    if (item.type === "image") {
       return (
         <Image
           className={styles.mediaComparisonImage}
-          src={referenceMedia.src}
-          alt={referenceMedia.alt}
+          src={item.src}
+          alt={item.alt}
           fill
           sizes="(max-width: 720px) 50vw, 25vw"
+          unoptimized
         />
       );
     }
@@ -118,10 +127,10 @@ export function ProjectDetail({
     return (
       <video
         className={styles.mediaComparisonVideo}
-        src={referenceMedia.src}
-        aria-label={referenceMedia.ariaLabel}
-        width={referenceMedia.width}
-        height={referenceMedia.height}
+        src={item.src}
+        aria-label={getMediaAccessibilityLabel(item, "Project comparison preview")}
+        width={item.width}
+        height={item.height}
         autoPlay
         loop
         muted
@@ -139,12 +148,39 @@ export function ProjectDetail({
     return (
       <figure
         className={styles.mediaCard}
-        data-media-comparison={
-          item.type === "video" && item.referenceMedia ? "true" : undefined
-        }
+        data-media-comparison={item.referenceMedia ? "true" : undefined}
         data-media-orientation={mediaOrientation}
       >
-        {item.type === "image" ? (
+        {item.referenceMedia ? (
+          <div
+            className={styles.mediaComparisonFrame}
+            style={mediaAspectRatio ? { aspectRatio: mediaAspectRatio } : undefined}
+          >
+            <div
+              className={styles.mediaComparisonPane}
+              data-media-role="original"
+              tabIndex={0}
+              aria-label={getMediaAccessibilityLabel(
+                item.referenceMedia,
+                "Original preview",
+              )}
+            >
+              {renderComparisonMedia(item.referenceMedia)}
+              <span className={styles.mediaComparisonLabel}>
+                {item.referenceMedia.label}
+              </span>
+            </div>
+            <div
+              className={styles.mediaComparisonPane}
+              data-media-role="mimesis"
+              tabIndex={0}
+              aria-label="My Mimesis"
+            >
+              {renderComparisonMedia(item)}
+              <span className={styles.mediaComparisonLabel}>My Mimesis</span>
+            </div>
+          </div>
+        ) : item.type === "image" ? (
           <Image
             className={styles.mediaImage}
             src={item.src}
@@ -157,43 +193,6 @@ export function ProjectDetail({
                 : "(max-width: 720px) 100vw, 50vw"
             }
           />
-        ) : item.referenceMedia ? (
-          <div
-            className={styles.mediaComparisonFrame}
-            style={mediaAspectRatio ? { aspectRatio: mediaAspectRatio } : undefined}
-          >
-            <div
-              className={styles.mediaComparisonPane}
-              data-media-role="original"
-              tabIndex={0}
-              aria-label={item.referenceMedia.label}
-            >
-              {renderReferenceMedia(item.referenceMedia)}
-              <span className={styles.mediaComparisonLabel}>
-                {item.referenceMedia.label}
-              </span>
-            </div>
-            <div
-              className={styles.mediaComparisonPane}
-              data-media-role="mimesis"
-              tabIndex={0}
-              aria-label="My Mimesis"
-            >
-              <video
-                className={styles.mediaComparisonVideo}
-                src={item.src}
-                aria-label={item.label}
-                width={item.width}
-                height={item.height}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-              />
-              <span className={styles.mediaComparisonLabel}>My Mimesis</span>
-            </div>
-          </div>
         ) : (
           <video
             className={styles.mediaVideo}

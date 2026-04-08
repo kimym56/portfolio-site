@@ -51,14 +51,11 @@ describe("project detail media layout", () => {
     );
   });
 
-  it("fills both comparison halves with video content", () => {
+  it("fills both comparison halves with media content", () => {
     const cssContent = readProjectDetailCss();
 
     expect(cssContent).toMatch(
-      /\.mediaComparisonPane\[data-media-role="original"\]\s+\.mediaComparisonVideo\s*\{[^}]*object-fit:\s*cover;/,
-    );
-    expect(cssContent).toMatch(
-      /\.mediaComparisonPane\[data-media-role="mimesis"\]\s+\.mediaComparisonVideo\s*\{[^}]*object-fit:\s*cover;/,
+      /\.mediaComparisonImage,\s*\n\.mediaComparisonVideo\s*\{[\s\S]*?height:\s*100%;[\s\S]*?object-fit:\s*cover;[\s\S]*?width:\s*100%;/,
     );
   });
 });
