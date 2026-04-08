@@ -70,7 +70,6 @@ export interface ProjectDetailSection {
   body?: string;
   reference?: string;
   implementation?: string;
-  implementationUrl?: string;
 }
 ```
 
@@ -172,7 +171,7 @@ Update the component test so custom Mimesis-like sections assert both `Original 
 
 - [x] **Step 2: Assert Mimesis media is labelled as My Mimesis**
 
-Update the project data test so the four Mimesis media captions begin with `My Mimesis:` and the detail rows use separate `reference`, `implementation`, and `implementationUrl` fields.
+Update the project data test so the four Mimesis media captions begin with `My Mimesis:` and the detail rows use separate `reference`, `implementation`, and implementation URL fields.
 
 - [x] **Step 3: Verify the tests fail before the fix**
 
@@ -188,7 +187,7 @@ Result: FAIL because the component rendered one combined body paragraph and the 
 
 - [x] **Step 1: Update Mimesis data**
 
-Replace the single combined Mimesis `body` strings with separate `reference`, `implementation`, and `implementationUrl` fields. Update Mimesis media captions and labels so the videos are explicitly framed as My Mimesis implementation previews.
+Replace the single combined Mimesis `body` strings with separate `reference`, `implementation`, and implementation URL fields. Update Mimesis media captions and labels so the videos are explicitly framed as My Mimesis implementation previews.
 
 - [x] **Step 2: Render labelled borderless blocks**
 
@@ -222,4 +221,92 @@ Result: PASS.
 - [x] **Step 4: Run or account for Projects browser flow**
 
 Run: `npm run test:e2e -- tests/e2e/projects-filter.spec.ts`
-Result: configured e2e is still blocked by the existing `.next/dev/lock`. The equivalent Playwright browser flow against `http://127.0.0.1:3000/projects` passed for the Mimesis row rhythm, four reference labels, four My Mimesis implementation labels, My Mimesis captions, implementation links, and autoplay/no-controls video behavior.
+Result: configured e2e is still blocked by the existing `.next/dev/lock`. The equivalent Playwright browser flow against `http://127.0.0.1:3000/projects` passed for the Mimesis row rhythm, four reference labels, four My Mimesis implementation labels, My Mimesis captions, implementation links, and autoplay/no-controls video behavior at that stage.
+
+---
+
+## Chunk 3: Split Original And My Mimesis Media Frames
+
+### Task 8: Add Split-Frame Regression Tests
+
+**Files:**
+- Modify: `tests/unit/components/project-detail.test.tsx`
+- Modify: `tests/unit/lib/projects.test.ts`
+
+- [x] **Step 1: Assert comparison media data**
+
+Update the Mimesis project data test so each media item has a local `referenceMedia` image and no detail section has an `implementationUrl`.
+
+- [x] **Step 2: Assert split-frame rendering**
+
+Update the component test with a Mimesis-like video item that includes `referenceMedia`. Assert that the row renders:
+
+- `data-media-comparison="true"` on the figure
+- an original/reference image
+- a My Mimesis video
+- `Original` and `My Mimesis` half labels
+- no `Open My Mimesis` links
+
+- [x] **Step 3: Verify tests fail**
+
+Run: `npm run test -- tests/unit/components/project-detail.test.tsx tests/unit/lib/projects.test.ts`
+Result: FAIL because media still rendered as a single video and Mimesis data still used the previous caption/link-oriented shape.
+
+### Task 9: Implement Split Frames
+
+**Files:**
+- Modify: `lib/projects.ts`
+- Modify: `components/project-detail.tsx`
+- Modify: `components/project-detail.module.css`
+- Copy assets into: `public/images/projects/`
+
+- [x] **Step 1: Add media reference data**
+
+Add an optional `referenceMedia` image to video media items. For Mimesis, use local reference assets copied from the sibling Mimesis project:
+
+- `love-jones-cover.jpg`
+- `wiper-typography-cover.png`
+- `threads-black-white-circle-reference.jpg`
+- `staggered-text-cover.svg`
+
+- [x] **Step 2: Remove implementation links**
+
+Remove `implementationUrl` from the Mimesis detail sections and remove the link render path from `ProjectDetail`.
+
+- [x] **Step 3: Render comparison media**
+
+When a video media item has `referenceMedia`, render a single fixed-size comparison frame containing the reference image on the left and the My Mimesis video on the right.
+
+- [x] **Step 4: Add hover expansion CSS**
+
+On hover-capable devices, let either half expand to fill the full media frame width while the other half collapses. Keep touch/mobile at the stable 50/50 split and respect reduced-motion by disabling the transition.
+
+- [x] **Step 5: Run focused tests**
+
+Run: `npm run test -- tests/unit/components/project-detail.test.tsx tests/unit/lib/projects.test.ts`
+Result: PASS. Also ran `npm run test -- tests/unit/components/project-detail.test.tsx tests/unit/lib/projects.test.ts tests/unit/style/project-detail-media-layout.test.ts`, which passed 3 files / 10 tests.
+
+### Task 10: Verify Split Frames
+
+**Files:**
+- Test: full repo checks
+
+- [x] **Step 1: Run unit tests**
+
+Run: `npm test`
+Result: PASS, 37 files / 78 tests.
+
+- [x] **Step 2: Run lint**
+
+Run: `npm run lint`
+Result: PASS.
+
+- [x] **Step 3: Run build**
+
+Run: `npm run build`
+Result: PASS.
+
+- [x] **Step 4: Run browser check**
+
+Run configured e2e if possible. If the existing `.next/dev/lock` blocks it, run the equivalent Playwright browser check against `http://127.0.0.1:3000/projects` and verify the split labels, side-by-side frame, no links, and autoplaying My Mimesis videos.
+Result: configured e2e is still blocked by the existing `.next/dev/lock`. The equivalent Playwright browser flow against `http://127.0.0.1:3000/projects` passed for the 50/50 split frame, hover expansion to full media-frame width, no `Open My Mimesis` links, row rhythm, labels, and autoplay/no-controls video behavior.

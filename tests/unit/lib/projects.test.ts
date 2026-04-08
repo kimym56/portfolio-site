@@ -58,6 +58,13 @@ describe("PROJECTS", () => {
     for (const item of mediaItems) {
       expect(item.src.startsWith("/")).toBe(true);
       expect(fs.existsSync(path.join(process.cwd(), "public", item.src))).toBe(true);
+
+      if (item.type === "video" && item.referenceMedia) {
+        expect(item.referenceMedia.src.startsWith("/")).toBe(true);
+        expect(
+          fs.existsSync(path.join(process.cwd(), "public", item.referenceMedia.src)),
+        ).toBe(true);
+      }
     }
   });
 
@@ -80,10 +87,20 @@ describe("PROJECTS", () => {
       .join(" ");
 
     expect(mimesis?.media?.map((item) => item.caption)).toEqual([
-      "My Mimesis: iOS Page Curl Effect",
-      "My Mimesis: Wiper Typography",
-      "My Mimesis: Black & White Circle",
-      "My Mimesis: Staggered Text",
+      "iOS Page Curl Effect",
+      "Wiper Typography",
+      "Black & White Circle",
+      "Staggered Text",
+    ]);
+    expect(
+      mimesis?.media?.map((item) =>
+        item.type === "video" ? item.referenceMedia?.src : undefined,
+      ),
+    ).toEqual([
+      "/images/projects/mimesis_page_curl_reference.jpg",
+      "/images/projects/mimesis_wiper_typography_reference.png",
+      "/images/projects/mimesis_black_white_circle_reference.jpg",
+      "/images/projects/mimesis_staggered_text_reference.svg",
     ]);
     expect(referenceCopy).toMatch(/reference/i);
     expect(referenceCopy).toMatch(/inspir/i);
@@ -91,13 +108,8 @@ describe("PROJECTS", () => {
     expect(implementationCopy).toMatch(/R3F/i);
     expect(implementationCopy).toMatch(/Framer Motion/i);
     expect(
-      mimesis?.detailSections?.map((section) => section.implementationUrl),
-    ).toEqual([
-      "https://ymkim-mimesis.vercel.app/project/ios-curl-animation",
-      "https://ymkim-mimesis.vercel.app/project/wiper-typography",
-      "https://ymkim-mimesis.vercel.app/project/black-white-circle",
-      "https://ymkim-mimesis.vercel.app/project/staggered-text",
-    ]);
+      mimesis?.detailSections?.some((section) => "implementationUrl" in section),
+    ).toBe(false);
     expect(mimesis?.detailSections?.some((section) => section.body)).toBe(false);
   });
 });

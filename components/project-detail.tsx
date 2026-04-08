@@ -18,7 +18,6 @@ interface DetailSectionViewModel {
   body?: ReactNode;
   reference?: string;
   implementation?: string;
-  implementationUrl?: string;
 }
 
 export function ProjectDetail({
@@ -81,16 +80,6 @@ export function ProjectDetail({
             <div className={styles.sectionBlock}>
               <p className={styles.sectionLabel}>My Mimesis implementation</p>
               <p className={styles.sectionBody}>{section.implementation}</p>
-              {section.implementationUrl ? (
-                <a
-                  className={styles.sectionLink}
-                  href={section.implementationUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Open My Mimesis: {section.title}
-                </a>
-              ) : null}
             </div>
           ) : null}
         </div>
@@ -106,10 +95,15 @@ export function ProjectDetail({
 
   function renderMedia(item: NonNullable<ProjectItem["media"]>[number]) {
     const mediaOrientation = getMediaOrientation(item);
+    const mediaAspectRatio =
+      item.width && item.height ? `${item.width} / ${item.height}` : undefined;
 
     return (
       <figure
         className={styles.mediaCard}
+        data-media-comparison={
+          item.type === "video" && item.referenceMedia ? "true" : undefined
+        }
         data-media-orientation={mediaOrientation}
       >
         {item.type === "image" ? (
@@ -125,6 +119,47 @@ export function ProjectDetail({
                 : "(max-width: 720px) 100vw, 50vw"
             }
           />
+        ) : item.referenceMedia ? (
+          <div
+            className={styles.mediaComparisonFrame}
+            style={mediaAspectRatio ? { aspectRatio: mediaAspectRatio } : undefined}
+          >
+            <div
+              className={styles.mediaComparisonPane}
+              tabIndex={0}
+              aria-label={item.referenceMedia.label}
+            >
+              <Image
+                className={styles.mediaComparisonImage}
+                src={item.referenceMedia.src}
+                alt={item.referenceMedia.alt}
+                fill
+                sizes="(max-width: 720px) 50vw, 25vw"
+              />
+              <span className={styles.mediaComparisonLabel}>
+                {item.referenceMedia.label}
+              </span>
+            </div>
+            <div
+              className={styles.mediaComparisonPane}
+              tabIndex={0}
+              aria-label="My Mimesis"
+            >
+              <video
+                className={styles.mediaComparisonVideo}
+                src={item.src}
+                aria-label={item.label}
+                width={item.width}
+                height={item.height}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+              />
+              <span className={styles.mediaComparisonLabel}>My Mimesis</span>
+            </div>
+          </div>
         ) : (
           <video
             className={styles.mediaVideo}

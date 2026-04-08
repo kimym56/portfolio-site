@@ -1,0 +1,30 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" rx="96" fill="#F6F3EE"/>
+  <rect x="96" y="96" width="1008" height="1008" rx="72" fill="url(#surface)" stroke="#1C1C1C" stroke-opacity="0.08"/>
+  <g opacity="0.7">
+    <path d="M174 362C174 336.595 194.595 316 220 316H980C1005.4 316 1026 336.595 1026 362V838C1026 863.405 1005.4 884 980 884H220C194.595 884 174 863.405 174 838V362Z" fill="url(#stage)"/>
+    <path d="M174 362C174 336.595 194.595 316 220 316H980C1005.4 316 1026 336.595 1026 362V838C1026 863.405 1005.4 884 980 884H220C194.595 884 174 863.405 174 838V362Z" stroke="#1C1C1C" stroke-opacity="0.06"/>
+  </g>
+  <g opacity="0.32" filter="url(#blur)">
+    <text x="325" y="666" fill="#A39B8F" font-family="Space Grotesk, Arial, sans-serif" font-size="122" font-weight="700" letter-spacing="-5">Get started</text>
+  </g>
+  <g opacity="0.48">
+    <text x="314" y="643" fill="#B0A79A" font-family="Space Grotesk, Arial, sans-serif" font-size="122" font-weight="700" letter-spacing="-5">Get started</text>
+  </g>
+  <text x="300" y="620" fill="#1C1C1C" font-family="Space Grotesk, Arial, sans-serif" font-size="122" font-weight="700" letter-spacing="-5">Get started</text>
+  <defs>
+    <linearGradient id="surface" x1="96" y1="96" x2="1104" y2="1104" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FCFBF8"/>
+      <stop offset="1" stop-color="#F2EEE7"/>
+    </linearGradient>
+    <linearGradient id="stage" x1="174" y1="316" x2="1026" y2="884" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFEFC"/>
+      <stop offset="1" stop-color="#EEE8DE"/>
+    </linearGradient>
+    <filter id="blur" x="241" y="528" width="714" height="192" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+      <feGaussianBlur stdDeviation="12" result="effect1_foregroundBlur_1_1"/>
+    </filter>
+  </defs>
+</svg>

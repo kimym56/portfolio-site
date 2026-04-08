@@ -147,6 +147,49 @@
   width: 100%;
 }
 
+.mediaComparisonFrame {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+.mediaComparisonPane {
+  flex: 1 1 50%;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.mediaComparisonPane:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.mediaComparisonImage,
+.mediaComparisonVideo {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.mediaComparisonLabel {
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.68rem;
+  font-weight: 700;
+  left: 0.6rem;
+  letter-spacing: 0.06em;
+  padding: 0.24rem 0.42rem;
+  position: absolute;
+  text-transform: uppercase;
+  top: 0.6rem;
+}
+
 .mediaCaption {
   color: var(--text-muted);
   font-size: 0.86rem;
@@ -191,21 +234,6 @@
   margin-top: 0;
 }
 
-.sectionLink {
-  color: var(--text);
-  font-size: 0.92rem;
-  font-weight: 700;
-  text-decoration: underline;
-  text-decoration-thickness: 0.08em;
-  text-underline-offset: 0.22em;
-  width: fit-content;
-}
-
-.sectionLink:hover,
-.sectionLink:focus-visible {
-  color: var(--text-muted);
-}
-
 .metaList {
   display: grid;
   gap: 0.5rem;
@@ -237,6 +265,24 @@
   }
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .mediaComparisonPane {
+    transition: flex-basis 220ms ease, flex-grow 220ms ease;
+  }
+
+  .mediaComparisonFrame:hover .mediaComparisonPane,
+  .mediaComparisonFrame:focus-within .mediaComparisonPane {
+    flex-basis: 0%;
+    flex-grow: 0;
+  }
+
+  .mediaComparisonFrame .mediaComparisonPane:hover,
+  .mediaComparisonFrame .mediaComparisonPane:focus-visible {
+    flex-basis: 100%;
+    flex-grow: 1;
+  }
+}
+
 @media (max-width: 720px) {
   .headerTop {
     flex-direction: column;
@@ -262,5 +308,9 @@
 @media (prefers-reduced-motion: reduce) {
   .panelReveal {
     animation: none;
+  }
+
+  .mediaComparisonPane {
+    transition: none;
   }
 }

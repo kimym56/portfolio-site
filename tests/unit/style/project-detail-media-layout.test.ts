@@ -33,4 +33,21 @@ describe("project detail media layout", () => {
       /\.mediaCard\[data-media-orientation="portrait"\]\s*\{[\s\S]*?width:\s*min\(100%,\s*24rem\);/,
     );
   });
+
+  it("expands hovered comparison media halves without resizing the outer frame", () => {
+    const cssContent = readProjectDetailCss();
+
+    expect(cssContent).toMatch(
+      /\.mediaComparisonFrame\s*\{[\s\S]*?display:\s*flex;[\s\S]*?overflow:\s*hidden;[\s\S]*?width:\s*100%;/,
+    );
+    expect(cssContent).toMatch(
+      /\.mediaComparisonPane\s*\{[\s\S]*?flex:\s*1 1 50%;/,
+    );
+    expect(cssContent).toMatch(
+      /@media \(hover:\s*hover\) and \(pointer:\s*fine\)\s*\{[\s\S]*?\.mediaComparisonFrame:hover \.mediaComparisonPane[\s\S]*?flex-basis:\s*0%;[\s\S]*?\.mediaComparisonFrame \.mediaComparisonPane:hover[\s\S]*?flex-basis:\s*100%;/,
+    );
+    expect(cssContent).toMatch(
+      /@media \(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*?\.mediaComparisonPane\s*\{[\s\S]*?transition:\s*none;/,
+    );
+  });
 });

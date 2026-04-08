@@ -114,6 +114,53 @@ describe("ProjectDetail", () => {
           id: "mimesis",
           title: "Mimesis",
           mediaStartSide: "left",
+          media: [
+            {
+              type: "video",
+              src: "/videos/projects/mimesis_page_curl.webm",
+              label: "My Mimesis iOS Page Curl implementation preview",
+              caption: "iOS Page Curl Effect",
+              width: 354,
+              height: 264,
+              referenceMedia: {
+                src: "/images/projects/mimesis_page_curl_reference.jpg",
+                alt: "Original Page Curl reference",
+                label: "Original",
+                width: 600,
+                height: 600,
+              },
+            },
+            {
+              type: "video",
+              src: "/videos/projects/mimesis_wiper_typography.webm",
+              label: "My Mimesis Wiper Typography implementation preview",
+              caption: "Wiper Typography",
+              width: 548,
+              height: 410,
+              referenceMedia: {
+                src: "/images/projects/mimesis_wiper_typography_reference.png",
+                alt: "Original Wiper Typography reference",
+                label: "Original",
+                width: 900,
+                height: 560,
+              },
+            },
+            {
+              type: "video",
+              src: "/videos/projects/mimesis_black_white_circle.webm",
+              label: "My Mimesis Black & White Circle implementation preview",
+              caption: "Black & White Circle",
+              width: 548,
+              height: 410,
+              referenceMedia: {
+                src: "/images/projects/mimesis_black_white_circle_reference.jpg",
+                alt: "Original Black & White Circle reference",
+                label: "Original",
+                width: 360,
+                height: 640,
+              },
+            },
+          ],
           detailSections: [
             {
               id: "page-curl",
@@ -121,8 +168,6 @@ describe("ProjectDetail", () => {
               reference: "Page Curl inspiration from the iOS reference.",
               implementation:
                 "My Mimesis implementation rebuilds the drag interaction in R3F.",
-              implementationUrl:
-                "https://ymkim-mimesis.vercel.app/project/ios-curl-animation",
             },
             {
               id: "wiper-typography",
@@ -130,8 +175,6 @@ describe("ProjectDetail", () => {
               reference: "FFF typography reference by Jongmin Kim.",
               implementation:
                 "My Mimesis implementation adds the Tesla driver-view scene.",
-              implementationUrl:
-                "https://ymkim-mimesis.vercel.app/project/wiper-typography",
             },
             {
               id: "black-white-circle",
@@ -139,8 +182,6 @@ describe("ProjectDetail", () => {
               reference: "Original audio-driven particle reference.",
               implementation:
                 "My Mimesis implementation analyzes browser audio output.",
-              implementationUrl:
-                "https://ymkim-mimesis.vercel.app/project/black-white-circle",
             },
           ],
         }}
@@ -156,22 +197,35 @@ describe("ProjectDetail", () => {
     expect(mediaRows[0]).toHaveAttribute("data-media-side", "left");
     expect(mediaRows[1]).toHaveAttribute("data-media-side", "right");
     expect(mediaRows[2]).toHaveAttribute("data-media-side", "left");
-    expect(screen.getByText("iOS Page Curl Effect")).toBeInTheDocument();
-    expect(screen.getByText("Wiper Typography")).toBeInTheDocument();
-    expect(screen.getByText("Black & White Circle")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "iOS Page Curl Effect" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Wiper Typography" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Black & White Circle" }),
+    ).toBeInTheDocument();
     expect(screen.getAllByText("Original reference")).toHaveLength(3);
     expect(screen.getAllByText("My Mimesis implementation")).toHaveLength(3);
     expect(
       screen.getByText("My Mimesis implementation rebuilds the drag interaction in R3F."),
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", {
-        name: "Open My Mimesis: iOS Page Curl Effect",
-      }),
-    ).toHaveAttribute(
-      "href",
-      "https://ymkim-mimesis.vercel.app/project/ios-curl-animation",
+    expect(within(mediaRows[0]).getByAltText("Original Page Curl reference")).toHaveAttribute(
+      "src",
+      "/images/projects/mimesis_page_curl_reference.jpg",
     );
+    expect(
+      within(mediaRows[0]).getByLabelText("My Mimesis iOS Page Curl implementation preview"),
+    ).toHaveAttribute("src", "/videos/projects/mimesis_page_curl.webm");
+    expect(within(mediaRows[0]).getByText("Original")).toBeInTheDocument();
+    expect(within(mediaRows[0]).getByText("My Mimesis")).toBeInTheDocument();
+    expect(
+      within(mediaRows[0]).getByRole("figure"),
+    ).toHaveAttribute("data-media-comparison", "true");
+    expect(
+      screen.queryByRole("link", { name: /Open My Mimesis/i }),
+    ).not.toBeInTheDocument();
     expect(screen.queryByText("What This Project Is")).not.toBeInTheDocument();
   });
 });

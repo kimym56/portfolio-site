@@ -14,7 +14,14 @@ export interface ProjectDetailSection {
   body?: string;
   reference?: string;
   implementation?: string;
-  implementationUrl?: string;
+}
+
+interface ProjectReferenceMedia {
+  src: string;
+  alt: string;
+  label: string;
+  width: number;
+  height: number;
 }
 
 interface ProjectImageMedia {
@@ -33,6 +40,7 @@ interface ProjectVideoMedia {
   caption: string;
   width?: number;
   height?: number;
+  referenceMedia?: ProjectReferenceMedia;
 }
 
 export type ProjectMediaItem = ProjectImageMedia | ProjectVideoMedia;
@@ -133,33 +141,61 @@ export const PROJECTS: ProjectItem[] = [
         type: "video",
         src: "/videos/projects/mimesis_page_curl.webm",
         label: "My Mimesis iOS Page Curl Effect implementation preview",
-        caption: "My Mimesis: iOS Page Curl Effect",
+        caption: "iOS Page Curl Effect",
         width: 354,
         height: 264,
+        referenceMedia: {
+          src: "/images/projects/mimesis_page_curl_reference.jpg",
+          alt: "Original Page Curl reference",
+          label: "Original",
+          width: 600,
+          height: 600,
+        },
       },
       {
         type: "video",
         src: "/videos/projects/mimesis_wiper_typography.webm",
         label: "My Mimesis Wiper Typography implementation preview",
-        caption: "My Mimesis: Wiper Typography",
+        caption: "Wiper Typography",
         width: 548,
         height: 410,
+        referenceMedia: {
+          src: "/images/projects/mimesis_wiper_typography_reference.png",
+          alt: "Original Wiper Typography reference",
+          label: "Original",
+          width: 900,
+          height: 560,
+        },
       },
       {
         type: "video",
         src: "/videos/projects/mimesis_black_white_circle.webm",
         label: "My Mimesis Black & White Circle implementation preview",
-        caption: "My Mimesis: Black & White Circle",
+        caption: "Black & White Circle",
         width: 548,
         height: 410,
+        referenceMedia: {
+          src: "/images/projects/mimesis_black_white_circle_reference.jpg",
+          alt: "Original Black & White Circle reference",
+          label: "Original",
+          width: 360,
+          height: 640,
+        },
       },
       {
         type: "video",
         src: "/videos/projects/mimesis_staggered_text.webm",
         label: "My Mimesis Staggered Text implementation preview",
-        caption: "My Mimesis: Staggered Text",
+        caption: "Staggered Text",
         width: 548,
         height: 410,
+        referenceMedia: {
+          src: "/images/projects/mimesis_staggered_text_reference.svg",
+          alt: "Original Staggered Text reference",
+          label: "Original",
+          width: 1200,
+          height: 800,
+        },
       },
     ],
     mediaStartSide: "left",
@@ -171,8 +207,6 @@ export const PROJECTS: ProjectItem[] = [
           "Reference inspiration from the Page Curl effect used in iBooks and Apple Maps, with Minsang Choi's Metal shader work as the visual benchmark.",
         implementation:
           "My Mimesis implementation rebuilds the corner-peel interaction in R3F from a SwiftUI reference, with draggable page corners and a reverse-side reveal.",
-        implementationUrl:
-          "https://ymkim-mimesis.vercel.app/project/ios-curl-animation",
       },
       {
         id: "wiper-typography",
@@ -181,8 +215,6 @@ export const PROJECTS: ProjectItem[] = [
           "Reference inspiration from Jongmin Kim's FFF typography experiment, where a wiper reveals and transforms type in real time.",
         implementation:
           "My Mimesis implementation recreates the interaction in R3F by combining the original HTML/CSS behavior with a Tesla 3D model and a driver-view wiper scene.",
-        implementationUrl:
-          "https://ymkim-mimesis.vercel.app/project/wiper-typography",
       },
       {
         id: "black-white-circle",
@@ -191,8 +223,6 @@ export const PROJECTS: ProjectItem[] = [
           "Reference inspiration from SABUM's Yin and Yang Dynamics project, which connects sound to black-and-white particle motion.",
         implementation:
           "My Mimesis implementation analyzes the browser's audio output instead of extracting YouTube audio directly, then drives the particle motion in real time.",
-        implementationUrl:
-          "https://ymkim-mimesis.vercel.app/project/black-white-circle",
       },
       {
         id: "staggered-text",
@@ -201,8 +231,6 @@ export const PROJECTS: ProjectItem[] = [
           "Reference inspiration from Rauno Freiberg's staggered text interaction with a soft 3D feel.",
         implementation:
           "My Mimesis implementation recreates the motion with Framer Motion, supporting user text input and click-driven previews that make the staggered motion easier to test and tune.",
-        implementationUrl:
-          "https://ymkim-mimesis.vercel.app/project/staggered-text",
       },
     ],
     details: {

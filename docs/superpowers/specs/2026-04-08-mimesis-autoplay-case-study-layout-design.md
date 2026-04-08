@@ -28,8 +28,11 @@ Use explicit Mimesis rows instead of the default generic detail sections:
 - `Black & White Circle`: original Yin and Yang Dynamics/SABUM inspiration, real-time audio-driven motion, and my browser-audio analysis implementation that works around direct YouTube audio extraction.
 - `Staggered Text`: original Rauno Freiberg inspiration, staggered motion behavior, and my Framer Motion implementation with user-text and click-driven previews.
 - Each row separates the text into `Original reference` and `My Mimesis implementation` blocks.
-- Each media caption begins with `My Mimesis:` so the video is clearly framed as the implementation preview.
-- Each row includes a direct link to the corresponding Mimesis implementation page.
+- Each media frame compares the original/reference visual and My Mimesis implementation side by side, rather than using implementation links.
+- Each media frame labels the two halves as `Original` and `My Mimesis` so the implementation is visible in the media itself.
+- The comparison frame keeps the existing media width and height for each project.
+- By default, each comparison frame is split 50/50: original/reference visual on the left, My Mimesis video on the right.
+- On hover-capable devices, hovering one half expands that half to fill the full media frame width. This does not open a modal, does not go fullscreen, and does not change the outer image/video dimensions.
 
 ### Mimesis Layout
 
@@ -45,5 +48,6 @@ Use explicit Mimesis rows instead of the default generic detail sections:
 ### Data Model
 
 - Add optional project-level detail sections that override the default four generic sections.
-- Allow Mimesis detail sections to store `reference`, `implementation`, and `implementationUrl` separately instead of one combined body string.
+- Allow Mimesis detail sections to store `reference` and `implementation` separately instead of one combined body string.
 - Add optional project-level `mediaStartSide` so Mimesis can start with left-side media while other projects keep their existing rhythm.
+- Add optional media-level reference imagery for comparison frames. This keeps the default image/video rendering path unchanged for Sellpath, DSSkills, and Website.
