@@ -177,7 +177,7 @@
 }
 
 .mediaComparisonPane[data-media-role="original"] .mediaComparisonVideo {
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .mediaComparisonPane[data-media-role="mimesis"] .mediaComparisonVideo {

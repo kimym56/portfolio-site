@@ -51,14 +51,14 @@ describe("project detail media layout", () => {
     );
   });
 
-  it("preserves original comparison videos while allowing My Mimesis videos to fill", () => {
+  it("fills both comparison halves with video content", () => {
     const cssContent = readProjectDetailCss();
 
     expect(cssContent).toMatch(
-      /\.mediaComparisonPane\[data-media-role="original"\]\s+\.mediaComparisonVideo\s*\{[\s\S]*?object-fit:\s*contain;/,
+      /\.mediaComparisonPane\[data-media-role="original"\]\s+\.mediaComparisonVideo\s*\{[^}]*object-fit:\s*cover;/,
     );
     expect(cssContent).toMatch(
-      /\.mediaComparisonPane\[data-media-role="mimesis"\]\s+\.mediaComparisonVideo\s*\{[\s\S]*?object-fit:\s*cover;/,
+      /\.mediaComparisonPane\[data-media-role="mimesis"\]\s+\.mediaComparisonVideo\s*\{[^}]*object-fit:\s*cover;/,
     );
   });
 });
