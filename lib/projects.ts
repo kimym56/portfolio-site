@@ -8,6 +8,12 @@ export interface ProjectDetailContent {
   meta: string[];
 }
 
+export interface ProjectDetailSection {
+  id: string;
+  title: string;
+  body: string;
+}
+
 interface ProjectImageMedia {
   type: "image";
   src: string;
@@ -37,6 +43,8 @@ export interface ProjectItem {
   url: string;
   stack: AboutTechStackItem[];
   media?: ProjectMediaItem[];
+  mediaStartSide?: "left" | "right";
+  detailSections?: ProjectDetailSection[];
   details: ProjectDetailContent;
 }
 
@@ -149,6 +157,33 @@ export const PROJECTS: ProjectItem[] = [
         caption: "Staggered Text",
         width: 548,
         height: 410,
+      },
+    ],
+    mediaStartSide: "left",
+    detailSections: [
+      {
+        id: "ios-page-curl-effect",
+        title: "iOS Page Curl Effect",
+        body:
+          "Original reference: the Page Curl effect used in iBooks and Apple Maps, inspired by Minsang Choi's Metal shader work. My Mimesis implementation rebuilds the interaction in R3F from a SwiftUI reference, so users can drag a corner and flip a page to reveal the reverse side.",
+      },
+      {
+        id: "wiper-typography",
+        title: "Wiper Typography",
+        body:
+          "Original reference: Jongmin Kim's FFF typography experiment, where a wiper reveals and transforms type in real time. My Mimesis implementation recreates the idea in R3F by combining the original HTML/CSS behavior with a Tesla 3D model and a driver-view wiper scene.",
+      },
+      {
+        id: "black-white-circle",
+        title: "Black & White Circle",
+        body:
+          "Original reference: SABUM's Yin and Yang Dynamics project, which connects sound to particle motion. My Mimesis implementation analyzes the browser's audio output instead of extracting YouTube audio directly, then drives the black-and-white particle motion in real time.",
+      },
+      {
+        id: "staggered-text",
+        title: "Staggered Text",
+        body:
+          "Original reference: Rauno Freiberg's staggered text interaction with a soft 3D feel. My Mimesis implementation recreates the motion with Framer Motion, supporting user text input and click-driven previews that make the staggered motion easier to test and tune.",
       },
     ],
     details: {

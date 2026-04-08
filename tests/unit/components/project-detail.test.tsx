@@ -95,8 +95,58 @@ describe("ProjectDetail", () => {
     expect(preview).toHaveAttribute("src", "/videos/projects/mimesis_main.webm");
     expect(chatUi).toHaveAttribute("src", "/images/projects/sellpath_detail2.png");
     expect(preview.tagName).toBe("VIDEO");
+    expect(preview).toHaveAttribute("autoplay");
+    expect(preview).toHaveAttribute("loop");
+    expect((preview as HTMLVideoElement).muted).toBe(true);
+    expect(preview).toHaveAttribute("playsinline");
+    expect(preview).toHaveAttribute("preload", "auto");
+    expect(preview).not.toHaveAttribute("controls");
     expect(within(mediaRegion).getByText("Sales dashboard")).toBeInTheDocument();
     expect(within(mediaRegion).getByText("Interaction preview")).toBeInTheDocument();
     expect(within(mediaRegion).getByText("Chat UI")).toBeInTheDocument();
+  });
+
+  it("renders custom project detail sections with a left-starting media rhythm", () => {
+    render(
+      <ProjectDetail
+        project={{
+          ...projectWithMedia,
+          id: "mimesis",
+          title: "Mimesis",
+          mediaStartSide: "left",
+          detailSections: [
+            {
+              id: "page-curl",
+              title: "iOS Page Curl Effect",
+              body: "Original Page Curl inspiration, then my R3F implementation.",
+            },
+            {
+              id: "wiper-typography",
+              title: "Wiper Typography",
+              body: "Original FFF typography reference, then my Tesla model implementation.",
+            },
+            {
+              id: "black-white-circle",
+              title: "Black & White Circle",
+              body: "Original audio-driven particle reference, then my browser audio implementation.",
+            },
+          ],
+        }}
+        backLabel="Back to side projects"
+        visitLabel="Visit project"
+        onBack={vi.fn()}
+      />,
+    );
+
+    const mediaRows = screen.getAllByTestId("project-detail-row");
+
+    expect(mediaRows).toHaveLength(3);
+    expect(mediaRows[0]).toHaveAttribute("data-media-side", "left");
+    expect(mediaRows[1]).toHaveAttribute("data-media-side", "right");
+    expect(mediaRows[2]).toHaveAttribute("data-media-side", "left");
+    expect(screen.getByText("iOS Page Curl Effect")).toBeInTheDocument();
+    expect(screen.getByText("Wiper Typography")).toBeInTheDocument();
+    expect(screen.getByText("Black & White Circle")).toBeInTheDocument();
+    expect(screen.queryByText("What This Project Is")).not.toBeInTheDocument();
   });
 });

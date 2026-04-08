@@ -60,4 +60,24 @@ describe("PROJECTS", () => {
       expect(fs.existsSync(path.join(process.cwd(), "public", item.src))).toBe(true);
     }
   });
+
+  it("uses specific Mimesis implementation detail rows", () => {
+    const mimesis = PROJECTS.find((project) => project.id === "mimesis");
+
+    expect(mimesis?.mediaStartSide).toBe("left");
+    expect(mimesis?.detailSections?.map((section) => section.title)).toEqual([
+      "iOS Page Curl Effect",
+      "Wiper Typography",
+      "Black & White Circle",
+      "Staggered Text",
+    ]);
+
+    const sectionCopy = mimesis?.detailSections?.map((section) => section.body).join(" ");
+
+    expect(sectionCopy).toMatch(/original/i);
+    expect(sectionCopy).toMatch(/inspired/i);
+    expect(sectionCopy).toMatch(/my/i);
+    expect(sectionCopy).toMatch(/R3F/i);
+    expect(sectionCopy).toMatch(/Framer Motion/i);
+  });
 });

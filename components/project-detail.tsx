@@ -18,7 +18,7 @@ export function ProjectDetail({
   visitLabel,
   onBack,
 }: ProjectDetailProps) {
-  const detailSections = [
+  const defaultDetailSections = [
     {
       id: "what-this-project-is",
       title: "What This Project Is",
@@ -48,6 +48,11 @@ export function ProjectDetail({
       ),
     },
   ];
+  const detailSections =
+    project.detailSections?.map((section) => ({
+      ...section,
+      body: <p className={styles.sectionBody}>{section.body}</p>,
+    })) ?? defaultDetailSections;
 
   function getMediaOrientation(item: NonNullable<ProjectItem["media"]>[number]) {
     return item.width && item.height && item.height > item.width
@@ -83,11 +88,11 @@ export function ProjectDetail({
             aria-label={item.label}
             width={item.width}
             height={item.height}
-            controls
+            autoPlay
             loop
             muted
             playsInline
-            preload="metadata"
+            preload="auto"
           />
         )}
         <figcaption className={styles.mediaCaption}>{item.caption}</figcaption>
@@ -139,7 +144,13 @@ export function ProjectDetail({
         >
           {detailSections.map((section, index) => {
             const mediaItem = project.media?.[index];
-            const mediaSide = index % 2 === 0 ? "right" : "left";
+            const firstMediaSide = project.mediaStartSide ?? "right";
+            const mediaSide =
+              index % 2 === 0
+                ? firstMediaSide
+                : firstMediaSide === "right"
+                  ? "left"
+                  : "right";
 
             return (
               <section
