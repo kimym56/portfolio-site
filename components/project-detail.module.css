@@ -176,6 +176,14 @@
   width: 100%;
 }
 
+.mediaComparisonPane[data-media-role="original"] .mediaComparisonVideo {
+  object-fit: contain;
+}
+
+.mediaComparisonPane[data-media-role="mimesis"] .mediaComparisonVideo {
+  object-fit: cover;
+}
+
 .mediaComparisonLabel {
   background: color-mix(in srgb, var(--bg) 86%, transparent);
   border-radius: 6px;

@@ -164,6 +164,7 @@ export function ProjectDetail({
           >
             <div
               className={styles.mediaComparisonPane}
+              data-media-role="original"
               tabIndex={0}
               aria-label={item.referenceMedia.label}
             >
@@ -174,6 +175,7 @@ export function ProjectDetail({
             </div>
             <div
               className={styles.mediaComparisonPane}
+              data-media-role="mimesis"
               tabIndex={0}
               aria-label="My Mimesis"
             >

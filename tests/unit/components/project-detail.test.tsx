@@ -229,6 +229,14 @@ describe("ProjectDetail", () => {
       "src",
       "/videos/projects/mimesis_page_curl_slide.webm",
     );
+    expect(originalPreview.closest("[data-media-role]")).toHaveAttribute(
+      "data-media-role",
+      "original",
+    );
+    expect(slidePreview.closest("[data-media-role]")).toHaveAttribute(
+      "data-media-role",
+      "mimesis",
+    );
     expect(originalPreview.tagName).toBe("VIDEO");
     expect(originalPreview).toHaveAttribute("autoplay");
     expect(originalPreview).toHaveAttribute("loop");

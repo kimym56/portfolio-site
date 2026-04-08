@@ -50,4 +50,15 @@ describe("project detail media layout", () => {
       /@media \(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*?\.mediaComparisonPane\s*\{[\s\S]*?transition:\s*none;/,
     );
   });
+
+  it("preserves original comparison videos while allowing My Mimesis videos to fill", () => {
+    const cssContent = readProjectDetailCss();
+
+    expect(cssContent).toMatch(
+      /\.mediaComparisonPane\[data-media-role="original"\]\s+\.mediaComparisonVideo\s*\{[\s\S]*?object-fit:\s*contain;/,
+    );
+    expect(cssContent).toMatch(
+      /\.mediaComparisonPane\[data-media-role="mimesis"\]\s+\.mediaComparisonVideo\s*\{[\s\S]*?object-fit:\s*cover;/,
+    );
+  });
 });
