@@ -1,6 +1,8 @@
+"use client";
+
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import type {
   ProjectItem,
   ProjectMediaItem,
@@ -12,6 +14,7 @@ interface ProjectDetailProps {
   animateOnFirstOpen?: boolean;
   project: ProjectItem;
   backLabel: string;
+  shouldReduceMotion?: boolean;
   visitLabel: string;
   onBack: () => void;
 }
@@ -25,14 +28,26 @@ interface DetailSectionViewModel {
 }
 
 type ProjectComparisonMedia = ProjectMediaItem | ProjectReferenceMedia;
+type ProjectVideoComparisonMedia = Extract<ProjectMediaItem, { type: "video" }> & {
+  referenceMedia: Extract<ProjectReferenceMedia, { type: "video" }>;
+};
 
 export function ProjectDetail({
   animateOnFirstOpen = false,
   project,
   backLabel,
+  shouldReduceMotion = false,
   visitLabel,
   onBack,
 }: ProjectDetailProps) {
+  const panelRef = useRef<HTMLElement | null>(null);
+  const comparisonVisibilityRef = useRef<Record<number, number>>({});
+  const [activeComparisonIndex, setActiveComparisonIndex] = useState<number | null>(
+    null,
+  );
+  const resolvedActiveComparisonIndex = shouldReduceMotion
+    ? null
+    : activeComparisonIndex;
   const defaultDetailSections = [
     {
       id: "what-this-project-is",
@@ -65,6 +80,109 @@ export function ProjectDetail({
   ];
   const detailSections: DetailSectionViewModel[] =
     project.detailSections ?? defaultDetailSections;
+
+  function isVideoComparisonMedia(
+    item: ProjectMediaItem,
+  ): item is ProjectVideoComparisonMedia {
+    return item.type === "video" && item.referenceMedia?.type === "video";
+  }
+
+  useEffect(() => {
+    if (shouldReduceMotion || typeof IntersectionObserver === "undefined") {
+      comparisonVisibilityRef.current = {};
+      return;
+    }
+
+    const comparisonFigures = Array.from(
+      panelRef.current?.querySelectorAll<HTMLElement>("figure[data-comparison-index]") ??
+        [],
+    )
+      .map((figure) => {
+        const comparisonIndex = figure.getAttribute("data-comparison-index");
+
+        return comparisonIndex ? { figure, index: Number(comparisonIndex) } : null;
+      })
+      .filter((entry): entry is { figure: HTMLElement; index: number } => entry !== null);
+
+    if (comparisonFigures.length === 0) {
+      comparisonVisibilityRef.current = {};
+      return;
+    }
+
+    comparisonVisibilityRef.current = Object.fromEntries(
+      comparisonFigures.map(({ index }) => [index, 0]),
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const comparisonIndex = entry.target.getAttribute("data-comparison-index");
+
+          if (comparisonIndex) {
+            comparisonVisibilityRef.current[Number(comparisonIndex)] = entry.isIntersecting
+              ? entry.intersectionRatio
+              : 0;
+          }
+        }
+
+        let nextActiveIndex: number | null = null;
+        let highestRatio = 0;
+
+        for (const [comparisonIndex, ratio] of Object.entries(
+          comparisonVisibilityRef.current,
+        )) {
+          if (ratio > highestRatio) {
+            highestRatio = ratio;
+            nextActiveIndex = Number(comparisonIndex);
+          }
+        }
+
+        setActiveComparisonIndex(highestRatio >= 0.45 ? nextActiveIndex : null);
+      },
+      {
+        rootMargin: "-10% 0px -10% 0px",
+        threshold: [0, 0.25, 0.45, 0.6, 0.75, 1],
+      },
+    );
+
+    for (const { figure } of comparisonFigures) {
+      observer.observe(figure);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [project.media, shouldReduceMotion]);
+
+  useEffect(() => {
+    const comparisonFigures = Array.from(
+      panelRef.current?.querySelectorAll<HTMLElement>("figure[data-comparison-index]") ??
+        [],
+    );
+
+    for (const figure of comparisonFigures) {
+      const comparisonIndex = figure.getAttribute("data-comparison-index");
+      const index = comparisonIndex ? Number(comparisonIndex) : -1;
+      const videos = Array.from(figure.querySelectorAll<HTMLVideoElement>("video"));
+
+      for (const video of videos) {
+        if (!video) {
+          continue;
+        }
+
+        if (resolvedActiveComparisonIndex !== index) {
+          video.pause();
+          continue;
+        }
+
+        const playPromise = video.play();
+
+        if (playPromise && typeof playPromise.catch === "function") {
+          playPromise.catch(() => {});
+        }
+      }
+    }
+  }, [resolvedActiveComparisonIndex]);
 
   function getMediaOrientation(item: ProjectMediaItem) {
     return item.width && item.height && item.height > item.width
@@ -110,7 +228,12 @@ export function ProjectDetail({
     return section.body;
   }
 
-  function renderComparisonMedia(item: ProjectComparisonMedia) {
+  function renderComparisonMedia(
+    item: ProjectComparisonMedia,
+    options?: {
+      preload?: "auto" | "metadata";
+    },
+  ) {
     if (item.type === "image") {
       return (
         <Image
@@ -131,25 +254,40 @@ export function ProjectDetail({
         aria-label={getMediaAccessibilityLabel(item, "Project comparison preview")}
         width={item.width}
         height={item.height}
-        autoPlay
         loop
         muted
         playsInline
-        preload="auto"
+        preload={options?.preload ?? "metadata"}
       />
     );
   }
 
-  function renderMedia(item: NonNullable<ProjectItem["media"]>[number]) {
+  function renderMedia(item: NonNullable<ProjectItem["media"]>[number], index: number) {
     const mediaOrientation = getMediaOrientation(item);
     const mediaAspectRatio =
       item.width && item.height ? `${item.width} / ${item.height}` : undefined;
+    const isActiveComparison = resolvedActiveComparisonIndex === index;
+    const isVideoComparison = isVideoComparisonMedia(item);
 
     return (
       <figure
         className={styles.mediaCard}
+        data-comparison-index={isVideoComparison ? index : undefined}
         data-media-comparison={item.referenceMedia ? "true" : undefined}
         data-media-orientation={mediaOrientation}
+        data-playback-state={
+          isVideoComparison ? (isActiveComparison ? "active" : "idle") : undefined
+        }
+        onFocusCapture={
+          isVideoComparison && !shouldReduceMotion
+            ? () => setActiveComparisonIndex(index)
+            : undefined
+        }
+        onMouseEnter={
+          isVideoComparison && !shouldReduceMotion
+            ? () => setActiveComparisonIndex(index)
+            : undefined
+        }
       >
         {item.referenceMedia ? (
           <div
@@ -165,7 +303,9 @@ export function ProjectDetail({
                 "Original preview",
               )}
             >
-              {renderComparisonMedia(item.referenceMedia)}
+              {renderComparisonMedia(item.referenceMedia, {
+                preload: isActiveComparison ? "auto" : "metadata",
+              })}
               <span className={styles.mediaComparisonLabel}>
                 {item.referenceMedia.label}
               </span>
@@ -176,7 +316,9 @@ export function ProjectDetail({
               tabIndex={0}
               aria-label="My Mimesis"
             >
-              {renderComparisonMedia(item)}
+              {renderComparisonMedia(item, {
+                preload: isActiveComparison ? "auto" : "metadata",
+              })}
               <span className={styles.mediaComparisonLabel}>My Mimesis</span>
             </div>
           </div>
@@ -217,6 +359,7 @@ export function ProjectDetail({
       className={`${styles.panel} ${animateOnFirstOpen ? styles.panelReveal : ""} card`}
       data-once-reveal={animateOnFirstOpen ? "animated" : "static"}
       data-testid="project-detail-panel"
+      ref={panelRef}
     >
       <button className={styles.backButton} type="button" onClick={onBack}>
         <ArrowLeft aria-hidden="true" size={18} strokeWidth={2} />
@@ -277,7 +420,7 @@ export function ProjectDetail({
                   <h3 className={styles.sectionTitle}>{section.title}</h3>
                   {renderSectionBody(section)}
                 </div>
-                {mediaItem ? renderMedia(mediaItem) : null}
+                {mediaItem ? renderMedia(mediaItem, index) : null}
               </section>
             );
           })}

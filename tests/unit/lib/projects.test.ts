@@ -40,10 +40,10 @@ describe("PROJECTS", () => {
       "/images/projects/sellpath_main.png",
     );
     expect(mimesis?.media?.map((item) => item.src) ?? []).toEqual([
-      "/images/projects/mimesis_page_curl.webp",
-      "/images/projects/mimesis_wiper_typography.webp",
-      "/images/projects/mimesis_black_white_circle.webp",
-      "/images/projects/mimesis_staggered_text.webp",
+      "/videos/projects/mimesis_page_curl_mimesis.mp4",
+      "/videos/projects/mimesis_wiper_typography_mimesis.mp4",
+      "/videos/projects/mimesis_black_white_circle_mimesis.mp4",
+      "/videos/projects/mimesis_staggered_text_mimesis.mp4",
     ]);
     expect(dsskills?.media?.map((item) => item.src) ?? []).toContain(
       "/images/projects/dsskills_main.png",
@@ -99,10 +99,10 @@ describe("PROJECTS", () => {
           : undefined,
       ),
     ).toEqual([
-      "image:/images/projects/mimesis_page_curl_original.webp",
-      "image:/images/projects/mimesis_wiper_typography_original.webp",
-      "image:/images/projects/mimesis_black_white_circle_original.webp",
-      "image:/images/projects/mimesis_staggered_text_original.webp",
+      "video:/videos/projects/mimesis_page_curl_original.mp4",
+      "video:/videos/projects/mimesis_wiper_typography_original.mp4",
+      "video:/videos/projects/mimesis_black_white_circle_original.mp4",
+      "video:/videos/projects/mimesis_staggered_text_original.mp4",
     ]);
     expect(referenceCopy).toMatch(/reference/i);
     expect(referenceCopy).toMatch(/inspir/i);

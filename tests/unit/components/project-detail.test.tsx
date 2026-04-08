@@ -1,5 +1,5 @@
-import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { render, screen, waitFor, within } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ProjectDetail } from "@/components/project-detail";
 import type { ProjectItem } from "@/lib/projects";
 
@@ -16,6 +16,45 @@ vi.mock("next/image", () => ({
     return <img alt={alt} src={src} />;
   },
 }));
+
+const mockIntersectionObservers: MockIntersectionObserver[] = [];
+
+class MockIntersectionObserver {
+  callback: IntersectionObserverCallback;
+  elements = new Set<Element>();
+
+  constructor(callback: IntersectionObserverCallback) {
+    this.callback = callback;
+    mockIntersectionObservers.push(this);
+  }
+
+  disconnect = vi.fn(() => {
+    this.elements.clear();
+  });
+
+  observe = vi.fn((element: Element) => {
+    this.elements.add(element);
+  });
+
+  takeRecords = vi.fn(() => []);
+
+  trigger(target: Element, intersectionRatio: number) {
+    this.callback(
+      [
+        {
+          intersectionRatio,
+          isIntersecting: intersectionRatio > 0,
+          target,
+        } as IntersectionObserverEntry,
+      ],
+      this as unknown as IntersectionObserver,
+    );
+  }
+
+  unobserve = vi.fn((element: Element) => {
+    this.elements.delete(element);
+  });
+}
 
 const projectWithMedia: ProjectItem = {
   id: "sellpath",
@@ -59,6 +98,18 @@ const projectWithMedia: ProjectItem = {
 };
 
 describe("ProjectDetail", () => {
+  beforeEach(() => {
+    mockIntersectionObservers.length = 0;
+    vi.stubGlobal("IntersectionObserver", MockIntersectionObserver);
+    vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue(undefined);
+    vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
   it("renders project images and videos from project media data", () => {
     render(
       <ProjectDetail
@@ -106,7 +157,7 @@ describe("ProjectDetail", () => {
     expect(within(mediaRegion).getByText("Chat UI")).toBeInTheDocument();
   });
 
-  it("renders custom project detail sections with a left-starting media rhythm", () => {
+  it("renders custom project detail sections with a left-starting media rhythm", async () => {
     render(
       <ProjectDetail
         project={{
@@ -116,51 +167,48 @@ describe("ProjectDetail", () => {
           mediaStartSide: "left",
           media: [
             {
-              type: "image",
-              src: "/images/projects/mimesis_page_curl.webp",
-              alt: "My Mimesis iOS Page Curl implementation preview",
+              type: "video",
+              src: "/videos/projects/mimesis_page_curl_mimesis.mp4",
               label: "My Mimesis iOS Page Curl implementation preview",
               caption: "iOS Page Curl Effect",
               width: 548,
               height: 548,
               referenceMedia: {
-                type: "image",
-                src: "/images/projects/mimesis_page_curl_original.webp",
-                alt: "Original iOS Page Curl reference preview",
+                type: "video",
+                src: "/videos/projects/mimesis_page_curl_original.mp4",
+                ariaLabel: "Original iOS Page Curl reference preview",
                 label: "Original",
                 width: 548,
                 height: 548,
               },
             },
             {
-              type: "image",
-              src: "/images/projects/mimesis_wiper_typography.webp",
-              alt: "My Mimesis Wiper Typography implementation preview",
+              type: "video",
+              src: "/videos/projects/mimesis_wiper_typography_mimesis.mp4",
               label: "My Mimesis Wiper Typography implementation preview",
               caption: "Wiper Typography",
               width: 548,
               height: 548,
               referenceMedia: {
-                type: "image",
-                src: "/images/projects/mimesis_wiper_typography_original.webp",
-                alt: "Original Wiper Typography reference preview",
+                type: "video",
+                src: "/videos/projects/mimesis_wiper_typography_original.mp4",
+                ariaLabel: "Original Wiper Typography reference preview",
                 label: "Original",
                 width: 548,
                 height: 548,
               },
             },
             {
-              type: "image",
-              src: "/images/projects/mimesis_black_white_circle.webp",
-              alt: "My Mimesis Black & White Circle implementation preview",
+              type: "video",
+              src: "/videos/projects/mimesis_black_white_circle_mimesis.mp4",
               label: "My Mimesis Black & White Circle implementation preview",
               caption: "Black & White Circle",
               width: 548,
               height: 548,
               referenceMedia: {
-                type: "image",
-                src: "/images/projects/mimesis_black_white_circle_original.webp",
-                alt: "Original Black & White Circle reference preview",
+                type: "video",
+                src: "/videos/projects/mimesis_black_white_circle_original.mp4",
+                ariaLabel: "Original Black & White Circle reference preview",
                 label: "Original",
                 width: 548,
                 height: 548,
@@ -198,6 +246,7 @@ describe("ProjectDetail", () => {
     );
 
     const mediaRows = screen.getAllByTestId("project-detail-row");
+    const comparisonFigures = mediaRows.map((row) => within(row).getByRole("figure"));
 
     expect(mediaRows).toHaveLength(3);
     expect(mediaRows[0]).toHaveAttribute("data-media-side", "left");
@@ -217,22 +266,25 @@ describe("ProjectDetail", () => {
     expect(
       screen.getByText("My Mimesis implementation rebuilds the drag interaction in R3F."),
     ).toBeInTheDocument();
-    const originalPreview = within(mediaRows[0]).getByAltText(
-      "Original iOS Page Curl reference preview",
-    );
-    const mimesisPreview = within(mediaRows[0]).getByAltText(
+    const originalPreview = within(mediaRows[0])
+      .getAllByLabelText("Original iOS Page Curl reference preview")
+      .find((element) => element.tagName === "VIDEO");
+    const mimesisPreview = within(mediaRows[0]).getByLabelText(
       "My Mimesis iOS Page Curl implementation preview",
     );
 
-    expect(originalPreview).toHaveAttribute(
+    expect(originalPreview).toBeDefined();
+    const originalPreviewElement = originalPreview as HTMLVideoElement;
+
+    expect(originalPreviewElement).toHaveAttribute(
       "src",
-      "/images/projects/mimesis_page_curl_original.webp",
+      "/videos/projects/mimesis_page_curl_original.mp4",
     );
     expect(mimesisPreview).toHaveAttribute(
       "src",
-      "/images/projects/mimesis_page_curl.webp",
+      "/videos/projects/mimesis_page_curl_mimesis.mp4",
     );
-    expect(originalPreview.closest("[data-media-role]")).toHaveAttribute(
+    expect(originalPreviewElement.closest("[data-media-role]")).toHaveAttribute(
       "data-media-role",
       "original",
     );
@@ -240,13 +292,35 @@ describe("ProjectDetail", () => {
       "data-media-role",
       "mimesis",
     );
-    expect(originalPreview.tagName).toBe("IMG");
-    expect(mimesisPreview.tagName).toBe("IMG");
+    expect(originalPreviewElement.tagName).toBe("VIDEO");
+    expect(mimesisPreview.tagName).toBe("VIDEO");
     expect(within(mediaRows[0]).getByText("Original")).toBeInTheDocument();
     expect(within(mediaRows[0]).getByText("My Mimesis")).toBeInTheDocument();
     expect(
       within(mediaRows[0]).getByRole("figure"),
     ).toHaveAttribute("data-media-comparison", "true");
+    expect(comparisonFigures[0]).toHaveAttribute("data-playback-state", "idle");
+    expect(comparisonFigures[1]).toHaveAttribute("data-playback-state", "idle");
+    expect(comparisonFigures[2]).toHaveAttribute("data-playback-state", "idle");
+    expect(mockIntersectionObservers).toHaveLength(1);
+
+    mockIntersectionObservers[0].trigger(comparisonFigures[1], 0.8);
+
+    await waitFor(() => {
+      expect(comparisonFigures[0]).toHaveAttribute("data-playback-state", "idle");
+      expect(comparisonFigures[1]).toHaveAttribute("data-playback-state", "active");
+      expect(comparisonFigures[2]).toHaveAttribute("data-playback-state", "idle");
+    });
+
+    const secondRowVideoElements = comparisonFigures[1].querySelectorAll("video");
+    const firstRowVideoElements = comparisonFigures[0].querySelectorAll("video");
+
+    expect(secondRowVideoElements).toHaveLength(2);
+    expect(firstRowVideoElements).toHaveLength(2);
+    expect(secondRowVideoElements[0]).toHaveAttribute("preload", "auto");
+    expect(secondRowVideoElements[1]).toHaveAttribute("preload", "auto");
+    expect(firstRowVideoElements[0]).toHaveAttribute("preload", "metadata");
+    expect(firstRowVideoElements[1]).toHaveAttribute("preload", "metadata");
     expect(
       screen.queryByRole("link", { name: /Open My Mimesis/i }),
     ).not.toBeInTheDocument();
