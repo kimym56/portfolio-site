@@ -63,21 +63,21 @@ const projects: ProjectItem[] = [
     },
   },
   {
-    id: "design-system-project",
-    title: "Design System Project",
+    id: "dsskills",
+    title: "DSSkills",
     role: "Side Project",
-    description: "A reusable component and token system.",
+    description: "A design-system generation sandbox.",
     type: "side",
-    url: "https://example.com/design-system",
+    url: "https://ymkim-dsskills.vercel.app",
     stack: [
-      { label: "Storybook", category: "design", proficiency: "strong" },
       { label: "TypeScript", category: "frontend", proficiency: "strong" },
+      { label: "OpenAI API", category: "ai", proficiency: "strong" },
     ],
     details: {
-      summary: "Design system summary",
-      whatThisProjectIs: "Design system overview",
-      whatIFocusedOn: "Design system focus",
-      considerations: "Design system considerations",
+      summary: "DSSkills summary",
+      whatThisProjectIs: "DSSkills overview",
+      whatIFocusedOn: "DSSkills focus",
+      considerations: "DSSkills considerations",
       meta: ["Type: Side Project"],
     },
   },
@@ -131,7 +131,7 @@ describe("ProjectFilter", () => {
     expect(screen.getAllByTestId("project-card")).toHaveLength(3);
     expect(screen.getByText("Mimesis")).toBeInTheDocument();
     expect(screen.getByText("Website")).toBeInTheDocument();
-    expect(screen.getByText("Design System Project")).toBeInTheDocument();
+    expect(screen.getByText("DSSkills")).toBeInTheDocument();
   });
 
   it("opens a project detail view and returns to the selected category list", async () => {

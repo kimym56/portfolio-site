@@ -8,6 +8,59 @@ export interface ProjectDetailContent {
   meta: string[];
 }
 
+export interface ProjectDetailSection {
+  id: string;
+  title: string;
+  body?: string;
+  reference?: string;
+  implementation?: string;
+}
+
+interface ProjectReferenceImageMedia {
+  type: "image";
+  src: string;
+  alt: string;
+  label: string;
+  width: number;
+  height: number;
+}
+
+interface ProjectReferenceVideoMedia {
+  type: "video";
+  src: string;
+  ariaLabel: string;
+  label: string;
+  width: number;
+  height: number;
+}
+
+export type ProjectReferenceMedia =
+  | ProjectReferenceImageMedia
+  | ProjectReferenceVideoMedia;
+
+interface ProjectImageMedia {
+  type: "image";
+  src: string;
+  alt: string;
+  label?: string;
+  caption: string;
+  width: number;
+  height: number;
+  referenceMedia?: ProjectReferenceMedia;
+}
+
+interface ProjectVideoMedia {
+  type: "video";
+  src: string;
+  label: string;
+  caption: string;
+  width?: number;
+  height?: number;
+  referenceMedia?: ProjectReferenceMedia;
+}
+
+export type ProjectMediaItem = ProjectImageMedia | ProjectVideoMedia;
+
 export interface ProjectItem {
   id: string;
   title: string;
@@ -16,6 +69,9 @@ export interface ProjectItem {
   type: ProjectType;
   url: string;
   stack: AboutTechStackItem[];
+  media?: ProjectMediaItem[];
+  mediaStartSide?: "left" | "right";
+  detailSections?: ProjectDetailSection[];
   details: ProjectDetailContent;
 }
 
@@ -25,27 +81,56 @@ export const PROJECTS: ProjectItem[] = [
     title: "Sellpath",
     role: "Frontend Engineer",
     description:
-      "Worked on production frontend flows with attention to clarity, conversion, and implementation quality.",
+      "Contributed frontend work for an AI agent-based CRM and sales platform serving the U.S. market.",
     type: "work",
-    url: "https://example.com/sellpath",
+    url: "https://www.sellpath.ai",
     stack: [
-      { label: "React", category: "frontend", proficiency: "strong" },
       { label: "Next.js", category: "frontend", proficiency: "strong" },
+      { label: "React", category: "frontend", proficiency: "strong" },
       { label: "TypeScript", category: "frontend", proficiency: "strong" },
+      { label: "OpenAI API", category: "ai", proficiency: "strong" },
+      { label: "WebSocket", category: "frontend", proficiency: "soft" },
+      { label: "WebRTC", category: "frontend", proficiency: "soft" },
+    ],
+    media: [
+      {
+        type: "image",
+        src: "/images/projects/sellpath_main.png",
+        alt: "Sellpath sales dashboard screenshot",
+        caption: "Sales dashboard",
+        width: 1641,
+        height: 865,
+      },
+      {
+        type: "image",
+        src: "/images/projects/sellpath_detail1.png",
+        alt: "Sellpath Activity Modal customer analytics screenshot",
+        caption: "Activity Modal analytics",
+        width: 1161,
+        height: 846,
+      },
+      {
+        type: "image",
+        src: "/images/projects/sellpath_detail2.png",
+        alt: "Sellpath Activity Modal chat UI screenshot",
+        caption: "Chat UI",
+        width: 495,
+        height: 846,
+      },
     ],
     details: {
       summary:
-        "Add a concise summary of your frontend work at Sellpath here.",
+        "Built production-facing frontend surfaces for a sales platform that brings CRM context, real-time communication, and AI-assisted workflows into one working environment.",
       whatThisProjectIs:
-        "Describe what Sellpath is, who it serves, and the product context you worked within.",
+        "Sellpath is an AI agent-based CRM and sales platform for U.S. sales teams. The product combines sales dashboards, CRM-integrated tables, and an Activity Modal that helps teams understand customer context while they communicate.",
       whatIFocusedOn:
-        "Explain the main frontend responsibilities, interaction problems, or product goals you focused on.",
+        "Focused on the Activity Modal and related sales workflow surfaces, including customer context summaries, engagement and sentiment visualization, chat UI, real-time calls, transcription, and AI agent-powered reply suggestions.",
       considerations:
-        "Document the UI, UX, HCI, and frontend considerations you want to highlight for this work project.",
+        "The core frontend challenge was making dense sales context readable during live communication. I worked around responsive modal structure, real-time state updates, WebSocket and WebRTC behavior, and OpenAI API-based speech-to-text flows while keeping the experience fast enough for active sales work.",
       meta: [
         "Type: Work Project",
         "Role: Frontend Engineer",
-        "Stack: React, Next.js, TypeScript",
+        "Stack: Next.js, React, TypeScript, OpenAI API, WebSocket, WebRTC",
       ],
     },
   },
@@ -54,26 +139,192 @@ export const PROJECTS: ProjectItem[] = [
     title: "Mimesis",
     role: "Side Project",
     description:
-      "An interface-focused side project exploring interaction patterns and visual structure.",
+      "A creative coding project that recreates interactive UIs and extends them through web technologies.",
     type: "side",
-    url: "https://example.com/mimesis",
+    url: "https://ymkim-mimesis.vercel.app",
     stack: [
+      { label: "Next.js", category: "frontend", proficiency: "strong" },
       { label: "React", category: "frontend", proficiency: "strong" },
       { label: "TypeScript", category: "frontend", proficiency: "strong" },
-      { label: "CSS", category: "design", proficiency: "soft" },
+      { label: "Vite", category: "frontend", proficiency: "soft" },
+      { label: "R3F", category: "frontend", proficiency: "strong" },
+      { label: "Three.js", category: "frontend", proficiency: "strong" },
+      { label: "Framer Motion", category: "design", proficiency: "strong" },
+      { label: "Realtime BPM", category: "frontend", proficiency: "soft" },
+    ],
+    media: [
+      {
+        type: "video",
+        src: "/videos/projects/mimesis_page_curl_mimesis.mp4",
+        label: "My Mimesis iOS Page Curl Effect implementation preview",
+        caption: "iOS Page Curl Effect",
+        width: 548,
+        height: 548,
+        referenceMedia: {
+          type: "video",
+          src: "/videos/projects/mimesis_page_curl_original.mp4",
+          ariaLabel: "Original iOS Page Curl Effect reference preview",
+          label: "Original",
+          width: 548,
+          height: 548,
+        },
+      },
+      {
+        type: "video",
+        src: "/videos/projects/mimesis_wiper_typography_mimesis.mp4",
+        label: "My Mimesis Wiper Typography implementation preview",
+        caption: "Wiper Typography",
+        width: 548,
+        height: 548,
+        referenceMedia: {
+          type: "video",
+          src: "/videos/projects/mimesis_wiper_typography_original.mp4",
+          ariaLabel: "Original Wiper Typography reference preview",
+          label: "Original",
+          width: 548,
+          height: 548,
+        },
+      },
+      {
+        type: "video",
+        src: "/videos/projects/mimesis_black_white_circle_mimesis.mp4",
+        label: "My Mimesis Black & White Circle implementation preview",
+        caption: "Black & White Circle",
+        width: 548,
+        height: 548,
+        referenceMedia: {
+          type: "video",
+          src: "/videos/projects/mimesis_black_white_circle_original.mp4",
+          ariaLabel: "Original Black & White Circle reference preview",
+          label: "Original",
+          width: 548,
+          height: 548,
+        },
+      },
+      {
+        type: "video",
+        src: "/videos/projects/mimesis_staggered_text_mimesis.mp4",
+        label: "My Mimesis Staggered Text implementation preview",
+        caption: "Staggered Text",
+        width: 548,
+        height: 548,
+        referenceMedia: {
+          type: "video",
+          src: "/videos/projects/mimesis_staggered_text_original.mp4",
+          ariaLabel: "Original Staggered Text reference preview",
+          label: "Original",
+          width: 548,
+          height: 548,
+        },
+      },
+    ],
+    mediaStartSide: "left",
+    detailSections: [
+      {
+        id: "ios-page-curl-effect",
+        title: "iOS Page Curl Effect",
+        reference:
+          "Reference inspiration from the Page Curl effect used in iBooks and Apple Maps, with Minsang Choi's Metal shader work as the visual benchmark.",
+        implementation:
+          "My Mimesis implementation rebuilds the corner-peel interaction in R3F from a SwiftUI reference, with draggable page corners and a reverse-side reveal.",
+      },
+      {
+        id: "wiper-typography",
+        title: "Wiper Typography",
+        reference:
+          "Reference inspiration from Jongmin Kim's FFF typography experiment, where a wiper reveals and transforms type in real time.",
+        implementation:
+          "My Mimesis implementation recreates the interaction in R3F by combining the original HTML/CSS behavior with a Tesla 3D model and a driver-view wiper scene.",
+      },
+      {
+        id: "black-white-circle",
+        title: "Black & White Circle",
+        reference:
+          "Reference inspiration from SABUM's Yin and Yang Dynamics project, which connects sound to black-and-white particle motion.",
+        implementation:
+          "My Mimesis implementation analyzes the browser's audio output instead of extracting YouTube audio directly, then drives the particle motion in real time.",
+      },
+      {
+        id: "staggered-text",
+        title: "Staggered Text",
+        reference:
+          "Reference inspiration from Rauno Freiberg's staggered text interaction with a soft 3D feel.",
+        implementation:
+          "My Mimesis implementation recreates the motion with Framer Motion, supporting user text input and click-driven previews that make the staggered motion easier to test and tune.",
+      },
     ],
     details: {
-      summary: "Add a short summary of what Mimesis is and why you made it.",
+      summary:
+        "A study of interaction fidelity, 3D rendering, audio-driven motion, and expressive text animation on the web.",
       whatThisProjectIs:
-        "Describe the project concept, audience, and the core problem or idea behind Mimesis.",
+        "Mimesis is a side project focused on recreating interactive UI and creative digital works, then extending them through React, R3F, Three.js, Framer Motion, and browser APIs.",
       whatIFocusedOn:
-        "Explain the specific interaction, interface, or implementation areas you focused on.",
+        "Focused on four interaction studies: an iOS-style Page Curl effect rebuilt in R3F, Wiper Typography with a Tesla 3D model, Black & White Circle with browser audio analysis, and Staggered Text with click-driven Framer Motion previews.",
       considerations:
-        "Capture the UI, UX, HCI, and frontend tradeoffs or decisions that matter in this project.",
+        "Each recreation needed a balance between the reference interaction and what the browser can reliably support. The work involved drag behavior, 3D scene composition, real-time audio analysis without direct YouTube extraction, motion timing, and keeping demos responsive enough to feel immediate.",
       meta: [
         "Type: Side Project",
         "Role: Side Project",
-        "Stack: React, TypeScript, CSS",
+        "Stack: Next.js, React, TypeScript, Vite, R3F, Three.js, Framer Motion",
+      ],
+    },
+  },
+  {
+    id: "dsskills",
+    title: "DSSkills",
+    role: "Side Project",
+    description:
+      "A playground for applying trending agent skills to design system components and previewing the generated output.",
+    type: "side",
+    url: "https://ymkim-dsskills.vercel.app",
+    stack: [
+      { label: "Next.js", category: "frontend", proficiency: "strong" },
+      { label: "React", category: "frontend", proficiency: "strong" },
+      { label: "TypeScript", category: "frontend", proficiency: "strong" },
+      { label: "OpenAI API", category: "ai", proficiency: "strong" },
+      { label: "PostgreSQL", category: "frontend", proficiency: "soft" },
+      { label: "Prisma", category: "frontend", proficiency: "soft" },
+      { label: "Tailwind CSS", category: "design", proficiency: "strong" },
+    ],
+    media: [
+      {
+        type: "image",
+        src: "/images/projects/dsskills_main.png",
+        alt: "DSSkills project overview screenshot",
+        caption: "Generation playground",
+        width: 1097,
+        height: 811,
+      },
+      {
+        type: "image",
+        src: "/images/projects/dsskills_detail1.png",
+        alt: "DSSkills agent skill selection screenshot",
+        caption: "Agent skill selection",
+        width: 646,
+        height: 505,
+      },
+      {
+        type: "image",
+        src: "/images/projects/dsskills_detail2.png",
+        alt: "DSSkills component preview and code output screenshot",
+        caption: "Preview and code output",
+        width: 971,
+        height: 651,
+      },
+    ],
+    details: {
+      summary:
+        "A design-system generation sandbox where users choose a component, apply UI-focused agent skills, preview the result, and copy the generated code.",
+      whatThisProjectIs:
+        "DSSkills explores how agent skills can support design system work. It fetches skill descriptions and GitHub star counts, then lets users choose both the target component and the skills to apply before generation.",
+      whatIFocusedOn:
+        "Focused on the component-generation flow: skill selection, OpenAI API-powered output generation, instant preview, history review, and code output that can be reused directly.",
+      considerations:
+        "The product needed to make AI generation inspectable rather than opaque. I emphasized skill context before selection, instant preview after generation, persistent history for comparison, and code visibility so users can evaluate and apply results without leaving the workflow.",
+      meta: [
+        "Type: Side Project",
+        "Role: Side Project",
+        "Stack: Next.js, React, TypeScript, OpenAI API, PostgreSQL, Prisma, Tailwind CSS",
       ],
     },
   },
@@ -82,56 +333,29 @@ export const PROJECTS: ProjectItem[] = [
     title: "Website",
     role: "Side Project",
     description:
-      "A personal website project centered on information hierarchy, visual tone, and frontend craft.",
+      "A personal portfolio site focused on clear hierarchy, restrained motion, and project storytelling.",
     type: "side",
-    url: "https://example.com/website",
+    url: "https://ymkim-portfolio.vercel.app",
     stack: [
       { label: "Next.js", category: "frontend", proficiency: "strong" },
       { label: "TypeScript", category: "frontend", proficiency: "strong" },
+      { label: "React", category: "frontend", proficiency: "strong" },
+      { label: "Framer Motion", category: "design", proficiency: "strong" },
       { label: "CSS Modules", category: "design", proficiency: "soft" },
     ],
     details: {
       summary:
-        "Add a brief summary of the website project and what you wanted it to communicate.",
+        "A focused portfolio site for presenting experience, technical range, and selected projects through direct navigation and polished transitions.",
       whatThisProjectIs:
-        "Describe the purpose of the website, its audience, and how it fits into your portfolio or practice.",
+        "Website is the portfolio product itself. It organizes a concise home introduction, about copy, project filtering, editorial project detail views, and contact information into a small English-only site.",
       whatIFocusedOn:
-        "Explain the core priorities for layout, typography, motion, or implementation.",
+        "Focused on information hierarchy, page transitions, scroll-driven home hero rotation, card density, project filtering, and reusable content structures that make future portfolio updates straightforward.",
       considerations:
-        "Document the UI, UX, HCI, and frontend decisions that shaped the final website experience.",
+        "The site prioritizes fast scanning and low-friction navigation. I tuned motion to support orientation rather than decoration, kept project cards compact, and separated project copy from UI components so content changes can happen without touching interaction logic.",
       meta: [
         "Type: Side Project",
         "Role: Side Project",
-        "Stack: Next.js, TypeScript, CSS Modules",
-      ],
-    },
-  },
-  {
-    id: "design-system-project",
-    title: "Design System Project",
-    role: "Side Project",
-    description:
-      "A component and token system project focused on consistency, reuse, and interface scale.",
-    type: "side",
-    url: "https://example.com/design-system",
-    stack: [
-      { label: "TypeScript", category: "frontend", proficiency: "strong" },
-      { label: "Storybook", category: "design", proficiency: "strong" },
-      { label: "Design Tokens", category: "design", proficiency: "strong" },
-    ],
-    details: {
-      summary:
-        "Add a summary of the design system project and the need it was created to address.",
-      whatThisProjectIs:
-        "Describe the system scope, intended consumers, and the components or patterns it organizes.",
-      whatIFocusedOn:
-        "Explain what you focused on most, such as component APIs, visual consistency, or documentation.",
-      considerations:
-        "Document the UI, UX, HCI, and frontend considerations behind the system decisions.",
-      meta: [
-        "Type: Side Project",
-        "Role: Side Project",
-        "Stack: TypeScript, Storybook, Design Tokens",
+        "Stack: Next.js, TypeScript, React, Framer Motion, CSS Modules",
       ],
     },
   },

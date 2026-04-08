@@ -111,6 +111,8 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
           animateOnFirstOpen={detailRevealState === "animated"}
           project={selectedProject}
           backLabel={backLabel}
+          key={selectedProject.id}
+          shouldReduceMotion={Boolean(shouldReduceMotion)}
           visitLabel={labels.visit}
           onBack={() => {
             setSelectedProjectId(null);

@@ -101,16 +101,101 @@
   max-width: 65ch;
 }
 
-.sections {
+.detailRows {
   display: grid;
-  gap: 1rem;
+  gap: clamp(2.5rem, 5vw, 4rem);
 }
 
-.section {
-  background: color-mix(in srgb, var(--surface-soft) 68%, var(--surface));
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 1rem 1.05rem;
+.detailRow {
+  display: grid;
+  gap: clamp(1rem, 2.2vw, 1.8rem);
+}
+
+.detailRowWithMedia {
+  align-items: center;
+}
+
+.detailRowTextOnly {
+  max-width: 72ch;
+}
+
+.detailCopy {
+  min-width: 0;
+  order: 1;
+}
+
+.mediaCard {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  min-width: 0;
+  order: 2;
+  overflow: hidden;
+}
+
+.mediaCard[data-media-orientation="portrait"] {
+  justify-self: center;
+  width: min(100%, 24rem);
+}
+
+.mediaImage,
+.mediaVideo {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.mediaComparisonFrame {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+.mediaComparisonPane {
+  flex: 1 1 50%;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.mediaComparisonPane:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.mediaComparisonImage,
+.mediaComparisonVideo {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.mediaComparisonLabel {
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.68rem;
+  font-weight: 700;
+  left: 0.6rem;
+  letter-spacing: 0.06em;
+  padding: 0.24rem 0.42rem;
+  position: absolute;
+  text-transform: uppercase;
+  top: 0.6rem;
+}
+
+.mediaCaption {
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .sectionTitle {
@@ -125,6 +210,30 @@
   max-width: 68ch;
 }
 
+.sectionBlocks {
+  display: grid;
+  gap: 1.1rem;
+  margin-top: 0.75rem;
+  max-width: 68ch;
+}
+
+.sectionBlock {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.sectionLabel {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sectionBlocks .sectionBody {
+  margin-top: 0;
+}
+
 .metaList {
   display: grid;
   gap: 0.5rem;
@@ -136,6 +245,42 @@
 .metaItem {
   color: var(--text-muted);
   font-size: 0.96rem;
+}
+
+@media (min-width: 860px) {
+  .detailRowWithMedia {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .detailRowWithMedia[data-media-side="left"] {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .detailRowWithMedia[data-media-side="left"] .mediaCard {
+    order: 1;
+  }
+
+  .detailRowWithMedia[data-media-side="left"] .detailCopy {
+    order: 2;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mediaComparisonPane {
+    transition: flex-basis 220ms ease, flex-grow 220ms ease;
+  }
+
+  .mediaComparisonFrame:hover .mediaComparisonPane,
+  .mediaComparisonFrame:focus-within .mediaComparisonPane {
+    flex-basis: 0%;
+    flex-grow: 0;
+  }
+
+  .mediaComparisonFrame .mediaComparisonPane:hover,
+  .mediaComparisonFrame .mediaComparisonPane:focus-visible {
+    flex-basis: 100%;
+    flex-grow: 1;
+  }
 }
 
 @media (max-width: 720px) {
@@ -163,5 +308,9 @@
 @media (prefers-reduced-motion: reduce) {
   .panelReveal {
     animation: none;
+  }
+
+  .mediaComparisonPane {
+    transition: none;
   }
 }

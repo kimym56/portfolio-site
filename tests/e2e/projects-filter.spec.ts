@@ -21,7 +21,7 @@ test("projects page switches categories and opens an in-page detail view", async
   );
   await expect(page.getByRole("button", { name: /mimesis/i })).toBeVisible();
   await expect(page.getByRole("button", { name: /website/i })).toBeVisible();
-  await expect(page.getByRole("button", { name: /design system project/i })).toBeVisible();
+  await expect(page.getByRole("button", { name: /dsskills/i })).toBeVisible();
 
   await page.getByRole("button", { name: "Work Projects" }).click();
 

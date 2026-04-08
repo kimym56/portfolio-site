@@ -58,7 +58,10 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${manrope.variable} ${cormorant.variable}`}>
+      <body
+        className={`${manrope.variable} ${cormorant.variable}`}
+        suppressHydrationWarning
+      >
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <div className="site-shell">
           <SiteHeader navCopy={SITE_COPY.nav} />

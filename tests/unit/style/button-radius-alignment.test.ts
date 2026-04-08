@@ -6,6 +6,16 @@ function readFile(relativePath: string) {
   return fs.readFileSync(path.join(process.cwd(), relativePath), "utf8");
 }
 
+function readClassBlock(css: string, className: string) {
+  const match = css.match(new RegExp(`\\.${className}\\s*\\{([\\s\\S]*?)\\}`));
+
+  if (!match) {
+    throw new Error(`Missing CSS class block: .${className}`);
+  }
+
+  return match[1];
+}
+
 describe("button radius alignment", () => {
   it("uses a minimal semantic radius token scale across current shapes", () => {
     const globalsCss = readFile("app/globals.css");
@@ -30,7 +40,16 @@ describe("button radius alignment", () => {
     expect(projectGridCss).toMatch(/\.cardButton\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);
     expect(projectGridCss).toMatch(/\.action\s*\{[\s\S]*?border-radius:\s*var\(--radius-full\);/);
     expect(projectDetailCss).toMatch(/\.visitLink\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);
-    expect(projectDetailCss).toMatch(/\.section\s*\{[\s\S]*?border-radius:\s*var\(--radius-lg\);/);
     expect(projectDetailCss).toMatch(/\.backButton\s*\{[\s\S]*?border-radius:\s*var\(--radius-full\);/);
+  });
+
+  it("keeps project detail rows borderless instead of section cards", () => {
+    const projectDetailCss = readFile("components/project-detail.module.css");
+    const detailRowBlock = readClassBlock(projectDetailCss, "detailRow");
+
+    expect(detailRowBlock).not.toMatch(/\bbackground\s*:/);
+    expect(detailRowBlock).not.toMatch(/\bborder\s*:/);
+    expect(detailRowBlock).not.toMatch(/\bborder-radius\s*:/);
+    expect(detailRowBlock).not.toMatch(/\bpadding\s*:/);
   });
 });
