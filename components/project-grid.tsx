@@ -20,13 +20,13 @@ export function ProjectGrid({
       {projects.map((project, index) => (
         <article
           key={project.id}
-          className={shouldAnimate ? styles.cardReveal : undefined}
+          className={`${styles.row} ${shouldAnimate ? styles.cardReveal : ""}`}
           data-reveal-direction={revealDirection}
           data-stagger-index={index}
           data-testid="project-card"
         >
           <button
-            className={`${styles.cardButton} card`}
+            className={styles.cardButton}
             type="button"
             onClick={() => onSelect(project)}
           >
@@ -34,8 +34,8 @@ export function ProjectGrid({
               <span className={styles.header}>
                 <span className={styles.heading}>
                   <span className={styles.title}>{project.title}</span>
-                  <span className={styles.role}>{project.role}</span>
                 </span>
+                <span className={styles.role}>{project.role}</span>
 
                 <span className={styles.action} aria-hidden="true">
                   <ArrowRight size={18} strokeWidth={2} />

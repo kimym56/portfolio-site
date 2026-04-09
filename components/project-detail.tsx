@@ -3,6 +3,7 @@
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import type {
   ProjectItem,
   ProjectMediaItem,
@@ -31,6 +32,7 @@ type ProjectComparisonMedia = ProjectMediaItem | ProjectReferenceMedia;
 type ProjectVideoComparisonMedia = Extract<ProjectMediaItem, { type: "video" }> & {
   referenceMedia: Extract<ProjectReferenceMedia, { type: "video" }>;
 };
+type ProjectStandaloneImage = Extract<ProjectMediaItem, { type: "image" }>;
 
 export function ProjectDetail({
   animateOnFirstOpen = false,
@@ -42,9 +44,14 @@ export function ProjectDetail({
 }: ProjectDetailProps) {
   const panelRef = useRef<HTMLElement | null>(null);
   const comparisonVisibilityRef = useRef<Record<number, number>>({});
+  const [revealedRows, setRevealedRows] = useState<{
+    key: string;
+    visible: Record<number, true>;
+  }>({ key: "", visible: {} });
   const [activeComparisonIndex, setActiveComparisonIndex] = useState<number | null>(
     null,
   );
+  const [expandedImage, setExpandedImage] = useState<ProjectStandaloneImage | null>(null);
   const resolvedActiveComparisonIndex = shouldReduceMotion
     ? null
     : activeComparisonIndex;
@@ -80,6 +87,78 @@ export function ProjectDetail({
   ];
   const detailSections: DetailSectionViewModel[] =
     project.detailSections ?? defaultDetailSections;
+  const detailSectionCount = detailSections.length;
+  const mediaCount = project.media?.length ?? 0;
+  const rowRevealKey = `${project.id}:${detailSectionCount}:${mediaCount}`;
+
+  useEffect(() => {
+    if (shouldReduceMotion || typeof IntersectionObserver === "undefined") {
+      return;
+    }
+
+    const detailRows = Array.from(
+      panelRef.current?.querySelectorAll<HTMLElement>("[data-detail-row-index]") ?? [],
+    );
+
+    if (detailRows.length === 0) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleIndexes: number[] = [];
+
+        for (const entry of entries) {
+          const rowIndex = entry.target.getAttribute("data-detail-row-index");
+
+          if (!rowIndex || !(entry.isIntersecting && entry.intersectionRatio >= 0.35)) {
+            continue;
+          }
+
+          visibleIndexes.push(Number(rowIndex));
+          observer.unobserve(entry.target);
+        }
+
+        if (visibleIndexes.length === 0) {
+          return;
+        }
+
+        setRevealedRows((current) => {
+          let changed = false;
+          const next =
+            current.key === rowRevealKey ? { ...current.visible } : {};
+
+          for (const index of visibleIndexes) {
+            if (!next[index]) {
+              next[index] = true;
+              changed = true;
+            }
+          }
+
+          if (!changed && current.key === rowRevealKey) {
+            return current;
+          }
+
+          return {
+            key: rowRevealKey,
+            visible: next,
+          };
+        });
+      },
+      {
+        rootMargin: "0px 0px -12% 0px",
+        threshold: [0, 0.2, 0.35, 0.5, 0.75, 1],
+      },
+    );
+
+    for (const row of detailRows) {
+      observer.observe(row);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [detailSectionCount, mediaCount, project.id, rowRevealKey, shouldReduceMotion]);
 
   function isVideoComparisonMedia(
     item: ProjectMediaItem,
@@ -183,6 +262,28 @@ export function ProjectDetail({
       }
     }
   }, [resolvedActiveComparisonIndex]);
+
+  useEffect(() => {
+    if (!expandedImage) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setExpandedImage(null);
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [expandedImage]);
 
   function getMediaOrientation(item: ProjectMediaItem) {
     return item.width && item.height && item.height > item.width
@@ -323,18 +424,25 @@ export function ProjectDetail({
             </div>
           </div>
         ) : item.type === "image" ? (
-          <Image
-            className={styles.mediaImage}
-            src={item.src}
-            alt={item.alt}
-            width={item.width}
-            height={item.height}
-            sizes={
-              mediaOrientation === "portrait"
-                ? "(max-width: 720px) 100vw, 24rem"
-                : "(max-width: 720px) 100vw, 50vw"
-            }
-          />
+          <button
+            type="button"
+            className={styles.mediaImageButton}
+            aria-label={`View larger image: ${item.alt}`}
+            onClick={() => setExpandedImage(item)}
+          >
+            <Image
+              className={styles.mediaImage}
+              src={item.src}
+              alt={item.alt}
+              width={item.width}
+              height={item.height}
+              sizes={
+                mediaOrientation === "portrait"
+                  ? "(max-width: 720px) 100vw, 24rem"
+                  : "(max-width: 720px) 100vw, 50vw"
+              }
+            />
+          </button>
         ) : (
           <video
             className={styles.mediaVideo}
@@ -356,21 +464,27 @@ export function ProjectDetail({
 
   return (
     <article
-      className={`${styles.panel} ${animateOnFirstOpen ? styles.panelReveal : ""} card`}
+      className={`${styles.panel} ${animateOnFirstOpen ? styles.panelReveal : ""}`}
       data-once-reveal={animateOnFirstOpen ? "animated" : "static"}
       data-testid="project-detail-panel"
       ref={panelRef}
     >
-      <button className={styles.backButton} type="button" onClick={onBack}>
-        <ArrowLeft aria-hidden="true" size={18} strokeWidth={2} />
-        <span className="visually-hidden">{backLabel}</span>
-      </button>
-
       <header className={styles.header}>
         <div className={styles.headerTop}>
-          <div>
-            <p className={styles.role}>{project.role}</p>
-            <h2 className={styles.title}>{project.title}</h2>
+          <div className={styles.headerCopy}>
+            <div
+              className={styles.headerTitleRow}
+              data-testid="project-detail-header-title-row"
+            >
+              <button className={styles.backButton} type="button" onClick={onBack}>
+                <ArrowLeft aria-hidden="true" size={18} strokeWidth={2} />
+                <span className="visually-hidden">{backLabel}</span>
+              </button>
+              <h2 className={styles.title}>{project.title}</h2>
+            </div>
+            <p className={styles.role} data-testid="project-detail-header-role">
+              {project.role}
+            </p>
           </div>
 
           <a
@@ -385,7 +499,6 @@ export function ProjectDetail({
         </div>
 
         <section className={styles.summaryBlock} aria-labelledby={`${project.id}-summary`}>
-          <p className={styles.kicker}>Summary</p>
           <p id={`${project.id}-summary`} className={styles.summary}>
             {project.details.summary}
           </p>
@@ -413,7 +526,14 @@ export function ProjectDetail({
                 className={`${styles.detailRow} ${
                   mediaItem ? styles.detailRowWithMedia : styles.detailRowTextOnly
                 }`}
+                data-detail-row-index={index}
                 data-media-side={mediaItem ? mediaSide : undefined}
+                data-row-visibility={
+                  shouldReduceMotion
+                  || (revealedRows.key === rowRevealKey && revealedRows.visible[index])
+                    ? "visible"
+                    : "hidden"
+                }
                 data-testid="project-detail-row"
               >
                 <div className={styles.detailCopy}>
@@ -427,10 +547,17 @@ export function ProjectDetail({
         </section>
       ) : (
         <div className={styles.detailRows}>
-          {detailSections.map((section) => (
+          {detailSections.map((section, index) => (
             <section
               key={section.id}
               className={`${styles.detailRow} ${styles.detailRowTextOnly}`}
+              data-detail-row-index={index}
+              data-row-visibility={
+                shouldReduceMotion
+                || (revealedRows.key === rowRevealKey && revealedRows.visible[index])
+                  ? "visible"
+                  : "hidden"
+              }
               data-testid="project-detail-row"
             >
               <div className={styles.detailCopy}>
@@ -441,6 +568,37 @@ export function ProjectDetail({
           ))}
         </div>
       )}
+
+      {expandedImage && typeof document !== "undefined"
+        ? createPortal(
+            <div
+              className={styles.lightbox}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Expanded project image"
+              onClick={() => setExpandedImage(null)}
+            >
+              <div
+                className={styles.lightboxContent}
+                onClick={(event) => event.stopPropagation()}
+              >
+                <Image
+                  className={`${styles.lightboxImage} ${
+                    getMediaOrientation(expandedImage) === "portrait"
+                      ? styles.lightboxImagePortrait
+                      : ""
+                  }`}
+                  src={expandedImage.src}
+                  alt={expandedImage.alt}
+                  width={expandedImage.width}
+                  height={expandedImage.height}
+                  sizes="90vw"
+                />
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </article>
   );
 }

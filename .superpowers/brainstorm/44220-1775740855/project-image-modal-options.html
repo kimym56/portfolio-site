@@ -1,0 +1,84 @@
+<h2>Image Modal Direction</h2>
+<p class="subtitle">Choose the enlarged-image treatment that fits the project detail page. The issue with the current version is that it feels like a full-page takeover instead of a modal.</p>
+
+<div class="cards">
+  <div class="card" data-choice="m1" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">M1. Current Full-Height Lightbox</div>
+        <div class="mockup-body">
+          <div style="position:relative;background:#f7f4ec;min-height:420px;padding:24px;">
+            <div style="height:120px;border-top:1px solid rgba(42,41,36,.12);padding-top:18px;color:#6f6a5f;">project detail page behind overlay</div>
+            <div style="position:absolute;inset:0;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center;padding:24px;">
+              <div style="display:grid;gap:14px;justify-items:center;width:100%;">
+                <div style="justify-self:end;color:#fff;">Close</div>
+                <div style="width:340px;height:340px;background:#d8d8d8;"></div>
+                <div style="color:#fff;">Sales dashboard</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Current</h3>
+      <p>Image dominates the full viewport height, so it reads more like a takeover lightbox than a modal dialog.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="m2" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">M2. Centered Medium Modal</div>
+        <div class="mockup-body">
+          <div style="position:relative;background:#f7f4ec;min-height:420px;padding:24px;">
+            <div style="height:120px;border-top:1px solid rgba(42,41,36,.12);padding-top:18px;color:#6f6a5f;">project detail page behind overlay</div>
+            <div style="position:absolute;inset:0;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:32px;">
+              <div style="width:min(560px,88%);background:#f6f1e7;border-radius:22px;padding:18px 18px 20px;box-shadow:0 24px 60px rgba(0,0,0,.28);display:grid;gap:14px;">
+                <div style="display:flex;justify-content:flex-end;color:#6f6a5f;">Close</div>
+                <div style="display:flex;justify-content:center;">
+                  <div style="width:100%;max-width:500px;height:280px;background:#d8d8d8;border-radius:14px;"></div>
+                </div>
+                <div style="color:#4e4a42;text-align:center;">Sales dashboard</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Recommended</h3>
+      <p>Feels like a real modal: centered panel, visible backdrop around it, image stays large but contained.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="m3" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">M3. Large Desktop Modal</div>
+        <div class="mockup-body">
+          <div style="position:relative;background:#f7f4ec;min-height:420px;padding:24px;">
+            <div style="height:120px;border-top:1px solid rgba(42,41,36,.12);padding-top:18px;color:#6f6a5f;">project detail page behind overlay</div>
+            <div style="position:absolute;inset:0;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:28px;">
+              <div style="width:min(760px,92%);background:#f6f1e7;border-radius:24px;padding:20px 20px 22px;box-shadow:0 24px 60px rgba(0,0,0,.28);display:grid;gap:14px;">
+                <div style="display:flex;justify-content:flex-end;color:#6f6a5f;">Close</div>
+                <div style="display:flex;justify-content:center;">
+                  <div style="width:100%;max-width:700px;height:340px;background:#d8d8d8;border-radius:14px;"></div>
+                </div>
+                <div style="color:#4e4a42;text-align:center;">Sales dashboard</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Larger Modal</h3>
+      <p>Still clearly a modal, but gives the image more desktop presence while keeping margins around the panel.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <p class="subtitle">Recommendation: <strong>M2</strong> if you want it to feel clean and controlled. <strong>M3</strong> if image inspection matters more and you still want obvious modal framing.</p>
+</div>

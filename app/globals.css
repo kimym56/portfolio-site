@@ -290,6 +290,11 @@ button {
   padding-block: clamp(1.2rem, 3vw, 2.2rem);
 }
 
+.projects-card:has([data-view="detail"]) .page-title,
+.projects-card:has([data-view="detail"]) .page-subtitle {
+  display: none;
+}
+
 .contact-card {
   padding-block: clamp(1.2rem, 3vw, 2.2rem);
 }

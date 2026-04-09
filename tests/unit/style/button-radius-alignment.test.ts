@@ -25,6 +25,13 @@ describe("button radius alignment", () => {
     const projectFilterCss = readFile("components/project-filter.module.css");
     const projectGridCss = readFile("components/project-grid.module.css");
     const projectDetailCss = readFile("components/project-detail.module.css");
+    const togglesBlock = readClassBlock(projectFilterCss, "toggles");
+    const indicatorTrackBlock = readClassBlock(projectFilterCss, "indicatorTrack");
+    const toggleBlock = readClassBlock(projectFilterCss, "toggle");
+    const cardButtonBlock = readClassBlock(projectGridCss, "cardButton");
+    const actionBlock = readClassBlock(projectGridCss, "action");
+    const visitLinkBlock = readClassBlock(projectDetailCss, "visitLink");
+    const backButtonBlock = readClassBlock(projectDetailCss, "backButton");
 
     expect(globalsCss).toMatch(/--radius-md:\s*14px;/);
     expect(globalsCss).toMatch(/--radius-lg:\s*18px;/);
@@ -34,22 +41,24 @@ describe("button radius alignment", () => {
     expect(heroCss).toMatch(/border-radius:\s*var\(--radius-md\);/);
     expect(themeToggleCss).toMatch(/border-radius:\s*var\(--radius-md\);/);
     expect(siteHeaderCss).toMatch(/\.navLink\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);
-    expect(projectFilterCss).toMatch(/\.toggles\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);
-    expect(projectFilterCss).toMatch(/\.indicatorTrack\s*\{[^}]*border-radius:\s*inherit;/);
-    expect(projectFilterCss).toMatch(/\.toggle\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);
-    expect(projectGridCss).toMatch(/\.cardButton\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);
-    expect(projectGridCss).toMatch(/\.action\s*\{[\s\S]*?border-radius:\s*var\(--radius-full\);/);
-    expect(projectDetailCss).toMatch(/\.visitLink\s*\{[\s\S]*?border-radius:\s*var\(--radius-md\);/);
-    expect(projectDetailCss).toMatch(/\.backButton\s*\{[\s\S]*?border-radius:\s*var\(--radius-full\);/);
+    expect(togglesBlock).not.toMatch(/\bborder-radius\s*:/);
+    expect(indicatorTrackBlock).not.toMatch(/\bborder-radius\s*:/);
+    expect(toggleBlock).not.toMatch(/\bborder-radius\s*:/);
+    expect(cardButtonBlock).not.toMatch(/\bborder-radius\s*:/);
+    expect(actionBlock).not.toMatch(/\bborder-radius\s*:/);
+    expect(visitLinkBlock).not.toMatch(/\bborder-radius\s*:/);
+    expect(backButtonBlock).not.toMatch(/\bborder-radius\s*:/);
   });
 
   it("keeps project detail rows borderless instead of section cards", () => {
     const projectDetailCss = readFile("components/project-detail.module.css");
     const detailRowBlock = readClassBlock(projectDetailCss, "detailRow");
+    const headerBlock = readClassBlock(projectDetailCss, "header");
 
     expect(detailRowBlock).not.toMatch(/\bbackground\s*:/);
     expect(detailRowBlock).not.toMatch(/\bborder\s*:/);
     expect(detailRowBlock).not.toMatch(/\bborder-radius\s*:/);
     expect(detailRowBlock).not.toMatch(/\bpadding\s*:/);
+    expect(headerBlock).not.toMatch(/\bborder-bottom\s*:/);
   });
 });

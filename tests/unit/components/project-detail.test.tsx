@@ -1,4 +1,5 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ProjectDetail } from "@/components/project-detail";
 import type { ProjectItem } from "@/lib/projects";
@@ -155,6 +156,77 @@ describe("ProjectDetail", () => {
     expect(within(mediaRegion).getByText("Sales dashboard")).toBeInTheDocument();
     expect(within(mediaRegion).getByText("Interaction preview")).toBeInTheDocument();
     expect(within(mediaRegion).getByText("Chat UI")).toBeInTheDocument();
+    expect(screen.queryByText("Summary")).not.toBeInTheDocument();
+    const headerTitleRow = screen.getByTestId("project-detail-header-title-row");
+
+    expect(
+      within(headerTitleRow).getByRole("button", { name: "Back to work projects" }),
+    ).toBeInTheDocument();
+    expect(within(headerTitleRow).getByRole("heading", { name: "Sellpath" })).toBeInTheDocument();
+    expect(within(headerTitleRow).queryByText("Frontend Engineer")).not.toBeInTheDocument();
+    expect(screen.getByTestId("project-detail-header-role")).toHaveTextContent(
+      "Frontend Engineer",
+    );
+  });
+
+  it("reveals detail rows as they scroll into view", async () => {
+    render(
+      <ProjectDetail
+        project={projectWithMedia}
+        backLabel="Back to work projects"
+        visitLabel="Visit project"
+        onBack={vi.fn()}
+      />,
+    );
+
+    const mediaRows = screen.getAllByTestId("project-detail-row");
+
+    expect(mediaRows[0]).toHaveAttribute("data-row-visibility", "hidden");
+    expect(mediaRows[1]).toHaveAttribute("data-row-visibility", "hidden");
+    expect(mockIntersectionObservers).toHaveLength(1);
+
+    mockIntersectionObservers[0].trigger(mediaRows[1], 0.7);
+
+    await waitFor(() => {
+      expect(mediaRows[0]).toHaveAttribute("data-row-visibility", "hidden");
+      expect(mediaRows[1]).toHaveAttribute("data-row-visibility", "visible");
+    });
+  });
+
+  it("opens a larger overlay when a standalone image is clicked", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <ProjectDetail
+        project={projectWithMedia}
+        backLabel="Back to work projects"
+        visitLabel="Visit project"
+        onBack={vi.fn()}
+      />,
+    );
+
+    await user.click(
+      screen.getByRole("button", {
+        name: "View larger image: Sellpath dashboard screenshot",
+      }),
+    );
+
+    const dialog = screen.getByRole("dialog", { name: "Expanded project image" });
+
+    expect(dialog).toBeInTheDocument();
+    expect(dialog.parentElement).toBe(document.body);
+    expect(within(dialog).getByAltText("Sellpath dashboard screenshot")).toHaveAttribute(
+      "src",
+      "/images/projects/sellpath_main.png",
+    );
+    expect(within(dialog).queryByText("Sales dashboard")).not.toBeInTheDocument();
+    expect(
+      within(dialog).queryByRole("button", { name: /close image preview/i }),
+    ).not.toBeInTheDocument();
+
+    await user.click(dialog);
+
+    expect(screen.queryByRole("dialog", { name: "Expanded project image" })).not.toBeInTheDocument();
   });
 
   it("renders custom project detail sections with a left-starting media rhythm", async () => {
@@ -302,9 +374,9 @@ describe("ProjectDetail", () => {
     expect(comparisonFigures[0]).toHaveAttribute("data-playback-state", "idle");
     expect(comparisonFigures[1]).toHaveAttribute("data-playback-state", "idle");
     expect(comparisonFigures[2]).toHaveAttribute("data-playback-state", "idle");
-    expect(mockIntersectionObservers).toHaveLength(1);
+    expect(mockIntersectionObservers).toHaveLength(2);
 
-    mockIntersectionObservers[0].trigger(comparisonFigures[1], 0.8);
+    mockIntersectionObservers[1].trigger(comparisonFigures[1], 0.8);
 
     await waitFor(() => {
       expect(comparisonFigures[0]).toHaveAttribute("data-playback-state", "idle");

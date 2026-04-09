@@ -1,0 +1,119 @@
+<h2>Projects Tab Direction</h2>
+<p class="subtitle">Goal: match the quieter, border-light feel of Home and About. Click the option that feels most consistent.</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">A. Current Framed UI</div>
+        <div class="mockup-body">
+          <div style="padding: 28px; background: #f7f4ec; color: #2a2924;">
+            <div class="label">Projects</div>
+            <h3 style="margin: 6px 0 8px; font-size: 32px;">Built things across product, frontend, and motion.</h3>
+            <p style="margin: 0 0 24px; color: #6f6a5f;">The page intro is quiet, but the project controls and cards add visible framing.</p>
+
+            <div style="display:inline-grid; grid-template-columns:1fr 1fr; gap:6px; border:1px solid #d8d3c5; border-radius:16px; padding:5px; background:#fbf9f3; margin-bottom:18px;">
+              <div style="background:#26231d; color:#f7f4ec; padding:10px 18px; border-radius:12px; font-size:14px; font-weight:700; text-align:center;">Work Projects</div>
+              <div style="padding:10px 18px; color:#6f6a5f; font-size:14px; font-weight:700; text-align:center;">Side Projects</div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+              <div style="border:1px solid #d8d3c5; border-radius:20px; padding:20px; background:#fbf9f3; min-height:180px;">
+                <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start;">
+                  <div>
+                    <div style="font-size:24px; font-weight:700; margin-bottom:4px;">Mimesis</div>
+                    <div style="font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#7f786b;">Frontend Developer</div>
+                  </div>
+                  <div style="width:34px; height:34px; border-radius:999px; border:1px solid #d8d3c5; display:flex; align-items:center; justify-content:center;">→</div>
+                </div>
+                <p style="margin:18px 0 0; color:#4e4a42;">Feels like an isolated card with its own border and micro-container.</p>
+              </div>
+              <div style="border:1px solid #d8d3c5; border-radius:20px; padding:20px; background:#fbf9f3; min-height:180px; opacity:.84;">
+                <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start;">
+                  <div>
+                    <div style="font-size:24px; font-weight:700; margin-bottom:4px;">Portfolio</div>
+                    <div style="font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#7f786b;">Design Engineer</div>
+                  </div>
+                  <div style="width:34px; height:34px; border-radius:999px; border:1px solid #d8d3c5; display:flex; align-items:center; justify-content:center;">→</div>
+                </div>
+                <p style="margin:18px 0 0; color:#4e4a42;">Structured and safe, but visually heavier than About.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Keep The Framed Pattern</h3>
+      <p>Uses a bordered segmented toggle and bordered project cards. This is clearer as a UI system, but it reads more product-dashboard than editorial portfolio.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">B. Borderless Editorial UI</div>
+        <div class="mockup-body">
+          <div style="padding: 28px; background: #f7f4ec; color: #2a2924;">
+            <div class="label">Projects</div>
+            <h3 style="margin: 6px 0 8px; font-size: 32px;">Built things across product, frontend, and motion.</h3>
+            <p style="margin: 0 0 24px; color: #6f6a5f;">The section breathes like About: typography first, spacing second, surfaces only where needed.</p>
+
+            <div style="display:inline-flex; gap:20px; align-items:center; margin-bottom:22px; padding-bottom:10px; border-bottom:1px solid rgba(42,41,36,.12);">
+              <div style="font-size:14px; font-weight:700; color:#26231d; position:relative;">
+                Work Projects
+                <div style="height:2px; background:#26231d; border-radius:999px; margin-top:8px;"></div>
+              </div>
+              <div style="font-size:14px; font-weight:700; color:#8a8478;">Side Projects</div>
+            </div>
+
+            <div style="display:grid; gap:0;">
+              <div style="display:grid; grid-template-columns:1.2fr .8fr auto; gap:18px; align-items:start; padding:18px 0; border-top:1px solid rgba(42,41,36,.12);">
+                <div>
+                  <div style="font-size:26px; font-weight:700; margin-bottom:5px;">Mimesis</div>
+                  <p style="margin:0; color:#4e4a42;">Motion-heavy interface recreation work with case-study depth and implementation details.</p>
+                </div>
+                <div style="font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#7f786b; padding-top:6px;">Frontend Developer</div>
+                <div style="padding-top:2px; font-size:22px;">→</div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:1.2fr .8fr auto; gap:18px; align-items:start; padding:18px 0; border-top:1px solid rgba(42,41,36,.12);">
+                <div>
+                  <div style="font-size:26px; font-weight:700; margin-bottom:5px;">Portfolio</div>
+                  <p style="margin:0; color:#4e4a42;">Personal site exploring restrained typography, motion, and cleaner section rhythm.</p>
+                </div>
+                <div style="font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#7f786b; padding-top:6px;">Design Engineer</div>
+                <div style="padding-top:2px; font-size:22px;">→</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Match Home/About Rhythm</h3>
+      <p>Remove extra box borders, use a text-led tab switcher, and turn project items into editorial rows with dividers. This fits your current site language better.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="pros-cons">
+    <div class="pros">
+      <h4>Recommended</h4>
+      <ul>
+        <li>Keep the current page title and subtitle block</li>
+        <li>Replace the bordered segmented control with a lighter text tab treatment</li>
+        <li>Replace project cards with divider-based rows or much softer cards</li>
+      </ul>
+    </div>
+    <div class="cons">
+      <h4>What To Avoid</h4>
+      <ul>
+        <li>Stacking a bordered toggle on top of bordered cards</li>
+        <li>Adding another wrapper panel around the project content</li>
+        <li>Using borders as the main source of hierarchy</li>
+      </ul>
+    </div>
+  </div>
+</div>

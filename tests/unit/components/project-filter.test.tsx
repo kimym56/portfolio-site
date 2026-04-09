@@ -142,6 +142,7 @@ describe("ProjectFilter", () => {
     await user.click(screen.getByRole("button", { name: "Side Projects" }));
     await user.click(screen.getByRole("button", { name: /mimesis/i }));
 
+    expect(screen.getByTestId("project-filter")).toHaveAttribute("data-view", "detail");
     expect(screen.getByRole("heading", { name: "Mimesis" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Back to side projects" })).toBeInTheDocument();
     expect(
@@ -153,6 +154,7 @@ describe("ProjectFilter", () => {
 
     await user.click(screen.getByRole("button", { name: "Back to side projects" }));
 
+    expect(screen.getByTestId("project-filter")).toHaveAttribute("data-view", "list");
     expect(screen.getAllByTestId("project-card")).toHaveLength(3);
     expect(screen.getByText("Website")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Side Projects" })).toHaveAttribute(

@@ -1,7 +1,11 @@
 .grid {
   display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  grid-template-columns: 1fr;
+}
+
+.row {
+  border-top: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
 }
 
 .cardReveal {
@@ -32,44 +36,39 @@
 
 .cardButton {
   appearance: none;
-  border-radius: var(--radius-md);
+  background: transparent;
+  border: 0;
   cursor: pointer;
   display: flex;
-  min-height: 240px;
-  padding: 2rem 1.5rem;
+  padding: 1.35rem 0;
   text-align: left;
   transition:
-    border-color 150ms ease,
     transform 150ms ease,
-    background-color 150ms ease;
+    color 150ms ease;
   width: 100%;
 }
 
 .cardButton:hover,
 .cardButton:active {
-  background: color-mix(in srgb, var(--surface) 78%, var(--surface-soft));
-  transform: translateY(-3px);
+  color: color-mix(in srgb, var(--text) 86%, var(--text-muted));
+  transform: translateX(3px);
 }
 
 .content {
-  display: flex;
+  display: grid;
   flex: 1;
-  flex-direction: column;
-  gap: 0.68rem;
+  gap: 0.85rem;
+  grid-template-columns: minmax(0, 1.1fr) minmax(10rem, 0.7fr) auto;
 }
 
 .header {
   align-items: flex-start;
-  display: flex;
-  gap: 0.9rem;
-  justify-content: space-between;
+  display: contents;
 }
 
 .heading {
-  align-items: baseline;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.32rem 0.72rem;
+  display: grid;
+  gap: 0.18rem;
   min-width: 0;
 }
 
@@ -78,45 +77,45 @@
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
+  padding-top: 0.35rem;
+  text-align: left;
   text-transform: uppercase;
 }
 
 .title {
   display: inline;
   font-family: var(--font-bold), "Noto Serif KR", serif;
-  font-size: 1.45rem;
-  line-height: 1.08;
+  font-size: clamp(1.7rem, 2.3vw, 2.1rem);
+  line-height: 1.02;
 }
 
 .description {
   color: var(--text);
   display: block;
+  grid-column: 1 / 2;
+  max-width: 50ch;
 }
 
 .stack {
   display: flex;
   flex-wrap: wrap;
   gap: 0.46rem;
-  margin-top: auto;
+  grid-column: 1 / 3;
 }
 
 .action {
   align-items: center;
   align-self: flex-start;
-  background: var(--surface-soft);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-full);
   color: var(--text);
   display: inline-flex;
   flex: 0 0 auto;
-  height: 2.25rem;
   justify-content: center;
-  width: 2.25rem;
+  padding-top: 0.18rem;
 }
 
 .cardButton:hover .action,
 .cardButton:active .action {
-  background: color-mix(in srgb, var(--surface-soft) 55%, var(--surface));
+  transform: translateX(2px);
 }
 
 @keyframes projectCardRevealForward {
@@ -144,8 +143,28 @@
 }
 
 @media (max-width: 900px) {
-  .grid {
+  .content {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .role,
+  .stack {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .cardButton {
+    padding: 1.1rem 0;
+  }
+
+  .content {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .action {
+    justify-content: flex-start;
   }
 }
 

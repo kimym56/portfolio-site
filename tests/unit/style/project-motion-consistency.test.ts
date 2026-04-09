@@ -46,4 +46,24 @@ describe("project motion consistency", () => {
     expect(filterReveal).not.toMatch(/filter:/);
     expect(detailReveal).not.toMatch(/filter:/);
   });
+
+  it("defines scroll-triggered stagger reveals for project detail rows", () => {
+    const detailCss = readFile("components/project-detail.module.css");
+
+    expect(detailCss).toMatch(
+      /@media\s*\(prefers-reduced-motion:\s*no-preference\)\s*\{[\s\S]*\.detailRow\[data-row-visibility="hidden"\]\s+\.detailCopy,\s*\.detailRow\[data-row-visibility="hidden"\]\s+\.mediaCard\s*\{[\s\S]*opacity:\s*0;[\s\S]*transform:\s*translateY\(10px\);/,
+    );
+    expect(detailCss).toMatch(
+      /@media\s*\(prefers-reduced-motion:\s*no-preference\)\s*\{[\s\S]*\.detailRow\[data-row-visibility="visible"\]\s+\.detailCopy,\s*\.detailRow\[data-row-visibility="visible"\]\s+\.mediaCard\s*\{[\s\S]*animation:\s*projectDetailRowReveal\s+600ms\s+ease\s+both;/,
+    );
+    expect(detailCss).toMatch(
+      /\.detailRow\[data-row-visibility="visible"\]\s+\.mediaCard\s*\{[\s\S]*animation-delay:\s*120ms;/,
+    );
+    expect(detailCss).toMatch(
+      /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*\.detailRow\s+\.detailCopy,\s*\.detailRow\s+\.mediaCard\s*\{[\s\S]*animation:\s*none;[\s\S]*opacity:\s*1;[\s\S]*transform:\s*none;/,
+    );
+    expect(detailCss).toMatch(
+      /@keyframes\s+projectDetailRowReveal\s*\{[\s\S]*opacity:\s*0;[\s\S]*transform:\s*translateY\(10px\);[\s\S]*opacity:\s*1;[\s\S]*transform:\s*none;/,
+    );
+  });
 });

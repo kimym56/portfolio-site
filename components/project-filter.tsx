@@ -105,7 +105,11 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
   }
 
   return (
-    <section className={styles.section}>
+    <section
+      className={styles.section}
+      data-testid="project-filter"
+      data-view={selectedProject ? "detail" : "list"}
+    >
       {selectedProject ? (
         <ProjectDetail
           animateOnFirstOpen={detailRevealState === "animated"}

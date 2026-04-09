@@ -58,4 +58,33 @@ describe("project detail media layout", () => {
       /\.mediaComparisonImage,\s*\n\.mediaComparisonVideo\s*\{[\s\S]*?height:\s*100%;[\s\S]*?object-fit:\s*cover;[\s\S]*?width:\s*100%;/,
     );
   });
+
+  it("uses a bounded centered modal panel for expanded images instead of viewport-height sizing", () => {
+    const cssContent = readProjectDetailCss();
+
+    expect(cssContent).toMatch(
+      /\.lightboxContent\s*\{[\s\S]*?background:\s*var\(--surface\);[\s\S]*?border-radius:\s*var\(--radius-lg\);/,
+    );
+    expect(cssContent).not.toMatch(
+      /\.lightboxContent\s*\{[\s\S]*?padding:\s*clamp\(/,
+    );
+    expect(cssContent).toMatch(
+      /\.lightboxContent\s*\{[\s\S]*?max-width:\s*min\(90vw,\s*76rem\);/,
+    );
+    expect(cssContent).toMatch(
+      /\.lightboxImage\s*\{[\s\S]*?max-height:\s*min\(78vh,\s*46rem\);/,
+    );
+    expect(cssContent).not.toMatch(/max-height:\s*min\(82vh,\s*820px\);/);
+  });
+
+  it("gives portrait lightbox images their own larger sizing rule", () => {
+    const cssContent = readProjectDetailCss();
+
+    expect(cssContent).toMatch(
+      /\.lightboxImagePortrait\s*\{[\s\S]*?max-height:\s*min\(86vh,\s*56rem\);/,
+    );
+    expect(cssContent).toMatch(
+      /\.lightboxImagePortrait\s*\{[\s\S]*?max-width:\s*min\(90vw,\s*42rem\);/,
+    );
+  });
 });

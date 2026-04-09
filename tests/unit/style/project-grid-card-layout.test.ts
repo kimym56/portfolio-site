@@ -12,7 +12,7 @@ function getRuleBody(cssContent: string, selector: string) {
 }
 
 describe("project grid card layout", () => {
-  it("uses a shared header row with a pinned arrow and wrapping chip list", () => {
+  it("uses editorial rows with a pinned arrow and wrapping chip list", () => {
     const cssPath = path.join(process.cwd(), "components", "project-grid.module.css");
     const cssContent = fs.readFileSync(cssPath, "utf8");
     const cardButtonRuleBody = getRuleBody(cssContent, ".cardButton");
@@ -23,26 +23,24 @@ describe("project grid card layout", () => {
     const stackRuleBody = getRuleBody(cssContent, ".stack");
     const actionRuleBody = getRuleBody(cssContent, ".action");
 
-    expect(cardButtonRuleBody).toMatch(/min-height:\s*240px;/);
+    expect(cardButtonRuleBody).not.toMatch(/\bborder-radius\s*:/);
     expect(cardButtonRuleBody).toMatch(/display:\s*flex;/);
-    expect(cardButtonRuleBody).toMatch(/padding:\s*2rem 1\.5rem;/);
-    expect(contentRuleBody).toMatch(/display:\s*flex;/);
+    expect(cardButtonRuleBody).toMatch(/background:\s*transparent;/);
+    expect(cardButtonRuleBody).toMatch(/border:\s*0;/);
+    expect(contentRuleBody).toMatch(/display:\s*grid;/);
     expect(contentRuleBody).toMatch(/flex:\s*1;/);
-    expect(contentRuleBody).toMatch(/flex-direction:\s*column;/);
-    expect(contentRuleBody).toMatch(/gap:\s*0\.68rem;/);
-    expect(headerRuleBody).toMatch(/display:\s*flex;/);
-    expect(headerRuleBody).toMatch(/justify-content:\s*space-between;/);
-    expect(headerRuleBody).toMatch(/align-items:\s*flex-start;/);
-    expect(headingRuleBody).toMatch(/display:\s*flex;/);
-    expect(headingRuleBody).toMatch(/flex-wrap:\s*wrap;/);
+    expect(contentRuleBody).toMatch(/grid-template-columns:\s*minmax\(0,\s*1\.1fr\)\s*minmax\(10rem,\s*0\.7fr\)\s*auto;/);
+    expect(contentRuleBody).toMatch(/gap:\s*0\.85rem;/);
+    expect(headerRuleBody).toMatch(/display:\s*contents;/);
+    expect(headingRuleBody).toMatch(/display:\s*grid;/);
     expect(descriptionRuleBody).not.toMatch(/margin-top:/);
     expect(stackRuleBody).toMatch(/display:\s*flex;/);
     expect(stackRuleBody).toMatch(/flex-wrap:\s*wrap;/);
-    expect(stackRuleBody).toMatch(/margin-top:\s*auto;/);
-    expect(actionRuleBody).toMatch(/border-radius:\s*var\(--radius-full\);/);
+    expect(stackRuleBody).toMatch(/grid-column:\s*1\s*\/\s*3;/);
+    expect(actionRuleBody).not.toMatch(/\bborder\s*:/);
     expect(actionRuleBody).toMatch(/align-self:\s*flex-start;/);
-    expect(actionRuleBody).toMatch(/height:\s*2\.25rem;/);
-    expect(actionRuleBody).toMatch(/width:\s*2\.25rem;/);
+    expect(actionRuleBody).not.toMatch(/\bheight\s*:\s*2\.25rem;/);
+    expect(actionRuleBody).not.toMatch(/\bwidth\s*:\s*2\.25rem;/);
   });
 
   it("matches the about-page stagger timing for animated project cards", () => {

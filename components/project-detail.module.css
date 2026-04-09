@@ -2,7 +2,6 @@
   display: grid;
   gap: 1.5rem;
   margin-top: 0.35rem;
-  padding: clamp(1.2rem, 2.6vw, 1.8rem);
 }
 
 .panelReveal {
@@ -11,29 +10,26 @@
 
 .backButton {
   align-items: center;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-full);
+  background: transparent;
+  border: 0;
+  color: var(--text-muted);
   cursor: pointer;
   display: inline-flex;
-  height: 2.6rem;
-  justify-content: center;
+  gap: 0.45rem;
+  justify-content: flex-start;
+  padding: 0;
   transition:
-    background-color 150ms ease,
-    border-color 150ms ease,
+    color 150ms ease,
     transform 150ms ease;
-  width: 2.6rem;
 }
 
 .backButton:hover,
 .backButton:active {
-  background: var(--surface-soft);
-  border-color: var(--text);
+  color: var(--text);
   transform: translateX(-2px);
 }
 
 .header {
-  border-bottom: 1px solid var(--border);
   display: grid;
   gap: 1rem;
   padding-bottom: 1.4rem;
@@ -44,6 +40,17 @@
   display: flex;
   gap: 1rem;
   justify-content: space-between;
+}
+
+.headerCopy {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.headerTitleRow {
+  align-items: center;
+  display: flex;
+  gap: 0.72rem;
 }
 
 .role {
@@ -59,40 +66,30 @@
   font-size: clamp(2rem, 4vw, 3rem);
   letter-spacing: -0.03em;
   line-height: 1.05;
-  margin-top: 0.35rem;
+  margin: 0;
 }
 
 .visitLink {
   align-items: center;
   align-self: flex-start;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  color: var(--text-muted);
   display: inline-flex;
   gap: 0.4rem;
-  padding: 0.6rem 0.9rem;
   transition:
-    background-color 150ms ease,
-    border-color 150ms ease;
+    color 150ms ease,
+    transform 150ms ease;
   white-space: nowrap;
 }
 
 .visitLink:hover,
 .visitLink:active {
-  background: var(--surface-soft);
-  border-color: var(--text);
+  color: var(--text);
+  transform: translateX(2px);
 }
 
 .summaryBlock {
   display: grid;
   gap: 0.35rem;
-}
-
-.kicker {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .summary {
@@ -103,12 +100,14 @@
 
 .detailRows {
   display: grid;
-  gap: clamp(2.5rem, 5vw, 4rem);
+  gap: 0;
 }
 
 .detailRow {
+  border-top: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
   display: grid;
-  gap: clamp(1rem, 2.2vw, 1.8rem);
+  gap: clamp(1rem, 2.2vw, 2rem);
+  padding-block: clamp(1.35rem, 2.7vw, 1.9rem);
 }
 
 .detailRowWithMedia {
@@ -145,6 +144,13 @@
   display: block;
   height: auto;
   width: 100%;
+}
+
+.mediaImageButton {
+  background: transparent;
+  border: 0;
+  cursor: zoom-in;
+  padding: 0;
 }
 
 .mediaComparisonFrame {
@@ -198,9 +204,45 @@
   text-transform: uppercase;
 }
 
+.lightbox {
+  align-items: center;
+  background: color-mix(in srgb, #000 78%, transparent);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 1rem;
+  position: fixed;
+  z-index: 40;
+}
+
+.lightboxContent {
+  align-items: center;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  display: flex;
+  justify-content: center;
+  max-height: min(82vh, 50rem);
+  max-width: min(90vw, 76rem);
+  width: fit-content;
+  overflow: hidden;
+}
+
+.lightboxImage {
+  border-radius: var(--radius-md);
+  height: auto;
+  max-height: min(78vh, 46rem);
+  max-width: min(88vw, 72rem);
+  width: auto;
+}
+
+.lightboxImagePortrait {
+  max-height: min(86vh, 56rem);
+  max-width: min(90vw, 42rem);
+}
+
 .sectionTitle {
   font-family: var(--font-bold), "Noto Serif KR", serif;
-  font-size: 1.2rem;
+  font-size: clamp(1.3rem, 2vw, 1.55rem);
   letter-spacing: -0.02em;
 }
 
@@ -245,6 +287,23 @@
 .metaItem {
   color: var(--text-muted);
   font-size: 0.96rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .detailRow[data-row-visibility="hidden"] .detailCopy,
+  .detailRow[data-row-visibility="hidden"] .mediaCard {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .detailRow[data-row-visibility="visible"] .detailCopy,
+  .detailRow[data-row-visibility="visible"] .mediaCard {
+    animation: projectDetailRowReveal 600ms ease both;
+  }
+
+  .detailRow[data-row-visibility="visible"] .mediaCard {
+    animation-delay: 120ms;
+  }
 }
 
 @media (min-width: 860px) {
@@ -305,9 +364,28 @@
   }
 }
 
+@keyframes projectDetailRowReveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .panelReveal {
     animation: none;
+  }
+
+  .detailRow .detailCopy,
+  .detailRow .mediaCard {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
 
   .mediaComparisonPane {

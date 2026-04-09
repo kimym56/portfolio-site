@@ -7,50 +7,45 @@
 }
 
 .toggles {
-  --toggle-gap: 0.35rem;
-  --toggle-padding: 0.28rem;
-  background: color-mix(in srgb, var(--surface) 76%, var(--surface-soft));
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  --toggle-gap: 1.25rem;
   display: inline-grid;
   gap: var(--toggle-gap);
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-bottom: 1rem;
-  padding: var(--toggle-padding);
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
   position: relative;
 }
 
 .indicatorTrack {
-  border-radius: inherit;
-  inset: var(--toggle-padding);
+  inset: auto 0 0 0;
   pointer-events: none;
   position: absolute;
+  top: auto;
 }
 
 .activePill {
   background: var(--text);
-  border-radius: inherit;
+  border-radius: 999px;
   bottom: 0;
-  box-shadow: 0 1px 2px color-mix(in srgb, var(--text) 16%, transparent);
+  height: 2px;
   left: 0;
   position: absolute;
-  top: 0;
+  top: auto;
   width: calc((100% - var(--toggle-gap)) / 2);
 }
 
 .toggle {
   border: 0;
-  border-radius: var(--radius-md);
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;
   display: inline-flex;
-  justify-content: center;
+  justify-content: flex-start;
   font-size: 0.88rem;
   font-weight: 700;
   letter-spacing: 0.01em;
   min-width: 0;
-  padding: 0.62rem 1.02rem;
+  padding: 0;
   position: relative;
   transition: color 150ms ease;
   z-index: 1;
@@ -62,12 +57,12 @@
 }
 
 .toggle[data-active="true"] {
-  color: var(--surface);
+  color: var(--text);
 }
 
 .toggle[data-active="true"]:hover,
 .toggle[data-active="true"]:active {
-  color: var(--surface);
+  color: var(--text);
 }
 
 .toggleLabel {
@@ -94,6 +89,10 @@
   .toggles {
     display: grid;
     width: 100%;
+  }
+
+  .toggle {
+    justify-content: center;
   }
 }
 
