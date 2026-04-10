@@ -93,6 +93,8 @@ export function ProjectDetail({
   const detailSectionCount = detailSections.length;
   const mediaCount = project.media?.length ?? 0;
   const rowRevealKey = `${project.id}:${detailSectionCount}:${mediaCount}`;
+  const entryStaggerClassName = (step: 0 | 1 | 2 | 3) =>
+    animateOnFirstOpen ? `page-stagger page-stagger-${step}` : "";
 
   useEffect(() => {
     if (shouldReduceMotion || typeof IntersectionObserver === "undefined") {
@@ -498,7 +500,7 @@ export function ProjectDetail({
 
   return (
     <article
-      className={`${styles.panel} ${animateOnFirstOpen ? styles.panelReveal : ""}`}
+      className={styles.panel}
       data-once-reveal={animateOnFirstOpen ? "animated" : "static"}
       data-testid="project-detail-panel"
       ref={panelRef}
@@ -507,7 +509,9 @@ export function ProjectDetail({
         <div className={styles.headerTop}>
           <div className={styles.headerCopy}>
             <div
-              className={styles.headerTitleRow}
+              className={[styles.headerTitleRow, entryStaggerClassName(0)]
+                .filter(Boolean)
+                .join(" ")}
               data-testid="project-detail-header-title-row"
             >
               <button className={styles.backButton} type="button" onClick={onBack}>
@@ -516,7 +520,10 @@ export function ProjectDetail({
               </button>
               <h2 className={styles.title}>{project.title}</h2>
             </div>
-            <p className={styles.role} data-testid="project-detail-header-role">
+            <p
+              className={[styles.role, entryStaggerClassName(1)].filter(Boolean).join(" ")}
+              data-testid="project-detail-header-role"
+            >
               {project.role}
             </p>
           </div>
@@ -533,7 +540,10 @@ export function ProjectDetail({
         </div>
 
         <section className={styles.summaryBlock} aria-labelledby={`${project.id}-summary`}>
-          <p id={`${project.id}-summary`} className={styles.summary}>
+          <p
+            id={`${project.id}-summary`}
+            className={[styles.summary, entryStaggerClassName(2)].filter(Boolean).join(" ")}
+          >
             {project.details.summary}
           </p>
         </section>
@@ -541,7 +551,7 @@ export function ProjectDetail({
 
       {project.media && project.media.length > 0 ? (
         <section
-          className={styles.detailRows}
+          className={[styles.detailRows, entryStaggerClassName(3)].filter(Boolean).join(" ")}
           aria-label={`${project.title} project details`}
         >
           {detailSections.map((section, index) => {
@@ -580,7 +590,7 @@ export function ProjectDetail({
           })}
         </section>
       ) : (
-        <div className={styles.detailRows}>
+        <div className={[styles.detailRows, entryStaggerClassName(3)].filter(Boolean).join(" ")}>
           {detailSections.map((section, index) => (
             <section
               key={section.id}

@@ -4,10 +4,6 @@
   margin-top: 0.35rem;
 }
 
-.panelReveal {
-  animation: projectDetailReveal 600ms ease both;
-}
-
 .backButton {
   align-items: center;
   background: transparent;
@@ -387,18 +383,6 @@
   }
 }
 
-@keyframes projectDetailReveal {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
 @keyframes projectDetailRowReveal {
   from {
     opacity: 0;
@@ -412,10 +396,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .panelReveal {
-    animation: none;
-  }
-
   .detailRow .detailCopy,
   .detailRow .mediaCard {
     animation: none;

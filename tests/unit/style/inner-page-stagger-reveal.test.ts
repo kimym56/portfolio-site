@@ -8,7 +8,7 @@ describe("inner page stagger reveal styles", () => {
     const cssContent = fs.readFileSync(cssPath, "utf8");
 
     expect(cssContent).toMatch(
-      /@media\s*\(prefers-reduced-motion:\s*no-preference\)\s*\{[\s\S]*\.page-stagger\s*\{[\s\S]*animation:\s*0\.6s\s+ease\s+both\s+pageStaggerEnter;[\s\S]*animation-delay:\s*calc\(var\(--page-stagger-step\)\s*\*\s*0\.12s\);/,
+      /@media\s*\(prefers-reduced-motion:\s*no-preference\)\s*\{[\s\S]*\.page-stagger\s*\{[\s\S]*opacity:\s*0;[\s\S]*transform:\s*translateY\(10px\);[\s\S]*animation:\s*0\.6s\s+ease\s+both\s+pageStaggerEnter;[\s\S]*animation-delay:\s*calc\(var\(--page-stagger-step\)\s*\*\s*0\.12s\);/,
     );
     expect(cssContent).toMatch(/\.page-stagger-0\s*\{[\s\S]*--page-stagger-step:\s*0;/);
     expect(cssContent).toMatch(/\.page-stagger-1\s*\{[\s\S]*--page-stagger-step:\s*1;/);
@@ -24,7 +24,7 @@ describe("inner page stagger reveal styles", () => {
     const cssContent = fs.readFileSync(cssPath, "utf8");
 
     expect(cssContent).toMatch(
-      /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*\.page-stagger\s*\{[\s\S]*animation:\s*none;/,
+      /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*\.page-stagger\s*\{[\s\S]*animation:\s*none;[\s\S]*opacity:\s*1;[\s\S]*transform:\s*none;/,
     );
   });
 });

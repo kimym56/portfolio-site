@@ -1,16 +1,9 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ProjectDetail } from "@/components/project-detail";
 import { ProjectGrid } from "@/components/project-grid";
-import {
-  buildCookieAssignment,
-  COOKIE_SEEN_TRANSITIONS,
-  hasSeenTransition,
-  markTransitionSeen,
-  readCookieValue,
-} from "@/lib/transition-cookies";
 import type { ProjectItem } from "@/lib/projects";
 import type { ProjectType } from "@/types/site";
 import styles from "./project-filter.module.css";
@@ -24,7 +17,6 @@ interface ProjectFilterProps {
   };
 }
 
-const SEEN_TRANSITIONS_MAX_AGE = 60 * 60 * 24 * 365;
 const TOGGLE_PILL_TRANSITION = {
   type: "spring",
   stiffness: 420,
@@ -54,37 +46,6 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
     ? { duration: 0 }
     : TOGGLE_PILL_TRANSITION;
 
-  function markSeenTransition(transitionKey: string) {
-    const seenTransitionCookie = readCookieValue(
-      document.cookie,
-      COOKIE_SEEN_TRANSITIONS,
-    );
-
-    document.cookie = buildCookieAssignment(
-      COOKIE_SEEN_TRANSITIONS,
-      markTransitionSeen(transitionKey, seenTransitionCookie),
-      SEEN_TRANSITIONS_MAX_AGE,
-    );
-  }
-
-  function consumeOnceReveal(transitionKey: string) {
-    const seenTransitionCookie = readCookieValue(
-      document.cookie,
-      COOKIE_SEEN_TRANSITIONS,
-    );
-
-    if (hasSeenTransition(transitionKey, seenTransitionCookie)) {
-      return false;
-    }
-
-    markSeenTransition(transitionKey);
-    return true;
-  }
-
-  useEffect(() => {
-    markSeenTransition("projects:tab:work");
-  }, []);
-
   function handleCategoryChange(next: ProjectType) {
     if (next === selected) {
       return;
@@ -99,9 +60,7 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
 
   function handleProjectSelect(project: ProjectItem) {
     setSelectedProjectId(project.id);
-    setDetailRevealState(
-      consumeOnceReveal(`projects:detail:${project.id}`) ? "animated" : "static",
-    );
+    setDetailRevealState("animated");
   }
 
   return (

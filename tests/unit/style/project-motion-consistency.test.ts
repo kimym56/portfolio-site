@@ -26,9 +26,8 @@ describe("project motion consistency", () => {
     );
 
     expect(filterCss).toMatch(/\.panelReveal\s*\{[\s\S]*animation:\s*projectOnceReveal\s+600ms\s+ease\s+both;/);
-    expect(detailCss).toMatch(
-      /\.panelReveal\s*\{[\s\S]*animation:\s*projectDetailReveal\s+600ms\s+ease\s+both;/,
-    );
+    expect(detailCss).not.toMatch(/\.panelReveal\s*\{/);
+    expect(detailCss).not.toMatch(/@keyframes\s+projectDetailReveal\s*\{/);
     expect(gridCss).toMatch(/\.cardReveal\s*\{[\s\S]*animation-duration:\s*600ms;/);
     expect(gridCss).toMatch(/\.cardReveal\s*\{[\s\S]*animation-timing-function:\s*ease;/);
 
@@ -36,15 +35,9 @@ describe("project motion consistency", () => {
       filterCss,
       /@keyframes projectOnceReveal\s*\{[\s\S]*?\n\}/,
     );
-    const detailReveal = getBlock(
-      detailCss,
-      /@keyframes projectDetailReveal\s*\{[\s\S]*?\n\}/,
-    );
 
     expect(filterReveal).toMatch(/transform:\s*translateY\(10px\);/);
-    expect(detailReveal).toMatch(/transform:\s*translateY\(10px\);/);
     expect(filterReveal).not.toMatch(/filter:/);
-    expect(detailReveal).not.toMatch(/filter:/);
   });
 
   it("defines scroll-triggered stagger reveals for project detail rows", () => {

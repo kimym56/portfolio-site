@@ -193,6 +193,55 @@ describe("ProjectDetail", () => {
     });
   });
 
+  it("uses the shared page stagger sequence only for first-open detail entry", () => {
+    const { rerender } = render(
+      <ProjectDetail
+        animateOnFirstOpen
+        project={projectWithMedia}
+        backLabel="Back to work projects"
+        visitLabel="Visit project"
+        onBack={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByTestId("project-detail-header-title-row")).toHaveClass(
+      "page-stagger",
+      "page-stagger-0",
+    );
+    expect(screen.getByTestId("project-detail-header-role")).toHaveClass(
+      "page-stagger",
+      "page-stagger-1",
+    );
+    expect(screen.getByText("Sellpath summary")).toHaveClass(
+      "page-stagger",
+      "page-stagger-2",
+    );
+    expect(screen.getByLabelText("Sellpath project details")).toHaveClass(
+      "page-stagger",
+      "page-stagger-3",
+    );
+
+    rerender(
+      <ProjectDetail
+        project={projectWithMedia}
+        backLabel="Back to work projects"
+        visitLabel="Visit project"
+        onBack={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByTestId("project-detail-header-title-row")).not.toHaveClass(
+      "page-stagger",
+    );
+    expect(screen.getByTestId("project-detail-header-role")).not.toHaveClass(
+      "page-stagger",
+    );
+    expect(screen.getByText("Sellpath summary")).not.toHaveClass("page-stagger");
+    expect(screen.getByLabelText("Sellpath project details")).not.toHaveClass(
+      "page-stagger",
+    );
+  });
+
   it("opens a larger overlay when a standalone image is clicked", async () => {
     const user = userEvent.setup();
 

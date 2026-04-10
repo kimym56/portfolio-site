@@ -237,7 +237,7 @@ describe("ProjectFilter", () => {
     );
   });
 
-  it("animates each project detail only on first open", async () => {
+  it("animates each project detail on every open from the list", async () => {
     const user = userEvent.setup();
 
     renderProjectFilter();
@@ -255,7 +255,7 @@ describe("ProjectFilter", () => {
 
     expect(screen.getByTestId("project-detail-panel")).toHaveAttribute(
       "data-once-reveal",
-      "static",
+      "animated",
     );
   });
 });
