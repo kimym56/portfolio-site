@@ -66,4 +66,20 @@ describe("project grid card layout", () => {
       /@keyframes projectCardRevealBackward\s*\{[\s\S]*translateY\(10px\)[\s\S]*\}/,
     );
   });
+
+  it("removes the first project row border so it does not collide with the toggle underline", () => {
+    const cssPath = path.join(process.cwd(), "components", "project-grid.module.css");
+    const cssContent = fs.readFileSync(cssPath, "utf8");
+
+    expect(cssContent).toMatch(/\.row\s*\{[^}]*border-top:/);
+    expect(cssContent).toMatch(/\.row:first-child\s*\{[^}]*border-top:\s*0;/);
+  });
+
+  it("keeps the toggle-to-list spacing close to the row rhythm", () => {
+    const cssPath = path.join(process.cwd(), "components", "project-filter.module.css");
+    const cssContent = fs.readFileSync(cssPath, "utf8");
+
+    expect(cssContent).toMatch(/\.toggles\s*\{[\s\S]*?margin-bottom:\s*0\.7rem;/);
+    expect(cssContent).toMatch(/\.toggles\s*\{[\s\S]*?padding-bottom:\s*0\.5rem;/);
+  });
 });

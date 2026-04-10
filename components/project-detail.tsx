@@ -43,6 +43,9 @@ export function ProjectDetail({
   onBack,
 }: ProjectDetailProps) {
   const panelRef = useRef<HTMLElement | null>(null);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const lightboxCloseButtonRef = useRef<HTMLButtonElement | null>(null);
+  const previouslyFocusedElementRef = useRef<HTMLElement | null>(null);
   const comparisonVisibilityRef = useRef<Record<number, number>>({});
   const [revealedRows, setRevealedRows] = useState<{
     key: string;
@@ -270,10 +273,47 @@ export function ProjectDetail({
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    previouslyFocusedElementRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    lightboxCloseButtonRef.current?.focus();
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setExpandedImage(null);
+        return;
+      }
+
+      if (event.key !== "Tab" || !dialogRef.current) {
+        return;
+      }
+
+      const focusableElements = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter((element) => !element.hasAttribute("disabled"));
+
+      if (focusableElements.length === 0) {
+        event.preventDefault();
+        return;
+      }
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+      const activeElement =
+        document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
+      if (event.shiftKey) {
+        if (activeElement === firstElement || !dialogRef.current.contains(activeElement)) {
+          event.preventDefault();
+          lastElement.focus();
+        }
+        return;
+      }
+
+      if (activeElement === lastElement || !dialogRef.current.contains(activeElement)) {
+        event.preventDefault();
+        firstElement.focus();
       }
     }
 
@@ -282,6 +322,7 @@ export function ProjectDetail({
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
+      previouslyFocusedElementRef.current?.focus();
     };
   }, [expandedImage]);
 
@@ -379,11 +420,6 @@ export function ProjectDetail({
         data-playback-state={
           isVideoComparison ? (isActiveComparison ? "active" : "idle") : undefined
         }
-        onFocusCapture={
-          isVideoComparison && !shouldReduceMotion
-            ? () => setActiveComparisonIndex(index)
-            : undefined
-        }
         onMouseEnter={
           isVideoComparison && !shouldReduceMotion
             ? () => setActiveComparisonIndex(index)
@@ -398,7 +434,6 @@ export function ProjectDetail({
             <div
               className={styles.mediaComparisonPane}
               data-media-role="original"
-              tabIndex={0}
               aria-label={getMediaAccessibilityLabel(
                 item.referenceMedia,
                 "Original preview",
@@ -414,7 +449,6 @@ export function ProjectDetail({
             <div
               className={styles.mediaComparisonPane}
               data-media-role="mimesis"
-              tabIndex={0}
               aria-label="My Mimesis"
             >
               {renderComparisonMedia(item, {
@@ -576,12 +610,22 @@ export function ProjectDetail({
               role="dialog"
               aria-modal="true"
               aria-label="Expanded project image"
+              ref={dialogRef}
               onClick={() => setExpandedImage(null)}
             >
               <div
                 className={styles.lightboxContent}
                 onClick={(event) => event.stopPropagation()}
               >
+                <button
+                  ref={lightboxCloseButtonRef}
+                  type="button"
+                  className={styles.lightboxCloseButton}
+                  aria-label="Close image preview"
+                  onClick={() => setExpandedImage(null)}
+                >
+                  Close
+                </button>
                 <Image
                   className={`${styles.lightboxImage} ${
                     getMediaOrientation(expandedImage) === "portrait"

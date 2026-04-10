@@ -212,17 +212,22 @@ describe("ProjectDetail", () => {
     );
 
     const dialog = screen.getByRole("dialog", { name: "Expanded project image" });
+    const closeButton = within(dialog).getByRole("button", {
+      name: "Close image preview",
+    });
 
     expect(dialog).toBeInTheDocument();
     expect(dialog.parentElement).toBe(document.body);
+    expect(closeButton).toHaveFocus();
     expect(within(dialog).getByAltText("Sellpath dashboard screenshot")).toHaveAttribute(
       "src",
       "/images/projects/sellpath_main.png",
     );
     expect(within(dialog).queryByText("Sales dashboard")).not.toBeInTheDocument();
-    expect(
-      within(dialog).queryByRole("button", { name: /close image preview/i }),
-    ).not.toBeInTheDocument();
+
+    await user.tab();
+
+    expect(closeButton).toHaveFocus();
 
     await user.click(dialog);
 
@@ -368,6 +373,12 @@ describe("ProjectDetail", () => {
     expect(mimesisPreview.tagName).toBe("VIDEO");
     expect(within(mediaRows[0]).getByText("Original")).toBeInTheDocument();
     expect(within(mediaRows[0]).getByText("My Mimesis")).toBeInTheDocument();
+    expect(mediaRows[0].querySelector("[data-media-role='original']")).not.toHaveAttribute(
+      "tabindex",
+    );
+    expect(mediaRows[0].querySelector("[data-media-role='mimesis']")).not.toHaveAttribute(
+      "tabindex",
+    );
     expect(
       within(mediaRows[0]).getByRole("figure"),
     ).toHaveAttribute("data-media-comparison", "true");
