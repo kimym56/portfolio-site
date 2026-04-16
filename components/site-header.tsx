@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { GridOverlayToggle } from "@/components/grid-overlay-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
   buildCookieAssignment,
@@ -74,7 +75,7 @@ export function SiteHeader({ navCopy }: SiteHeaderProps) {
 
   return (
     <header className={styles.header}>
-      <div className={styles.inner}>
+      <div className={`${styles.inner} layout-frame`}>
         <Link href="/" className={styles.logo}>
           YMKim
         </Link>
@@ -117,6 +118,7 @@ export function SiteHeader({ navCopy }: SiteHeaderProps) {
         </nav>
 
         <div className={styles.controls}>
+          <GridOverlayToggle />
           <ThemeToggle />
         </div>
       </div>

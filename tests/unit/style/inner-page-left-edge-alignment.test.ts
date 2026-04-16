@@ -2,26 +2,44 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
-function getRuleBody(cssContent: string, selector: string) {
-  const escapedSelector = selector.replace(".", "\\.");
-  const match = cssContent.match(new RegExp(`${escapedSelector}\\s*\\{([^}]*)\\}`));
-
-  expect(match).not.toBeNull();
-
-  return match?.[1] ?? "";
-}
-
 describe("inner page left edge alignment", () => {
-  it("uses vertical-only section padding on the inner pages", () => {
-    const cssPath = path.join(process.cwd(), "app", "globals.css");
-    const cssContent = fs.readFileSync(cssPath, "utf8");
+  it("moves the about, projects, and contact sections directly onto the canonical frame", () => {
+    const globalsPath = path.join(process.cwd(), "app", "globals.css");
+    const aboutPath = path.join(process.cwd(), "components", "about-page-content.tsx");
+    const projectsPath = path.join(
+      process.cwd(),
+      "components",
+      "projects-page-content.tsx",
+    );
+    const contactPath = path.join(
+      process.cwd(),
+      "components",
+      "contact-page-content.tsx",
+    );
 
-    for (const selector of [".about-card", ".projects-card", ".contact-card"]) {
-      const ruleBody = getRuleBody(cssContent, selector);
+    const globalsContent = fs.readFileSync(globalsPath, "utf8");
+    const aboutContent = fs.readFileSync(aboutPath, "utf8");
+    const projectsContent = fs.readFileSync(projectsPath, "utf8");
+    const contactContent = fs.readFileSync(contactPath, "utf8");
 
-      expect(ruleBody).toMatch(/padding-block:\s*clamp\(1\.2rem,\s*3vw,\s*2\.2rem\);/);
-      expect(ruleBody).not.toMatch(/padding:\s*clamp\(1\.2rem,\s*3vw,\s*2\.2rem\);/);
-      expect(ruleBody).not.toMatch(/padding-inline:/);
+    for (const content of [aboutContent, projectsContent, contactContent]) {
+      expect(content).toContain('className="page"');
+      expect(content).not.toContain("layout-shell");
+      expect(content).not.toContain("layout-grid");
     }
+
+    expect(aboutContent).toContain('className="about-card layout-frame"');
+    expect(projectsContent).toContain('className="projects-card layout-frame"');
+    expect(contactContent).toContain('className="contact-card layout-frame"');
+
+    expect(globalsContent).toMatch(
+      /\.page-reveal-body\s*\{[\s\S]*grid-column:\s*1\s*\/\s*-1;[\s\S]*grid-template-columns:\s*subgrid;/,
+    );
+    expect(globalsContent).toMatch(
+      /\.about-card\s*>\s*\.page-title[\s\S]*grid-column:\s*1\s*\/\s*span\s*6;/,
+    );
+    expect(globalsContent).toMatch(
+      /\.about-card\s*>\s*\.page-subtitle[\s\S]*grid-column:\s*1\s*\/\s*span\s*7;/,
+    );
   });
 });

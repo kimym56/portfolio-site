@@ -137,7 +137,7 @@ export const PROJECTS: ProjectItem[] = [
   {
     id: "mimesis",
     title: "Mimesis",
-    role: "Side Project",
+    role: "Design Engineer",
     description:
       "A creative coding project that recreates interactive UIs and extends them through web technologies.",
     type: "side",
@@ -264,7 +264,7 @@ export const PROJECTS: ProjectItem[] = [
         "Each recreation needed a balance between the reference interaction and what the browser can reliably support. The work involved drag behavior, 3D scene composition, real-time audio analysis without direct YouTube extraction, motion timing, and keeping demos responsive enough to feel immediate.",
       meta: [
         "Type: Side Project",
-        "Role: Side Project",
+        "Role: Design Engineer",
         "Stack: Next.js, React, TypeScript, Vite, R3F, Three.js, Framer Motion",
       ],
     },
@@ -272,7 +272,7 @@ export const PROJECTS: ProjectItem[] = [
   {
     id: "dsskills",
     title: "DSSkills",
-    role: "Side Project",
+    role: "Fullstack Engineer",
     description:
       "A playground for applying trending agent skills to design system components and previewing the generated output.",
     type: "side",
@@ -323,7 +323,7 @@ export const PROJECTS: ProjectItem[] = [
         "The product needed to make AI generation inspectable rather than opaque. I emphasized skill context before selection, instant preview after generation, persistent history for comparison, and code visibility so users can evaluate and apply results without leaving the workflow.",
       meta: [
         "Type: Side Project",
-        "Role: Side Project",
+        "Role: Fullstack Engineer",
         "Stack: Next.js, React, TypeScript, OpenAI API, PostgreSQL, Prisma, Tailwind CSS",
       ],
     },
@@ -331,7 +331,7 @@ export const PROJECTS: ProjectItem[] = [
   {
     id: "website",
     title: "Website",
-    role: "Side Project",
+    role: "Frontend Engineer",
     description:
       "A personal portfolio site focused on clear hierarchy, restrained motion, and project storytelling.",
     type: "side",
@@ -354,7 +354,7 @@ export const PROJECTS: ProjectItem[] = [
         "The site prioritizes fast scanning and low-friction navigation. I tuned motion to support orientation rather than decoration, kept project cards compact, and separated project copy from UI components so content changes can happen without touching interaction logic.",
       meta: [
         "Type: Side Project",
-        "Role: Side Project",
+        "Role: Frontend Engineer",
         "Stack: Next.js, TypeScript, React, Framer Motion, CSS Modules",
       ],
     },

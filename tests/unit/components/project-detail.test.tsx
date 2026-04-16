@@ -158,10 +158,12 @@ describe("ProjectDetail", () => {
     expect(within(mediaRegion).getByText("Chat UI")).toBeInTheDocument();
     expect(screen.queryByText("Summary")).not.toBeInTheDocument();
     const headerTitleRow = screen.getByTestId("project-detail-header-title-row");
+    const backButton = screen.getByRole("button", {
+      name: "Back to work projects",
+    });
 
-    expect(
-      within(headerTitleRow).getByRole("button", { name: "Back to work projects" }),
-    ).toBeInTheDocument();
+    expect(backButton).toBeInTheDocument();
+    expect(headerTitleRow).toContainElement(backButton);
     expect(within(headerTitleRow).getByRole("heading", { name: "Sellpath" })).toBeInTheDocument();
     expect(within(headerTitleRow).queryByText("Frontend Engineer")).not.toBeInTheDocument();
     expect(screen.getByTestId("project-detail-header-role")).toHaveTextContent(

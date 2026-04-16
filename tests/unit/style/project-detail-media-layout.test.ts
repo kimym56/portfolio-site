@@ -91,10 +91,10 @@ describe("project detail media layout", () => {
       /\.lightboxCloseButton\s*\{[\s\S]*?position:\s*absolute;/,
     );
     expect(cssContent).toMatch(
-      /\.lightboxCloseButton\s*\{[\s\S]*?top:\s*0\.6rem;/,
+      /\.lightboxCloseButton\s*\{[\s\S]*?top:\s*0\.5rem;/,
     );
     expect(cssContent).toMatch(
-      /\.lightboxCloseButton\s*\{[\s\S]*?right:\s*0\.6rem;/,
+      /\.lightboxCloseButton\s*\{[\s\S]*?right:\s*0\.5rem;/,
     );
     expect(cssContent).not.toMatch(/max-height:\s*min\(82vh,\s*820px\);/);
   });
@@ -121,40 +121,55 @@ describe("project detail media layout", () => {
     );
   });
 
-  it("tightens the top spacing when the projects view switches into detail mode", () => {
+  it("keeps the back control inline with the project title in the replacement header slot", () => {
+    const cssContent = readProjectDetailCss();
+
+    expect(cssContent).not.toMatch(/\.headerCopy\s*\{[^}]*position:\s*relative;/);
+    expect(cssContent).not.toMatch(/\.backButton\s*\{[^}]*position:\s*absolute;/);
+    expect(cssContent).toMatch(/\.headerTitleRow\s*\{[\s\S]*?gap:\s*1rem;/);
+  });
+
+  it("hides the shared projects page intro when the projects view switches into detail mode", () => {
     const filterCss = readCss("components/project-filter.module.css");
+    const globalsCss = readCss("app/globals.css");
 
     expect(filterCss).toMatch(
-      /\.section\[data-view="detail"\]\s*\{[\s\S]*?margin-top:\s*1rem;/,
+      /\.section\[data-view="detail"\]\s*\{[\s\S]*?margin-top:\s*0;/,
+    );
+    expect(globalsCss).toMatch(
+      /\.projects-card:has\(\[data-view="detail"\]\)\s+\.page-title,\s*\n\.projects-card:has\(\[data-view="detail"\]\)\s+\.page-subtitle\s*\{[\s\S]*?display:\s*none;/,
     );
   });
 
-  it("uses a tighter editorial spacing rhythm across the detail view", () => {
+  it("uses the shared rem-based spacing rhythm across the detail view", () => {
     const cssContent = readProjectDetailCss();
 
     expect(cssContent).toMatch(
-      /\.panel\s*\{[\s\S]*?gap:\s*1\.1rem;/,
+      /\.panel\s*\{[\s\S]*?gap:\s*1\.5rem;/,
     );
     expect(cssContent).toMatch(
-      /\.header\s*\{[\s\S]*?gap:\s*0\.65rem;[\s\S]*?padding-bottom:\s*0\.85rem;/,
+      /\.panel\s*\{[\s\S]*?margin-top:\s*0;/,
     );
     expect(cssContent).toMatch(
-      /\.summaryBlock\s*\{[\s\S]*?margin-top:\s*0\.45rem;/,
+      /\.header\s*\{[\s\S]*?gap:\s*1rem;[\s\S]*?padding-bottom:\s*1rem;/,
     );
     expect(cssContent).toMatch(
-      /\.detailRow\s*\{[\s\S]*?padding-block:\s*clamp\(1rem,\s*2\.1vw,\s*1\.45rem\);/,
+      /\.summaryBlock\s*\{[\s\S]*?margin-top:\s*0\.5rem;/,
     );
     expect(cssContent).toMatch(
-      /\.mediaCard\s*\{[\s\S]*?gap:\s*0\.42rem;/,
+      /\.detailRow\s*\{[\s\S]*?padding-block:\s*1\.5rem;/,
     );
     expect(cssContent).toMatch(
-      /\.sectionBlocks\s*\{[\s\S]*?gap:\s*0\.85rem;/,
+      /\.mediaCard\s*\{[\s\S]*?gap:\s*0\.5rem;/,
     );
     expect(cssContent).toMatch(
-      /\.lightboxCloseButton\s*\{[\s\S]*?top:\s*0\.6rem;/,
+      /\.sectionBlocks\s*\{[\s\S]*?gap:\s*1rem;/,
     );
     expect(cssContent).toMatch(
-      /\.lightboxCloseButton\s*\{[\s\S]*?right:\s*0\.6rem;/,
+      /\.lightboxCloseButton\s*\{[\s\S]*?top:\s*0\.5rem;/,
+    );
+    expect(cssContent).toMatch(
+      /\.lightboxCloseButton\s*\{[\s\S]*?right:\s*0\.5rem;/,
     );
   });
 });

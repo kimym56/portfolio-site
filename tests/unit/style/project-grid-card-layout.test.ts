@@ -29,16 +29,21 @@ describe("project grid card layout", () => {
     expect(cardButtonRuleBody).toMatch(/border:\s*0;/);
     expect(contentRuleBody).toMatch(/display:\s*grid;/);
     expect(contentRuleBody).toMatch(/flex:\s*1;/);
-    expect(contentRuleBody).toMatch(/grid-template-columns:\s*minmax\(0,\s*1\.1fr\)\s*minmax\(10rem,\s*0\.7fr\)\s*auto;/);
-    expect(contentRuleBody).toMatch(/gap:\s*0\.85rem;/);
+    expect(contentRuleBody).toMatch(
+      /grid-template-columns:\s*repeat\(12,\s*minmax\(0,\s*1fr\)\);/,
+    );
+    expect(contentRuleBody).toMatch(/column-gap:\s*var\(--layout-gap\);/);
     expect(headerRuleBody).toMatch(/display:\s*contents;/);
     expect(headingRuleBody).toMatch(/display:\s*grid;/);
+    expect(headingRuleBody).toMatch(/grid-column:\s*1\s*\/\s*span\s*5;/);
     expect(descriptionRuleBody).not.toMatch(/margin-top:/);
+    expect(descriptionRuleBody).toMatch(/grid-column:\s*1\s*\/\s*span\s*6;/);
     expect(stackRuleBody).toMatch(/display:\s*flex;/);
     expect(stackRuleBody).toMatch(/flex-wrap:\s*wrap;/);
-    expect(stackRuleBody).toMatch(/grid-column:\s*1\s*\/\s*3;/);
+    expect(stackRuleBody).toMatch(/grid-column:\s*7\s*\/\s*span\s*4;/);
     expect(actionRuleBody).not.toMatch(/\bborder\s*:/);
     expect(actionRuleBody).toMatch(/align-self:\s*flex-start;/);
+    expect(actionRuleBody).toMatch(/grid-column:\s*12\s*\/\s*span\s*1;/);
     expect(actionRuleBody).not.toMatch(/\bheight\s*:\s*2\.25rem;/);
     expect(actionRuleBody).not.toMatch(/\bwidth\s*:\s*2\.25rem;/);
   });
@@ -60,10 +65,10 @@ describe("project grid card layout", () => {
       /\.cardReveal\[data-stagger-index="3"\]\s*\{[^}]*animation-delay:\s*360ms;/,
     );
     expect(cssContent).toMatch(
-      /@keyframes projectCardRevealForward\s*\{[\s\S]*translateY\(10px\)[\s\S]*\}/,
+      /@keyframes projectCardRevealForward\s*\{[\s\S]*translateY\(0\.625rem\)[\s\S]*\}/,
     );
     expect(cssContent).toMatch(
-      /@keyframes projectCardRevealBackward\s*\{[\s\S]*translateY\(10px\)[\s\S]*\}/,
+      /@keyframes projectCardRevealBackward\s*\{[\s\S]*translateY\(0\.625rem\)[\s\S]*\}/,
     );
   });
 
@@ -79,7 +84,7 @@ describe("project grid card layout", () => {
     const cssPath = path.join(process.cwd(), "components", "project-filter.module.css");
     const cssContent = fs.readFileSync(cssPath, "utf8");
 
-    expect(cssContent).toMatch(/\.toggles\s*\{[\s\S]*?margin-bottom:\s*0\.7rem;/);
+    expect(cssContent).toMatch(/\.toggles\s*\{[\s\S]*?margin-bottom:\s*1rem;/);
     expect(cssContent).toMatch(/\.toggles\s*\{[\s\S]*?padding-bottom:\s*0\.5rem;/);
   });
 });

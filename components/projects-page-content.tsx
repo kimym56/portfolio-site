@@ -4,8 +4,8 @@ import { SITE_COPY } from "@/lib/site-copy";
 
 export function ProjectsPageContent() {
   return (
-    <main className="page container">
-      <section className="projects-card">
+    <main className="page">
+      <section className="projects-card layout-frame">
         <h1 className="page-title page-stagger page-stagger-0">
           {SITE_COPY.projects.title}
         </h1>

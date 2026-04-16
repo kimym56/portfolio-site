@@ -1,5 +1,7 @@
+import GridOverlay from "@/components/grid-overlay";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { GRID_OVERLAY_STORAGE_KEY } from "@/lib/grid-overlay";
 import { SITE_COPY } from "@/lib/site-copy";
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
@@ -40,13 +42,20 @@ export const metadata: Metadata = {
   },
 };
 
-const themeInitScript = `
+const rootUiInitScript = `
   (() => {
     try {
       const stored = window.localStorage.getItem("site_theme");
       document.documentElement.dataset.theme = stored === "dark" ? "dark" : "light";
     } catch {
       document.documentElement.dataset.theme = "light";
+    }
+
+    try {
+      const stored = window.localStorage.getItem("${GRID_OVERLAY_STORAGE_KEY}");
+      document.documentElement.dataset.gridOverlay = stored === "visible" ? "visible" : "hidden";
+    } catch {
+      document.documentElement.dataset.gridOverlay = "hidden";
     }
   })();
 `;
@@ -62,7 +71,8 @@ export default async function RootLayout({
         className={`${manrope.variable} ${cormorant.variable}`}
         suppressHydrationWarning
       >
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script dangerouslySetInnerHTML={{ __html: rootUiInitScript }} />
+        <GridOverlay />
         <div className="site-shell">
           <SiteHeader navCopy={SITE_COPY.nav} />
           {children}

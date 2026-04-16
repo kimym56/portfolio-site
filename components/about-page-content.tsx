@@ -21,8 +21,8 @@ const groupedTechStack = TECH_STACK_CATEGORY_ORDER.map((category) => ({
 
 export function AboutPageContent() {
   return (
-    <main className="page container">
-      <section className="about-card">
+    <main className="page">
+      <section className="about-card layout-frame">
         <h1 className="page-title page-stagger page-stagger-0">
           {SITE_COPY.about.title}
         </h1>

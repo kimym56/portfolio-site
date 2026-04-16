@@ -1,0 +1,764 @@
+<style>
+  .board {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .intro {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .token-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .token {
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    border-radius: 999px;
+    color: #dbe4ee;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    padding: 0.35rem 0.7rem;
+  }
+
+  .token-strong {
+    background: rgba(255, 241, 173, 0.12);
+    border-color: rgba(255, 241, 173, 0.28);
+    color: #fff0b8;
+  }
+
+  .note {
+    color: #9db0c6;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 72ch;
+  }
+
+  .section-block {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .section-header {
+    align-items: end;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+
+  .section-header h3 {
+    margin: 0;
+  }
+
+  .delta {
+    color: #8fb3d9;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .pair {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pane {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+      repeating-linear-gradient(
+        to bottom,
+        rgba(143, 179, 217, 0.12) 0,
+        rgba(143, 179, 217, 0.12) 1px,
+        transparent 1px,
+        transparent 1.5rem
+      );
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 1.1rem;
+    display: grid;
+    gap: 0.9rem;
+    min-height: 24rem;
+    overflow: hidden;
+    padding: 1rem;
+    position: relative;
+  }
+
+  .pane::before {
+    color: rgba(219, 228, 238, 0.18);
+    content: "";
+    font-size: 0.72rem;
+    inset: 0.55rem 0.7rem auto auto;
+    letter-spacing: 0.08em;
+    position: absolute;
+    text-transform: uppercase;
+  }
+
+  .pane-current {
+    background:
+      linear-gradient(180deg, rgba(255, 126, 103, 0.08), rgba(255, 126, 103, 0)),
+      repeating-linear-gradient(
+        to bottom,
+        rgba(255, 126, 103, 0.1) 0,
+        rgba(255, 126, 103, 0.1) 1px,
+        transparent 1px,
+        transparent 1.5rem
+      );
+  }
+
+  .pane-current::before {
+    content: "Current";
+  }
+
+  .pane-proposed {
+    background:
+      linear-gradient(180deg, rgba(159, 228, 193, 0.08), rgba(159, 228, 193, 0)),
+      repeating-linear-gradient(
+        to bottom,
+        rgba(159, 228, 193, 0.12) 0,
+        rgba(159, 228, 193, 0.12) 1px,
+        transparent 1px,
+        transparent 1.5rem
+      );
+  }
+
+  .pane-proposed::before {
+    content: "Proposed";
+  }
+
+  .mini-page {
+    display: grid;
+  }
+
+  .mini-about-current {
+    gap: 0;
+    padding-block: 1.2rem 2.2rem;
+  }
+
+  .mini-about-proposed {
+    gap: 0;
+    padding-block: 1.5rem 1.5rem;
+  }
+
+  .mini-projects-current {
+    gap: 0;
+    padding-block: 1.2rem 2.2rem;
+  }
+
+  .mini-projects-proposed {
+    gap: 0;
+    padding-block: 1.5rem 1.5rem;
+  }
+
+  .mini-contact-current {
+    gap: 0;
+    padding-block: 1.2rem 2.2rem;
+  }
+
+  .mini-contact-proposed {
+    gap: 0;
+    padding-block: 1.5rem 1.5rem;
+  }
+
+  .page-title-demo {
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin: 0 0 1.5rem;
+  }
+
+  .page-subtitle-demo {
+    color: #aebdcd;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    margin: 0 0 1.5rem;
+    max-width: 34ch;
+  }
+
+  .paragraph-stack {
+    display: grid;
+  }
+
+  .paragraph-stack.current {
+    gap: 1rem;
+  }
+
+  .paragraph-stack.proposed {
+    gap: 1rem;
+  }
+
+  .paragraph {
+    background: rgba(226, 232, 240, 0.06);
+    border-radius: 0.7rem;
+    color: #dbe4ee;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    padding: 0.85rem 0.95rem;
+  }
+
+  .chip-groups {
+    display: grid;
+    margin-top: 1.5rem;
+  }
+
+  .chip-groups.current {
+    gap: 0.5rem;
+  }
+
+  .chip-groups.proposed {
+    gap: 0.5rem;
+  }
+
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .chip-row.current {
+    gap: 0.5rem;
+  }
+
+  .chip-row.proposed {
+    gap: 0.5rem;
+  }
+
+  .chip {
+    border-radius: 999px;
+    font-size: 0.72rem;
+    padding: 0.42rem 0.64rem;
+  }
+
+  .chip-a {
+    background: rgba(244, 179, 140, 0.18);
+    color: #ffd3bf;
+  }
+
+  .chip-b {
+    background: rgba(157, 228, 193, 0.16);
+    color: #c7f5df;
+  }
+
+  .chip-c {
+    background: rgba(192, 170, 255, 0.16);
+    color: #e2d5ff;
+  }
+
+  .projects-shell {
+    display: grid;
+  }
+
+  .projects-shell.current {
+    gap: 1.35rem;
+  }
+
+  .projects-shell.proposed {
+    gap: 1.5rem;
+  }
+
+  .toggle-bar {
+    display: inline-grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: fit-content;
+  }
+
+  .toggle-bar.current {
+    gap: 1.25rem;
+    margin-bottom: 0.7rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .toggle-bar.proposed {
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .toggle-pill {
+    border-bottom: 2px solid transparent;
+    color: #9db0c6;
+    font-size: 0.84rem;
+    font-weight: 700;
+    padding-bottom: 0.1rem;
+  }
+
+  .toggle-pill.active {
+    border-color: #dbe4ee;
+    color: #f3f7fb;
+  }
+
+  .project-list {
+    border-top: 1px solid rgba(148, 163, 184, 0.18);
+    display: grid;
+  }
+
+  .project-row {
+    border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+    display: grid;
+  }
+
+  .project-row.current {
+    gap: 0.85rem;
+    padding: 1.35rem 0;
+  }
+
+  .project-row.proposed {
+    gap: 1rem;
+    padding: 1.5rem 0;
+  }
+
+  .project-heading {
+    align-items: start;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .project-heading.proposed {
+    gap: 0.5rem;
+  }
+
+  .project-role {
+    color: #9db0c6;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .project-copy {
+    color: #dbe4ee;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 34ch;
+  }
+
+  .stack-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .stack-row.current {
+    gap: 0.46rem;
+  }
+
+  .stack-row.proposed {
+    gap: 0.5rem;
+  }
+
+  .detail-shell {
+    border-top: 1px solid rgba(148, 163, 184, 0.18);
+    display: grid;
+    margin-top: 0.25rem;
+  }
+
+  .detail-shell.current {
+    gap: 1.1rem;
+  }
+
+  .detail-shell.proposed {
+    gap: 1.5rem;
+  }
+
+  .detail-row {
+    border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+    display: grid;
+  }
+
+  .detail-row.current {
+    gap: 1.1rem;
+    padding-block: 1rem 1.45rem;
+  }
+
+  .detail-row.proposed {
+    gap: 1.5rem;
+    padding-block: 1.5rem;
+  }
+
+  .media {
+    background: rgba(226, 232, 240, 0.08);
+    border-radius: 0.8rem;
+    min-height: 4.75rem;
+  }
+
+  .contact-list-demo {
+    display: grid;
+  }
+
+  .contact-list-demo.current {
+    gap: 0.5rem;
+  }
+
+  .contact-list-demo.proposed {
+    gap: 0.5rem;
+  }
+
+  .contact-link-demo {
+    align-items: center;
+    background: rgba(226, 232, 240, 0.04);
+    border-radius: 0.8rem;
+    display: flex;
+  }
+
+  .contact-link-demo.current {
+    gap: 0.72rem;
+    padding: 0.25rem 0.75rem;
+  }
+
+  .contact-link-demo.proposed {
+    gap: 1rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .contact-icon-demo {
+    align-items: center;
+    background: rgba(226, 232, 240, 0.08);
+    border-radius: 999px;
+    display: inline-flex;
+    height: 1.5rem;
+    justify-content: center;
+    width: 1.5rem;
+  }
+
+  .meta-box {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 0.9rem;
+    display: grid;
+    gap: 0.45rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .meta-box strong {
+    color: #f3f7fb;
+    font-size: 0.84rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .meta-box span {
+    color: #9db0c6;
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  .feedback {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 960px) {
+    .pair {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="board">
+  <div class="intro">
+    <h2>Current vs Proposed Vertical Rhythm</h2>
+    <p class="subtitle">
+      Rem-only scale: 0.5rem / 1rem / 1.5rem / 2rem. Main section rhythm:
+      <strong>1.5rem</strong>.
+    </p>
+    <div class="token-row">
+      <span class="token">0.5rem</span>
+      <span class="token">1rem</span>
+      <span class="token token-strong">1.5rem main rhythm</span>
+      <span class="token">2rem</span>
+    </div>
+    <p class="note">
+      Left panels reflect the checked-in spacing language: solid structure, but
+      the Projects page drifts into many one-off values. Right panels show the
+      proposed cleanup: same content hierarchy, fewer spacing tokens, and more
+      stable vertical rhythm.
+    </p>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header">
+      <h3>About</h3>
+      <span class="delta">Refine, not redesign</span>
+    </div>
+    <div class="pair">
+      <div class="pane pane-current">
+        <div class="mini-page mini-about-current">
+          <h4 class="page-title-demo">About Me</h4>
+          <p class="page-subtitle-demo">
+            UI/UX-oriented frontend engineer with a product eye and a strong
+            interest in how interfaces actually feel.
+          </p>
+          <div class="paragraph-stack current">
+            <div class="paragraph">
+              Paragraphs already sit on a sensible rhythm, but the outer section
+              padding still uses an uneven clamp.
+            </div>
+            <div class="paragraph">
+              The page mostly works today because its internal gaps already lean
+              on 1rem and 0.5rem.
+            </div>
+          </div>
+          <div class="chip-groups current">
+            <div class="chip-row current">
+              <span class="chip chip-a">React</span>
+              <span class="chip chip-a">Next.js</span>
+              <span class="chip chip-a">TypeScript</span>
+            </div>
+            <div class="chip-row current">
+              <span class="chip chip-b">Figma</span>
+              <span class="chip chip-b">Prototyping</span>
+              <span class="chip chip-b">Interaction</span>
+            </div>
+            <div class="chip-row current">
+              <span class="chip chip-c">LLM UX</span>
+              <span class="chip chip-c">Prompt Design</span>
+            </div>
+          </div>
+        </div>
+        <div class="meta-box">
+          <strong>Current behavior</strong>
+          <span>Mostly coherent. The main issue is uneven outer padding rather than broken content rhythm.</span>
+        </div>
+      </div>
+
+      <div class="pane pane-proposed">
+        <div class="mini-page mini-about-proposed">
+          <h4 class="page-title-demo">About Me</h4>
+          <p class="page-subtitle-demo">
+            UI/UX-oriented frontend engineer with a product eye and a strong
+            interest in how interfaces actually feel.
+          </p>
+          <div class="paragraph-stack proposed">
+            <div class="paragraph">
+              Same content hierarchy, but section padding snaps to the shared
+              scale and the vertical rhythm reads cleaner edge to edge.
+            </div>
+            <div class="paragraph">
+              No visual upheaval here. The improvement is consistency more than
+              dramatic change.
+            </div>
+          </div>
+          <div class="chip-groups proposed">
+            <div class="chip-row proposed">
+              <span class="chip chip-a">React</span>
+              <span class="chip chip-a">Next.js</span>
+              <span class="chip chip-a">TypeScript</span>
+            </div>
+            <div class="chip-row proposed">
+              <span class="chip chip-b">Figma</span>
+              <span class="chip chip-b">Prototyping</span>
+              <span class="chip chip-b">Interaction</span>
+            </div>
+            <div class="chip-row proposed">
+              <span class="chip chip-c">LLM UX</span>
+              <span class="chip chip-c">Prompt Design</span>
+            </div>
+          </div>
+        </div>
+        <div class="meta-box">
+          <strong>Proposed change</strong>
+          <span>Keep the page calm. Normalize outer padding to the rem scale and preserve the existing 1rem / 0.5rem content cadence.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header">
+      <h3>Projects</h3>
+      <span class="delta">Biggest improvement area</span>
+    </div>
+    <div class="pair">
+      <div class="pane pane-current">
+        <div class="mini-page mini-projects-current">
+          <h4 class="page-title-demo">Projects</h4>
+          <p class="page-subtitle-demo">
+            Selected work and experiments with interface design, frontend craft,
+            and product thinking.
+          </p>
+
+          <div class="projects-shell current">
+            <div class="toggle-bar current">
+              <span class="toggle-pill active">Work</span>
+              <span class="toggle-pill">Side</span>
+            </div>
+
+            <div class="project-list">
+              <div class="project-row current">
+                <div class="project-heading">
+                  <strong>Candidate Portal</strong>
+                  <span class="project-role">Frontend Lead</span>
+                </div>
+                <div class="project-copy">
+                  Tight row padding and uneven sub-gaps make the list feel a bit
+                  compressed.
+                </div>
+                <div class="stack-row current">
+                  <span class="chip chip-a">Next.js</span>
+                  <span class="chip chip-b">Design System</span>
+                  <span class="chip chip-c">Accessibility</span>
+                </div>
+              </div>
+              <div class="project-row current">
+                <div class="project-heading">
+                  <strong>Creator Dashboard</strong>
+                  <span class="project-role">UI Engineer</span>
+                </div>
+                <div class="project-copy">
+                  The page switches from 1.35rem, 0.85rem, 0.46rem, 1.1rem, and
+                  1.45rem across list and detail states.
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-shell current">
+              <div class="detail-row current">
+                <div class="project-heading">
+                  <strong>Project Detail</strong>
+                  <span class="project-role">Case Study</span>
+                </div>
+                <div class="media"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="meta-box">
+          <strong>Current behavior</strong>
+          <span>Readable, but the spacing language is fragmented. The list and detail views do not feel cut from the same system.</span>
+        </div>
+      </div>
+
+      <div class="pane pane-proposed">
+        <div class="mini-page mini-projects-proposed">
+          <h4 class="page-title-demo">Projects</h4>
+          <p class="page-subtitle-demo">
+            Selected work and experiments with interface design, frontend craft,
+            and product thinking.
+          </p>
+
+          <div class="projects-shell proposed">
+            <div class="toggle-bar proposed">
+              <span class="toggle-pill active">Work</span>
+              <span class="toggle-pill">Side</span>
+            </div>
+
+            <div class="project-list">
+              <div class="project-row proposed">
+                <div class="project-heading proposed">
+                  <strong>Candidate Portal</strong>
+                  <span class="project-role">Frontend Lead</span>
+                </div>
+                <div class="project-copy">
+                  Row padding moves to 1.5rem, internal spacing to 1rem, and
+                  stack spacing to 0.5rem.
+                </div>
+                <div class="stack-row proposed">
+                  <span class="chip chip-a">Next.js</span>
+                  <span class="chip chip-b">Design System</span>
+                  <span class="chip chip-c">Accessibility</span>
+                </div>
+              </div>
+              <div class="project-row proposed">
+                <div class="project-heading proposed">
+                  <strong>Creator Dashboard</strong>
+                  <span class="project-role">UI Engineer</span>
+                </div>
+                <div class="project-copy">
+                  The page keeps its editorial feel, but the spacing rules are
+                  now predictable instead of bespoke.
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-shell proposed">
+              <div class="detail-row proposed">
+                <div class="project-heading proposed">
+                  <strong>Project Detail</strong>
+                  <span class="project-role">Case Study</span>
+                </div>
+                <div class="media"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="meta-box">
+          <strong>Proposed change</strong>
+          <span>This is the main cleanup: fewer token values, calmer row density, and list/detail views that finally feel related.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header">
+      <h3>Contact</h3>
+      <span class="delta">Small polish pass</span>
+    </div>
+    <div class="pair">
+      <div class="pane pane-current">
+        <div class="mini-page mini-contact-current">
+          <h4 class="page-title-demo">Contact</h4>
+          <p class="page-subtitle-demo">
+            Reach out for product design, frontend collaboration, or thoughtful
+            interface work.
+          </p>
+          <div class="contact-list-demo current">
+            <div class="contact-link-demo current">
+              <span class="contact-icon-demo">@</span>
+              <span>kimym.svb@gmail.com</span>
+            </div>
+            <div class="contact-link-demo current">
+              <span class="contact-icon-demo">in</span>
+              <span>linkedin.com/in/kimym56</span>
+            </div>
+            <div class="contact-link-demo current">
+              <span class="contact-icon-demo">gh</span>
+              <span>github.com/kimym56</span>
+            </div>
+          </div>
+        </div>
+        <div class="meta-box">
+          <strong>Current behavior</strong>
+          <span>Already restrained. The only real issue is one odd gap value that does not belong to the shared scale.</span>
+        </div>
+      </div>
+
+      <div class="pane pane-proposed">
+        <div class="mini-page mini-contact-proposed">
+          <h4 class="page-title-demo">Contact</h4>
+          <p class="page-subtitle-demo">
+            Reach out for product design, frontend collaboration, or thoughtful
+            interface work.
+          </p>
+          <div class="contact-list-demo proposed">
+            <div class="contact-link-demo proposed">
+              <span class="contact-icon-demo">@</span>
+              <span>kimym.svb@gmail.com</span>
+            </div>
+            <div class="contact-link-demo proposed">
+              <span class="contact-icon-demo">in</span>
+              <span>linkedin.com/in/kimym56</span>
+            </div>
+            <div class="contact-link-demo proposed">
+              <span class="contact-icon-demo">gh</span>
+              <span>github.com/kimym56</span>
+            </div>
+          </div>
+        </div>
+        <div class="meta-box">
+          <strong>Proposed change</strong>
+          <span>Keep the page minimal. Just normalize icon-to-text spacing and align the outer padding with the shared rhythm.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feedback">
+    <p class="note">
+      If this direction looks right, I’ll implement the spacing cleanup with the
+      least structural change possible. The main visible shift will be on the
+      Projects page.
+    </p>
+  </div>
+</div>

@@ -2,31 +2,32 @@
   position: sticky;
   top: 0;
   z-index: 40;
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(0.875rem);
+  border-bottom: 0.0625rem solid var(--border);
   background: color-mix(in srgb, var(--bg) 84%, transparent);
 }
 
 .inner {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 1rem;
-  width: min(1120px, 92vw);
-  margin-inline: auto;
-  padding-block: 0.95rem;
+  min-height: 4.5rem;
+  padding-block: 1.075rem;
+  row-gap: 0.75rem;
 }
 
 .logo {
+  align-self: center;
   font-family: var(--font-bold), "Noto Serif KR", serif;
   font-size: 1.05rem;
   font-weight: 700;
+  grid-column: 1 / span 2;
   letter-spacing: 0.08em;
 }
 
 .nav {
   display: flex;
+  grid-column: 4 / span 6;
   justify-content: center;
+  min-width: 0;
   gap: 0.3rem;
 }
 
@@ -48,17 +49,37 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  grid-column: 11 / span 2;
+  justify-self: end;
 }
 
-@media (max-width: 900px) {
-  .inner {
-    grid-template-columns: 1fr auto;
-    gap: 0.8rem;
+@media (max-width: 64rem) {
+  .logo {
+    grid-column: 1 / span 2;
+  }
+
+  .nav {
+    grid-column: 3 / span 4;
+    justify-content: flex-end;
+  }
+
+  .controls {
+    grid-column: 7 / span 2;
+  }
+}
+
+@media (max-width: 48rem) {
+  .logo {
+    grid-column: 1 / span 2;
   }
 
   .nav {
     grid-column: 1 / -1;
     justify-content: flex-start;
     flex-wrap: wrap;
+  }
+
+  .controls {
+    grid-column: 3 / span 2;
   }
 }

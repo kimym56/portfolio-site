@@ -46,6 +46,10 @@ vi.mock("@/components/theme-toggle", () => ({
   ThemeToggle: () => <button type="button">theme-toggle</button>,
 }));
 
+vi.mock("@/components/grid-overlay-toggle", () => ({
+  GridOverlayToggle: () => <button type="button">grid-overlay-toggle</button>,
+}));
+
 describe("SiteHeader", () => {
   let cookieStore = "";
 
@@ -82,6 +86,7 @@ describe("SiteHeader", () => {
 
     expect(screen.queryByLabelText("Language selector")).not.toBeInTheDocument();
     expect(screen.getByText("theme-toggle")).toBeInTheDocument();
+    expect(screen.getByText("grid-overlay-toggle")).toBeInTheDocument();
   });
 
   it("renders YMKim logo copy and uses full-width header layout", () => {

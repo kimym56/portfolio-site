@@ -514,8 +514,12 @@ export function ProjectDetail({
                 .join(" ")}
               data-testid="project-detail-header-title-row"
             >
-              <button className={styles.backButton} type="button" onClick={onBack}>
-                <ArrowLeft aria-hidden="true" size={18} strokeWidth={2} />
+              <button
+                className={styles.backButton}
+                type="button"
+                onClick={onBack}
+              >
+                <ArrowLeft aria-hidden="true" size={16} strokeWidth={2} />
                 <span className="visually-hidden">{backLabel}</span>
               </button>
               <h2 className={styles.title}>{project.title}</h2>

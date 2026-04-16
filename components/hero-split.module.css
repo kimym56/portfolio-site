@@ -1,11 +1,7 @@
 .hero {
-  width: 100%;
   align-items: stretch;
-  display: grid;
-  gap: clamp(1rem, 2vw, 2rem);
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
-  min-height: clamp(380px, 68vh, 620px);
-  padding: 0;
+  gap: var(--layout-gap);
+  min-height: clamp(23.75rem, 68vh, 38.75rem);
 }
 
 .copy {
@@ -13,7 +9,9 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  grid-column: 1 / span 5;
   justify-content: center;
+  min-width: 0;
   padding: 0;
 }
 
@@ -43,12 +41,14 @@
 .media {
   align-self: center;
   background: var(--surface);
-  justify-self: end;
   border-radius: var(--radius-md);
-  width: 72%;
-  min-height: 420px;
+  grid-column: 8 / span 5;
+  justify-self: stretch;
+  height: clamp(26rem, 42vw, 32rem);
+  min-width: 0;
   overflow: hidden;
   position: relative;
+  width: 100%;
 }
 
 .imageLayer {
@@ -59,14 +59,32 @@
 .image {
   object-fit: cover;
   object-position: center 38%;
-  transform: scale(1.15);
   z-index: 1;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 64rem) {
   .hero {
-    grid-template-columns: 1fr;
+    min-height: clamp(22rem, 60vh, 34rem);
+  }
+
+  .copy {
+    grid-column: 1 / span 4;
+  }
+
+  .media {
+    grid-column: 5 / -1;
+    height: clamp(22rem, 48vw, 27rem);
+  }
+}
+
+@media (max-width: 48rem) {
+  .hero {
     min-height: initial;
+  }
+
+  .copy,
+  .media {
+    grid-column: 1 / -1;
   }
 
   .title {
@@ -74,9 +92,8 @@
   }
 
   .media {
-    width: 100%;
-    justify-self: stretch;
     align-self: stretch;
-    min-height: 360px;
+    height: 22.5rem;
+    min-height: 22.5rem;
   }
 }

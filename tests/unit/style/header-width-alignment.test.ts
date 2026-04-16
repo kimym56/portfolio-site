@@ -3,13 +3,25 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 describe("header width alignment", () => {
-  it("matches header inner width to the main container width", () => {
+  it("anchors header content to the canonical layout frame", () => {
+    const componentPath = path.join(process.cwd(), "components", "site-header.tsx");
+    const cssPath = path.join(process.cwd(), "components", "site-header.module.css");
+    const componentContent = fs.readFileSync(componentPath, "utf8");
+    const cssContent = fs.readFileSync(cssPath, "utf8");
+
+    expect(componentContent).toContain("layout-frame");
+    expect(componentContent).not.toContain("layout-shell");
+    expect(componentContent).not.toContain("layout-grid");
+    expect(cssContent).toMatch(/\.logo\s*\{[\s\S]*grid-column:\s*1\s*\/\s*span\s*2;/);
+    expect(cssContent).toMatch(/\.nav\s*\{[\s\S]*grid-column:\s*4\s*\/\s*span\s*6;/);
+    expect(cssContent).toMatch(/\.controls\s*\{[\s\S]*grid-column:\s*11\s*\/\s*span\s*2;/);
+    expect(cssContent).not.toMatch(/min\(1120px,\s*92vw\)/);
+  });
+
+  it("fits the header to the third vertical rhythm line", () => {
     const cssPath = path.join(process.cwd(), "components", "site-header.module.css");
     const cssContent = fs.readFileSync(cssPath, "utf8");
 
-    expect(cssContent).toMatch(
-      /\.inner\s*\{[\s\S]*width:\s*min\(1120px,\s*92vw\);[\s\S]*margin-inline:\s*auto;/,
-    );
-    expect(cssContent).not.toMatch(/\.inner\s*\{[\s\S]*padding-inline:/);
+    expect(cssContent).toMatch(/\.inner\s*\{[\s\S]*min-height:\s*4\.5rem;/);
   });
 });

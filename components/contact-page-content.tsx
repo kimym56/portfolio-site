@@ -46,8 +46,8 @@ export function ContactPageContent() {
   );
 
   return (
-    <main className="page container">
-      <section className="contact-card">
+    <main className="page">
+      <section className="contact-card layout-frame">
         <h1 className="page-title page-stagger page-stagger-0">
           {SITE_COPY.contact.title}
         </h1>

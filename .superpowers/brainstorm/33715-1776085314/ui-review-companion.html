@@ -1,0 +1,352 @@
+<style>
+  .review-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 14px 0 28px;
+  }
+
+  .pill {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    padding: 8px 12px;
+    text-transform: uppercase;
+  }
+
+  .pill.high {
+    background: rgba(203, 62, 62, 0.16);
+    border-color: rgba(203, 62, 62, 0.35);
+    color: #ffb3b3;
+  }
+
+  .pill.medium {
+    background: rgba(209, 162, 41, 0.14);
+    border-color: rgba(209, 162, 41, 0.3);
+    color: #f6d37e;
+  }
+
+  .section-block {
+    margin: 30px 0 40px;
+  }
+
+  .wireframe {
+    background: #111;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+
+  .wireframe .bar {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.04);
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    padding: 14px 18px;
+  }
+
+  .wireframe .bar .left,
+  .wireframe .bar .right {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+  }
+
+  .wireframe .dot {
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    height: 8px;
+    width: 8px;
+  }
+
+  .wireframe .nav-chip,
+  .wireframe .control-chip {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
+  .wireframe .body {
+    padding: 18px;
+  }
+
+  .wireframe .columns {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 7fr 5fr;
+  }
+
+  .wireframe .panel-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    min-height: 120px;
+    padding: 16px;
+  }
+
+  .wireframe .panel-box.empty {
+    background: repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.03),
+      rgba(255, 255, 255, 0.03) 12px,
+      rgba(255, 255, 255, 0.01) 12px,
+      rgba(255, 255, 255, 0.01) 24px
+    );
+  }
+
+  .wireframe .row-stack {
+    display: grid;
+    gap: 14px;
+  }
+
+  .wireframe .row {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    min-height: 74px;
+    padding: 14px 16px;
+  }
+
+  .wireframe .row.hidden-row {
+    background: rgba(203, 62, 62, 0.12);
+    border-color: rgba(203, 62, 62, 0.32);
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .wireframe .row.visible-row {
+    background: rgba(70, 140, 90, 0.18);
+    border-color: rgba(70, 140, 90, 0.35);
+  }
+
+  .finding-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 18px;
+  }
+
+  .finding-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 18px;
+  }
+
+  .finding-card.high {
+    box-shadow: inset 0 0 0 1px rgba(203, 62, 62, 0.22);
+  }
+
+  .finding-card.medium {
+    box-shadow: inset 0 0 0 1px rgba(209, 162, 41, 0.16);
+  }
+
+  .finding-card h3 {
+    margin-bottom: 10px;
+  }
+
+  .finding-card p,
+  .finding-card li {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .finding-card ul {
+    margin: 10px 0 0;
+    padding-left: 18px;
+  }
+
+  .code-ref {
+    color: rgba(255, 255, 255, 0.62);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-top: 12px;
+    white-space: pre-wrap;
+  }
+
+  .small-label {
+    color: rgba(255, 255, 255, 0.52);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .wireframe .columns,
+    .finding-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<h2>Portfolio UI Review Companion</h2>
+<p class="subtitle">
+  Code-first review board. This companion reflects layout, typography, motion,
+  and interaction rules in the source, not screenshot-based taste alone.
+</p>
+
+<div class="review-meta">
+  <span class="pill high">2 high severity</span>
+  <span class="pill medium">4 medium severity</span>
+  <span class="pill">Pages: home / about / projects / contact</span>
+  <span class="pill">Focus: hierarchy, rhythm, state, responsive structure</span>
+</div>
+
+<div class="section-block">
+  <div class="small-label">Structural Summary</div>
+  <div class="split">
+    <div class="mockup wireframe">
+      <div class="mockup-header">Desktop Interior Pages</div>
+      <div class="body">
+        <div class="bar">
+          <div class="left">
+            <span class="nav-chip">YMKim</span>
+            <span class="nav-chip">Home</span>
+            <span class="nav-chip">About</span>
+            <span class="nav-chip">Projects</span>
+          </div>
+          <div class="right">
+            <span class="control-chip">Grid</span>
+            <span class="control-chip">Theme</span>
+          </div>
+        </div>
+        <div class="columns" style="margin-top: 14px;">
+          <div class="panel-box">
+            <div class="small-label">Used by code</div>
+            Title, subtitle, paragraphs, contact list, and project list all
+            anchor left across roughly 6-7 columns.
+          </div>
+          <div class="panel-box empty">
+            <div class="small-label">Promised by grid</div>
+            Large right-side field exists, but shared page styles rarely assign
+            it a meaningful counterweight.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mockup wireframe">
+      <div class="mockup-header">Project Detail Motion Model</div>
+      <div class="body">
+        <div class="row-stack">
+          <div class="row visible-row">
+            Header copy is visible immediately.
+          </div>
+          <div class="row hidden-row">
+            Detail row starts as <code>opacity: 0</code> but still reserves full
+            layout height.
+          </div>
+          <div class="row hidden-row">
+            Another hidden row reserves space before the observer marks it
+            visible.
+          </div>
+          <div class="row hidden-row">
+            On narrow screens, this becomes long blank scrolling territory.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-block">
+  <div class="small-label">Findings</div>
+  <div class="finding-grid">
+    <div class="finding-card high">
+      <span class="pill high">High</span>
+      <h3>Project detail rows are hidden before they intersect</h3>
+      <p>
+        The detail page starts rows in a hidden visual state and waits for
+        IntersectionObserver to reveal them. Because the hidden rows still take
+        up normal height, the design language creates empty narrative gaps
+        instead of progressive disclosure.
+      </p>
+      <ul>
+        <li>Good motion should decorate reading flow, not block it.</li>
+        <li>This is especially risky on mobile where viewport depth is tight.</li>
+      </ul>
+      <div class="code-ref">components/project-detail.tsx:99, 568-580
+components/project-detail.module.css:317-331</div>
+    </div>
+
+    <div class="finding-card high">
+      <span class="pill high">High</span>
+      <h3>Mobile header preserves desktop information density</h3>
+      <p>
+        The header keeps logo, four nav links, and two utility toggles exposed
+        at the smallest breakpoint. The CSS wraps the system rather than
+        redesigning it, so mobile pays a heavy vertical tax before content even
+        begins.
+      </p>
+      <ul>
+        <li>Good mobile chrome compresses choices and protects first-screen content.</li>
+        <li>The current approach treats all header elements as equally important.</li>
+      </ul>
+      <div class="code-ref">components/site-header.module.css:10-15, 71-84</div>
+    </div>
+
+    <div class="finding-card medium">
+      <span class="pill medium">Medium</span>
+      <h3>Interior pages are systemically left-heavy</h3>
+      <p>
+        Shared globals pin titles, subtitles, copy, and contact content into
+        the left half of the 12-column system. The right side is usually unused,
+        so the composition reads incomplete rather than intentional.
+      </p>
+      <div class="code-ref">app/globals.css:278-289
+app/globals.css:356-389</div>
+    </div>
+
+    <div class="finding-card medium">
+      <span class="pill medium">Medium</span>
+      <h3>Interaction state language is inconsistent</h3>
+      <p>
+        Active nav uses weight only, project tabs use a thin underline, the
+        grid utility fills its background, and the theme toggle only swaps icon
+        visibility. The shell lacks one coherent vocabulary for state.
+      </p>
+      <div class="code-ref">components/site-header.module.css:34-46
+components/project-filter.module.css:30-39
+components/theme-toggle.module.css:34-47
+components/grid-overlay-toggle.module.css:23-25</div>
+    </div>
+
+    <div class="finding-card medium">
+      <span class="pill medium">Medium</span>
+      <h3>About tech-stack hierarchy is only semantic, not visual</h3>
+      <p>
+        Categories exist in code and ARIA labels, but users see three chip rows
+        without visible labels. Color alone is doing categorization work that
+        should be reinforced by structure.
+      </p>
+      <div class="code-ref">components/about-page-content.tsx:40-64
+app/globals.css:292-307</div>
+    </div>
+
+    <div class="finding-card medium">
+      <span class="pill medium">Medium</span>
+      <h3>Mobile project-card reading order is awkward</h3>
+      <p>
+        The arrow action lives before the description in DOM and becomes a full
+        row at the mobile breakpoint. That makes the card scan as title, role,
+        arrow, then description.
+      </p>
+      <div class="code-ref">components/project-grid.tsx:33-59
+components/project-grid.module.css:181-202</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-block">
+  <div class="small-label">How to use this board</div>
+  <p class="subtitle">
+    If you want, I can turn this into a second companion screen with proposed
+    fixes: header compression, interior-page rebalancing, and a safer
+    project-detail reveal model.
+  </p>
+</div>

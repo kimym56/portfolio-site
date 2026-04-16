@@ -1,10 +1,20 @@
 .footer {
-  border-top: 1px solid var(--border);
+  border-top: 0.0625rem solid var(--border);
   color: var(--text-muted);
 }
 
 .inner {
   font-size: 0.87rem;
   padding-block: 1.2rem;
-  text-align: center;
+  row-gap: 0.5rem;
+}
+
+.inner p {
+  grid-column: 1 / span 6;
+}
+
+@media (max-width: 48rem) {
+  .inner p {
+    grid-column: 1 / -1;
+  }
 }

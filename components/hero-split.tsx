@@ -113,7 +113,7 @@ export function HeroSplit({ copy }: HeroSplitProps) {
   }, [copy.roles.length]);
 
   return (
-    <section className={styles.hero}>
+    <section className={`${styles.hero} layout-frame`}>
       <div className={styles.copy}>
         <p className={styles.greeting}>Hi :)</p>
         <h1 className={styles.title}>
@@ -144,7 +144,7 @@ export function HeroSplit({ copy }: HeroSplitProps) {
                 fill
                 className={styles.image}
                 priority
-                sizes="(max-width: 767px) 90vw, 38vw"
+                sizes="(max-width: 48rem) 100vw, 40vw"
               />
             </m.div>
           ) : null}
@@ -163,7 +163,7 @@ export function HeroSplit({ copy }: HeroSplitProps) {
                 fill
                 className={styles.image}
                 priority
-                sizes="(max-width: 767px) 90vw, 38vw"
+                sizes="(max-width: 48rem) 100vw, 40vw"
               />
             </m.div>
           ) : null}

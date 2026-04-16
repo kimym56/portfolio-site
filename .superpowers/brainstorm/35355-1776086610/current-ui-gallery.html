@@ -1,0 +1,126 @@
+<style>
+  .gallery-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 22px;
+  }
+
+  .page-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+
+  .page-card-header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .page-card-header h3 {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .route {
+    color: rgba(255, 255, 255, 0.58);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+  }
+
+  .page-frame {
+    background: #fff;
+    border: 0;
+    display: block;
+    height: 520px;
+    width: 100%;
+  }
+
+  .link-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .page-link {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 13px;
+    padding: 8px 12px;
+    text-decoration: none;
+  }
+
+  .note {
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 14px;
+    line-height: 1.55;
+    margin-top: 18px;
+  }
+
+  @media (max-width: 980px) {
+    .gallery-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .page-frame {
+      height: 420px;
+    }
+  }
+</style>
+
+<h2>Current UI Gallery</h2>
+<p class="subtitle">
+  Live previews of the current portfolio UI. Each panel embeds the actual local page.
+</p>
+
+<div class="link-row">
+  <a class="page-link" href="http://localhost:3000/" target="_blank" rel="noreferrer">Open Home</a>
+  <a class="page-link" href="http://localhost:3000/about" target="_blank" rel="noreferrer">Open About</a>
+  <a class="page-link" href="http://localhost:3000/projects" target="_blank" rel="noreferrer">Open Projects</a>
+  <a class="page-link" href="http://localhost:3000/contact" target="_blank" rel="noreferrer">Open Contact</a>
+</div>
+
+<div class="gallery-grid">
+  <section class="page-card">
+    <div class="page-card-header">
+      <h3>Home</h3>
+      <span class="route">/</span>
+    </div>
+    <iframe class="page-frame" src="http://localhost:3000/" title="Home page preview"></iframe>
+  </section>
+
+  <section class="page-card">
+    <div class="page-card-header">
+      <h3>About</h3>
+      <span class="route">/about</span>
+    </div>
+    <iframe class="page-frame" src="http://localhost:3000/about" title="About page preview"></iframe>
+  </section>
+
+  <section class="page-card">
+    <div class="page-card-header">
+      <h3>Projects</h3>
+      <span class="route">/projects</span>
+    </div>
+    <iframe class="page-frame" src="http://localhost:3000/projects" title="Projects page preview"></iframe>
+  </section>
+
+  <section class="page-card">
+    <div class="page-card-header">
+      <h3>Contact</h3>
+      <span class="route">/contact</span>
+    </div>
+    <iframe class="page-frame" src="http://localhost:3000/contact" title="Contact page preview"></iframe>
+  </section>
+</div>
+
+<p class="note">
+  If any preview stays blank, use the direct links above. If you want, I can make the next companion screen show only one route at a time with larger detail panels, including the project detail state.
+</p>
