@@ -126,7 +126,7 @@ describe("project detail media layout", () => {
 
     expect(cssContent).not.toMatch(/\.headerCopy\s*\{[^}]*position:\s*relative;/);
     expect(cssContent).not.toMatch(/\.backButton\s*\{[^}]*position:\s*absolute;/);
-    expect(cssContent).toMatch(/\.headerTitleRow\s*\{[\s\S]*?gap:\s*1rem;/);
+    expect(cssContent).toMatch(/\.headerTitleRow\s*\{[\s\S]*?gap:\s*1\.5rem;/);
   });
 
   it("hides the shared projects page intro when the projects view switches into detail mode", () => {
@@ -151,19 +151,19 @@ describe("project detail media layout", () => {
       /\.panel\s*\{[\s\S]*?margin-top:\s*0;/,
     );
     expect(cssContent).toMatch(
-      /\.header\s*\{[\s\S]*?gap:\s*1rem;[\s\S]*?padding-bottom:\s*1rem;/,
+      /\.header\s*\{[\s\S]*?gap:\s*1\.5rem;[\s\S]*?padding-bottom:\s*1\.5rem;/,
     );
     expect(cssContent).toMatch(
-      /\.summaryBlock\s*\{[\s\S]*?margin-top:\s*0\.5rem;/,
+      /\.summaryBlock\s*\{[\s\S]*?margin-top:\s*0;/,
     );
     expect(cssContent).toMatch(
       /\.detailRow\s*\{[\s\S]*?padding-block:\s*1\.5rem;/,
     );
     expect(cssContent).toMatch(
-      /\.mediaCard\s*\{[\s\S]*?gap:\s*0\.5rem;/,
+      /\.mediaCard\s*\{[\s\S]*?gap:\s*1\.5rem;/,
     );
     expect(cssContent).toMatch(
-      /\.sectionBlocks\s*\{[\s\S]*?gap:\s*1rem;/,
+      /\.sectionBlocks\s*\{[\s\S]*?gap:\s*1\.5rem;/,
     );
     expect(cssContent).toMatch(
       /\.lightboxCloseButton\s*\{[\s\S]*?top:\s*0\.5rem;/,

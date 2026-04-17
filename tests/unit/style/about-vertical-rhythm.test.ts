@@ -7,9 +7,7 @@ describe("about vertical rhythm", () => {
     const cssPath = path.join(process.cwd(), "app", "globals.css");
     const cssContent = fs.readFileSync(cssPath, "utf8");
 
-    expect(cssContent).toMatch(
-      /\.page\s*\{[\s\S]*padding-block:\s*clamp\(1\.5rem,\s*4vw,\s*2rem\);/,
-    );
+    expect(cssContent).toMatch(/\.page\s*\{[\s\S]*padding-block:\s*1\.5rem;/);
     expect(cssContent).toMatch(
       /\.about-card\s*\{[\s\S]*padding-block:\s*1\.5rem;[\s\S]*row-gap:\s*0;/,
     );
@@ -26,13 +24,20 @@ describe("about vertical rhythm", () => {
       /\.about-card\s*>\s*\.page-title,\s*\n\.projects-card\s*>\s*\.page-title,\s*\n\.contact-card\s*>\s*\.page-title\s*\{[^}]*margin-bottom:\s*1\.5rem;/,
     );
     expect(cssContent).toMatch(
+      /\.page-title\s*\{[\s\S]*font-size:\s*3rem;[\s\S]*line-height:\s*var\(--rhythm-title\);/,
+    );
+    expect(cssContent).not.toMatch(/\.page-title\s*\{[\s\S]*clamp\(/);
+    expect(cssContent).toMatch(
       /\.about-card\s*>\s*\.page-subtitle,\s*\n\.projects-card\s*>\s*\.page-subtitle,\s*\n\.contact-card\s*>\s*\.page-subtitle\s*\{[^}]*margin-bottom:\s*1\.5rem;/,
     );
-    expect(cssContent).toMatch(/\.about-paragraphs\s*\{[\s\S]*gap:\s*1rem;/);
-    expect(cssContent).toMatch(/\.about-tech-stack\s*\{[\s\S]*gap:\s*0\.5rem;/);
-    expect(cssContent).toMatch(/\.contact-list\s*\{[\s\S]*gap:\s*0\.5rem;/);
+    expect(cssContent).toMatch(/\.about-paragraphs\s*\{[\s\S]*gap:\s*var\(--rhythm-step\);/);
+    expect(cssContent).toMatch(/\.about-tech-stack\s*\{[\s\S]*gap:\s*var\(--rhythm-step\);/);
+    expect(cssContent).toMatch(/\.about-chip\s*\{[\s\S]*min-height:\s*var\(--rhythm-step\);/);
+    expect(cssContent).toMatch(/\.about-chip\s*\{[\s\S]*line-height:\s*var\(--rhythm-step\);/);
+    expect(cssContent).toMatch(/\.about-chip\s*\{[\s\S]*padding:\s*0\s+0\.75rem;/);
+    expect(cssContent).toMatch(/\.contact-list\s*\{[\s\S]*gap:\s*var\(--rhythm-step\);/);
     expect(cssContent).toMatch(
-      /\.contact-link\s*\{[\s\S]*gap:\s*1rem;[\s\S]*padding:\s*0\.5rem 0;/,
+      /\.contact-link\s*\{[\s\S]*gap:\s*1rem;[\s\S]*min-height:\s*3rem;[\s\S]*padding:\s*0\.75rem 0;/,
     );
   });
 });

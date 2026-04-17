@@ -3,40 +3,45 @@
   top: 0;
   z-index: 40;
   backdrop-filter: blur(0.875rem);
-  border-bottom: 0.0625rem solid var(--border);
   background: color-mix(in srgb, var(--bg) 84%, transparent);
+  box-shadow: inset 0 -0.0625rem 0 var(--border);
 }
 
 .inner {
   align-items: center;
-  min-height: 4.5rem;
-  padding-block: 1.075rem;
-  row-gap: 0.75rem;
+  min-height: var(--shell-height);
+  padding-block: 0;
+  row-gap: 0.5rem;
 }
 
 .logo {
   align-self: center;
   font-family: var(--font-bold), "Noto Serif KR", serif;
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 700;
   grid-column: 1 / span 2;
   letter-spacing: 0.08em;
+  line-height: var(--rhythm-step);
 }
 
 .nav {
   display: flex;
+  gap: 0.5rem;
   grid-column: 4 / span 6;
   justify-content: center;
   min-width: 0;
-  gap: 0.3rem;
 }
 
 .navLink {
+  align-items: center;
   border-radius: var(--radius-md);
   color: var(--text-muted);
-  font-size: 0.95rem;
+  display: inline-flex;
+  font-size: 1rem;
   font-weight: 500;
-  padding: 0.45rem 0.75rem;
+  line-height: var(--rhythm-step);
+  min-height: var(--control-size);
+  padding: 0 0.75rem;
 }
 
 .navLink:hover,
@@ -46,9 +51,9 @@
 }
 
 .controls {
-  display: flex;
   align-items: center;
-  gap: 0.6rem;
+  display: flex;
+  gap: 0.5rem;
   grid-column: 11 / span 2;
   justify-self: end;
 }

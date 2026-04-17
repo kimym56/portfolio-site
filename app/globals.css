@@ -13,6 +13,10 @@
   --layout-padding: 1.5rem;
   --layout-gap: 1.5rem;
   --layout-columns: 12;
+  --rhythm-step: 1.5rem;
+  --rhythm-title: 3rem;
+  --shell-height: 4.5rem;
+  --control-size: 3rem;
   --about-chip-frontend-strong-bg: #f2dccf;
   --about-chip-frontend-soft-bg: #f7ece4;
   --about-chip-frontend-strong-text: #6d3e23;
@@ -73,7 +77,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-regular), "Noto Sans KR", sans-serif;
-  line-height: 1.5;
+  line-height: var(--rhythm-step);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -137,7 +141,7 @@ html[data-grid-overlay="visible"] .grid-overlay {
 
 .page {
   width: 100%;
-  padding-block: clamp(1.5rem, 4vw, 2rem);
+  padding-block: var(--rhythm-step);
 }
 
 .page-reveal {
@@ -146,14 +150,16 @@ html[data-grid-overlay="visible"] .grid-overlay {
 
 .page-title {
   font-family: var(--font-bold), "Noto Serif KR", serif;
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: 3rem;
   letter-spacing: -0.03em;
-  line-height: 1.1;
+  line-height: var(--rhythm-title);
   margin-bottom: 0;
+  text-wrap: balance;
 }
 
 .page-subtitle {
   color: var(--text-muted);
+  line-height: var(--rhythm-step);
   max-width: 65ch;
 }
 
@@ -290,7 +296,7 @@ html[data-grid-overlay="visible"] .grid-overlay {
 
 .about-tech-stack {
   display: grid;
-  gap: 0.5rem;
+  gap: var(--rhythm-step);
   grid-column: 1 / span 7;
   margin: 0;
   max-width: 72ch;
@@ -299,18 +305,22 @@ html[data-grid-overlay="visible"] .grid-overlay {
 .about-tech-stack-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  column-gap: 0.5rem;
+  row-gap: var(--rhythm-step);
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 .about-chip {
+  align-items: center;
   border-radius: var(--radius-full);
-  font-size: 0.73rem;
+  display: inline-flex;
+  font-size: 0.75rem;
   letter-spacing: 0.01em;
-  line-height: 1;
-  padding: 0.42rem 0.64rem;
+  line-height: var(--rhythm-step);
+  min-height: var(--rhythm-step);
+  padding: 0 0.75rem;
   white-space: nowrap;
 }
 
@@ -354,7 +364,7 @@ html[data-grid-overlay="visible"] .grid-overlay {
 
 .about-paragraphs {
   display: grid;
-  gap: 1rem;
+  gap: var(--rhythm-step);
   grid-column: 1 / span 7;
   margin-top: 0;
   max-width: 72ch;
@@ -362,7 +372,8 @@ html[data-grid-overlay="visible"] .grid-overlay {
 
 .about-paragraphs p {
   color: var(--text);
-  font-size: clamp(1rem, 1.4vw, 1.1rem);
+  font-size: 1.125rem;
+  line-height: var(--rhythm-step);
 }
 
 .projects-card {
@@ -384,7 +395,7 @@ html[data-grid-overlay="visible"] .grid-overlay {
 
 .contact-list {
   display: grid;
-  gap: 0.5rem;
+  gap: var(--rhythm-step);
   grid-column: 1 / span 7;
   list-style: none;
   margin-top: 0;
@@ -400,7 +411,9 @@ html[data-grid-overlay="visible"] .grid-overlay {
   display: flex;
   gap: 1rem;
   justify-content: flex-start;
-  padding: 0.5rem 0;
+  line-height: var(--rhythm-step);
+  min-height: 3rem;
+  padding: 0.75rem 0;
   transition: color 120ms ease;
 }
 
@@ -412,9 +425,9 @@ html[data-grid-overlay="visible"] .grid-overlay {
   align-items: center;
   display: inline-flex;
   flex: 0 0 auto;
-  height: 1rem;
+  height: var(--rhythm-step);
   justify-content: center;
-  width: 1rem;
+  width: var(--rhythm-step);
 }
 
 .contact-icon svg {
@@ -441,6 +454,10 @@ html[data-grid-overlay="visible"] .grid-overlay {
 }
 
 @media (max-width: 64rem) {
+  .page-title {
+    font-size: 2.5rem;
+  }
+
   .about-card > .page-title,
   .projects-card > .page-title,
   .contact-card > .page-title {
@@ -458,6 +475,10 @@ html[data-grid-overlay="visible"] .grid-overlay {
 }
 
 @media (max-width: 48rem) {
+  .page-title {
+    font-size: 2.25rem;
+  }
+
   .about-card {
     row-gap: 0;
   }

@@ -69,7 +69,7 @@ export function ContactPageContent() {
                     className="contact-link"
                   >
                     <span className="contact-icon" aria-hidden="true">
-                      <Icon size={18} strokeWidth={1.9} />
+                      <Icon size="1rem" strokeWidth={1.9} />
                     </span>
                     <span className="visually-hidden">{contact.label}</span>
                     <span>{contact.value}</span>

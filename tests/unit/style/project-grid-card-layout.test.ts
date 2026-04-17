@@ -76,15 +76,15 @@ describe("project grid card layout", () => {
     const cssPath = path.join(process.cwd(), "components", "project-grid.module.css");
     const cssContent = fs.readFileSync(cssPath, "utf8");
 
-    expect(cssContent).toMatch(/\.row\s*\{[^}]*border-top:/);
-    expect(cssContent).toMatch(/\.row:first-child\s*\{[^}]*border-top:\s*0;/);
+    expect(cssContent).toMatch(/\.row\s*\{[^}]*box-shadow:\s*inset 0 0\.0625rem 0/);
+    expect(cssContent).toMatch(/\.row:first-child\s*\{[^}]*box-shadow:\s*none;/);
   });
 
   it("keeps the toggle-to-list spacing close to the row rhythm", () => {
     const cssPath = path.join(process.cwd(), "components", "project-filter.module.css");
     const cssContent = fs.readFileSync(cssPath, "utf8");
 
-    expect(cssContent).toMatch(/\.toggles\s*\{[\s\S]*?margin-bottom:\s*1rem;/);
-    expect(cssContent).toMatch(/\.toggles\s*\{[\s\S]*?padding-bottom:\s*0\.5rem;/);
+    expect(cssContent).toMatch(/\.toggles\s*\{[\s\S]*?margin-bottom:\s*0;/);
+    expect(cssContent).toMatch(/\.toggles\s*\{[\s\S]*?min-height:\s*3rem;/);
   });
 });

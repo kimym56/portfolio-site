@@ -519,7 +519,7 @@ export function ProjectDetail({
                 type="button"
                 onClick={onBack}
               >
-                <ArrowLeft aria-hidden="true" size={16} strokeWidth={2} />
+                <ArrowLeft aria-hidden="true" size="1rem" strokeWidth={2} />
                 <span className="visually-hidden">{backLabel}</span>
               </button>
               <h2 className={styles.title}>{project.title}</h2>
@@ -539,7 +539,7 @@ export function ProjectDetail({
             rel="noopener noreferrer"
           >
             {visitLabel}
-            <ArrowUpRight aria-hidden="true" size={16} strokeWidth={2} />
+            <ArrowUpRight aria-hidden="true" size="1rem" strokeWidth={2} />
           </a>
         </div>
 

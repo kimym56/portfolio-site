@@ -22,6 +22,11 @@ describe("header width alignment", () => {
     const cssPath = path.join(process.cwd(), "components", "site-header.module.css");
     const cssContent = fs.readFileSync(cssPath, "utf8");
 
-    expect(cssContent).toMatch(/\.inner\s*\{[\s\S]*min-height:\s*4\.5rem;/);
+    expect(cssContent).toMatch(
+      /\.header\s*\{[\s\S]*box-shadow:\s*inset 0 -0\.0625rem 0 var\(--border\);/,
+    );
+    expect(cssContent).not.toMatch(/\.header\s*\{[\s\S]*border-bottom:/);
+    expect(cssContent).toMatch(/\.inner\s*\{[\s\S]*min-height:\s*var\(--shell-height\);/);
+    expect(cssContent).toMatch(/\.inner\s*\{[\s\S]*padding-block:\s*0;/);
   });
 });

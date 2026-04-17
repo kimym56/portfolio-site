@@ -1,14 +1,17 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { GridOverlayToggle } from "@/components/grid-overlay-toggle";
 
 describe("GridOverlayToggle", () => {
   afterEach(() => {
+    vi.unstubAllEnvs();
     cleanup();
   });
 
   beforeEach(() => {
+    vi.stubEnv("NODE_ENV", "development");
+
     const storage = new Map<string, string>();
 
     Object.defineProperty(window, "localStorage", {
@@ -31,6 +34,16 @@ describe("GridOverlayToggle", () => {
 
     expect(button).toBeInTheDocument();
     expect(button).toHaveAttribute("aria-pressed", "false");
+  });
+
+  it("does not render outside development mode", () => {
+    vi.stubEnv("NODE_ENV", "production");
+
+    render(<GridOverlayToggle />);
+
+    expect(
+      screen.queryByRole("button", { name: "Toggle grid overlay" }),
+    ).not.toBeInTheDocument();
   });
 
   it("toggles the grid overlay visibility and persists it", async () => {

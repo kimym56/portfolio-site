@@ -1,8 +1,8 @@
 .button {
   border: none;
   border-radius: var(--radius-md);
-  width: 2.35rem;
-  height: 2.35rem;
+  width: var(--control-size);
+  height: var(--control-size);
   position: relative;
   padding: 0;
   display: inline-grid;
@@ -19,8 +19,8 @@
 }
 
 .icon {
-  width: 1.1rem;
-  height: 1.1rem;
+  width: 1rem;
+  height: 1rem;
   position: absolute;
   inset: 50% auto auto 50%;
   transform: translate(-50%, -50%);

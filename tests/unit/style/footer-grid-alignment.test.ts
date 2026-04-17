@@ -12,6 +12,12 @@ describe("footer grid alignment", () => {
     expect(componentContent).toContain("layout-frame");
     expect(componentContent).not.toContain("layout-shell");
     expect(componentContent).not.toContain("layout-grid");
+    expect(cssContent).toMatch(
+      /\.footer\s*\{[\s\S]*box-shadow:\s*inset 0 0\.0625rem 0 var\(--border\);/,
+    );
+    expect(cssContent).not.toMatch(/\.footer\s*\{[\s\S]*border-top:/);
+    expect(cssContent).toMatch(/\.inner\s*\{[\s\S]*min-height:\s*3rem;/);
+    expect(cssContent).toMatch(/\.inner\s*\{[\s\S]*padding-block:\s*0;/);
     expect(cssContent).toMatch(/\.inner p\s*\{[\s\S]*grid-column:\s*1\s*\/\s*span\s*6;/);
   });
 });

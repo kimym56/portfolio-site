@@ -19,6 +19,10 @@ function getCurrentGridOverlayState(): GridOverlayState {
 }
 
 export function GridOverlayToggle() {
+  if (process.env.NODE_ENV !== "development") {
+    return null;
+  }
+
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {

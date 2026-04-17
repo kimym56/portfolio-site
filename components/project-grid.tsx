@@ -38,7 +38,7 @@ export function ProjectGrid({
                 <span className={styles.role}>{project.role}</span>
 
                 <span className={styles.action} aria-hidden="true">
-                  <ArrowRight size={18} strokeWidth={2} />
+                  <ArrowRight size="1rem" strokeWidth={2} />
                 </span>
               </span>
 

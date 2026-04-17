@@ -94,7 +94,7 @@ export function ProjectFilter({ projects, labels }: ProjectFilterProps) {
                 animate={{
                   left:
                     selected === "work"
-                      ? "0px"
+                      ? "0rem"
                       : "calc(50% + (var(--toggle-gap) / 2))",
                 }}
               />
